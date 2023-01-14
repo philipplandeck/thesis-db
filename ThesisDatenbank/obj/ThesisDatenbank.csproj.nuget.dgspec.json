@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "D:\\Advanced Web Engineering\\source\\repos\\thesis-db\\ThesisDatenbank\\ThesisDatenbank\\ThesisDatenbank.csproj": {}
+    "D:\\Advanced Web Engineering\\source\\repos\\thesis-db\\ThesisDatenbank\\ThesisDatenbank.csproj": {}
   },
   "projects": {
-    "D:\\Advanced Web Engineering\\source\\repos\\thesis-db\\ThesisDatenbank\\ThesisDatenbank\\ThesisDatenbank.csproj": {
+    "D:\\Advanced Web Engineering\\source\\repos\\thesis-db\\ThesisDatenbank\\ThesisDatenbank.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Advanced Web Engineering\\source\\repos\\thesis-db\\ThesisDatenbank\\ThesisDatenbank\\ThesisDatenbank.csproj",
+        "projectUniqueName": "D:\\Advanced Web Engineering\\source\\repos\\thesis-db\\ThesisDatenbank\\ThesisDatenbank.csproj",
         "projectName": "ThesisDatenbank",
-        "projectPath": "D:\\Advanced Web Engineering\\source\\repos\\thesis-db\\ThesisDatenbank\\ThesisDatenbank\\ThesisDatenbank.csproj",
+        "projectPath": "D:\\Advanced Web Engineering\\source\\repos\\thesis-db\\ThesisDatenbank\\ThesisDatenbank.csproj",
         "packagesPath": "C:\\Users\\phili\\.nuget\\packages\\",
-        "outputPath": "D:\\Advanced Web Engineering\\source\\repos\\thesis-db\\ThesisDatenbank\\ThesisDatenbank\\obj\\",
+        "outputPath": "D:\\Advanced Web Engineering\\source\\repos\\thesis-db\\ThesisDatenbank\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\phili\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -39,6 +39,30 @@
       "frameworks": {
         "net6.0": {
           "targetAlias": "net6.0",
+          "dependencies": {
+            "Microsoft.AspNetCore.Identity.EntityFrameworkCore": {
+              "target": "Package",
+              "version": "[6.0.13, )"
+            },
+            "Microsoft.AspNetCore.Identity.UI": {
+              "target": "Package",
+              "version": "[6.0.13, )"
+            },
+            "Microsoft.EntityFrameworkCore.SqlServer": {
+              "target": "Package",
+              "version": "[6.0.13, )"
+            },
+            "Microsoft.EntityFrameworkCore.Tools": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[6.0.13, )"
+            },
+            "Microsoft.VisualStudio.Web.CodeGeneration.Design": {
+              "target": "Package",
+              "version": "[6.0.11, )"
+            }
+          },
           "imports": [
             "net461",
             "net462",

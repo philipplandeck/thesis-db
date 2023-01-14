@@ -1,0 +1,58 @@
+﻿@model IEnumerable<ThesisDatenbank.Models.Thesis>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<div class="mb-3">
+    <select>
+        <option selected="selected">Datum</option>
+        <option>Lehrstuhl</option>
+    </select>
+    <input type="text" />
+</div>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Title)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Status)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.StudentName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Registration)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Filing)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @await Html.PartialAsync("IndexPartial", Model, ViewData)
+    </tbody>
+</table>
+
+@section Scripts {
+    <script>
+        function loadmore() {
+            $.get("@Url.Action("GetTheses")", {
+                from: $("#LoadButton").attr("data-from"),
+                length: $("#LoadButton").attr("data-length"),
+            },
+                function (data, status, jq) {
+                    $("#LoadRow").replaceWith(data);
+                })
+        };
+    </script>
+}
