@@ -13,13 +13,11 @@ public class AppDbContext : IdentityDbContext<AppUser>
     {
     }
 
-
     public DbSet<Thesis> Thesis { get; set; }
-    // public DbSet<Program> Programs { get; set; } Fehler!!
-    public DbSet<Chair> Chair { get; set; }
-    public DbSet<AppUser> AppUser { get; set; }
     public DbSet<Supervisor> Supervisor { get; set; }
-
+    public DbSet<ProgramModel> Program { get; set; }
+    public DbSet<Chair> Chair { get; set; }
+    // public DbSet<AppUser> AppUser { get; set; }
 
     protected override void OnModelCreating(ModelBuilder builder)
     {

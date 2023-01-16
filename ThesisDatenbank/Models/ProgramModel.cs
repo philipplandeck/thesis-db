@@ -2,7 +2,7 @@
 
 namespace ThesisDatenbank.Models
 {
-    public class Program
+    public class ProgramModel
     {
         public enum ProgramType
         {

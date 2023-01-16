@@ -5,17 +5,25 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Index</h1>
+<h1>Übersicht Thesen</h1>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <a asp-action="Create">Neue Thesis anlegen</a>
 </p>
 <div class="mb-3">
-    <select>
-        <option selected="selected">Datum</option>
-        <option>Lehrstuhl</option>
-    </select>
-    <input type="text" />
+    <hr />
+    <h3>Filteroptionen</h3>
+    <label for="list">Datum / Lehrstuhl:</label>
+    <select name="list" id="list">
+        <option value="date" selected="selected">Datum</option>
+        <option value="chair">Lehrstuhl</option>
+    </select><br />
+    <label for="supervisor">Name des Betreuers:</label>
+    <input type="text" id="supervisor" name="supervisor" /><br />
+    <label for="title">Titel der Thesis:</label>
+    <input type="text" id="title" name="title" /><br />
+    <button id="filter" onclick="filter()" class="btn btn-primary">Filter anwenden</button>
+    <hr />
 </div>
 <table class="table">
     <thead>
