@@ -1,0 +1,53 @@
+﻿@model ThesisDatenbank.Models.Supervisor
+
+@{
+    ViewData["Title"] = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Neuen Betreuer anlegen</h1>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="mb-3">
+                <label asp-for="FirstName" class="form-label"></label>
+                <input asp-for="FirstName" class="form-control" />
+                <span asp-validation-for="FirstName" class="text-danger"></span>
+            </div>
+            <div class="mb-3">
+                <label asp-for="LastName" class="form-label"></label>
+                <input asp-for="LastName" class="form-control" />
+                <span asp-validation-for="LastName" class="text-danger"></span>
+            </div>
+            <div class="mb-3 form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="Active" /> @Html.DisplayNameFor(model => model.Active)
+                </label>
+            </div>
+            <div class="mb-3">
+                <label asp-for="Chair" class="form-label"></label>
+                <select asp-for="Chair" class="form-control">
+                    <!-- Folgende foreach-Schleife funktioniert nicht -->
+                    @foreach (Chair chair in (List<Chair>)ViewData["Chairs"])
+                    {
+                        <option value="@chair">@chair.Name</option>
+                    }
+                </select>
+                <span asp-validation-for="Chair" class="text-danger"></span>
+            </div>
+            <div class="mb-3">
+                <input type="submit" value="Erstellen" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Zurück zur Übersicht</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

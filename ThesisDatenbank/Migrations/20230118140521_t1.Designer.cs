@@ -12,8 +12,8 @@ using ThesisDatenbank.Data;
 namespace ThesisDatenbank.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20230114162725_Models")]
-    partial class Models
+    [Migration("20230118140521_t1")]
+    partial class t1
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -53,8 +53,8 @@ namespace ThesisDatenbank.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "64ecc37a-ab98-4e5e-bccb-395da980d596",
-                            ConcurrencyStamp = "a95d196a-b8c3-49db-a840-6152573503e4",
+                            Id = "059f8e18-5ce5-4125-84f0-72c5a6e59be7",
+                            ConcurrencyStamp = "e9ceffeb-1865-427c-9cfe-7873d2eb7cd9",
                             Name = "Administrator",
                             NormalizedName = "ADMINISTRATOR"
                         });
@@ -151,8 +151,8 @@ namespace ThesisDatenbank.Migrations
                     b.HasData(
                         new
                         {
-                            UserId = "f5124f90-d3fd-476a-ba4e-47f9751be7a8",
-                            RoleId = "64ecc37a-ab98-4e5e-bccb-395da980d596"
+                            UserId = "1a40a8cd-d4af-4671-8be5-7c6ddb518716",
+                            RoleId = "059f8e18-5ce5-4125-84f0-72c5a6e59be7"
                         });
                 });
 
@@ -185,6 +185,12 @@ namespace ThesisDatenbank.Migrations
                     b.Property<int>("AccessFailedCount")
                         .HasColumnType("int");
 
+                    b.Property<int?>("Activity")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("ChairId")
+                        .HasColumnType("int");
+
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
                         .HasColumnType("nvarchar(max)");
@@ -195,6 +201,12 @@ namespace ThesisDatenbank.Migrations
 
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnType("bit");
+
+                    b.Property<string>("FirstName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("LastName")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("LockoutEnabled")
                         .HasColumnType("bit");
@@ -231,6 +243,8 @@ namespace ThesisDatenbank.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("ChairId");
+
                     b.HasIndex("NormalizedEmail")
                         .HasDatabaseName("EmailIndex");
 
@@ -244,15 +258,15 @@ namespace ThesisDatenbank.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "f5124f90-d3fd-476a-ba4e-47f9751be7a8",
+                            Id = "1a40a8cd-d4af-4671-8be5-7c6ddb518716",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "d50cfd05-2937-43ea-919a-1e69c8138e05",
+                            ConcurrencyStamp = "09e5afcc-3002-4d8e-8611-caab6a735d32",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             NormalizedUserName = "ADMIN@THESIS.DE",
-                            PasswordHash = "AQAAAAEAACcQAAAAEO89LlONFSeCv4PP9384DlJ5nRgKug+nnEPD/0zL1DZXRKvEiyUkq8juHHwCN/rMwg==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEG05VXjWkkYiGNFm9gXjYoBKE/5loU23+sMmQgBwwEmq3QkMSG/V06d4a//B1zFMLA==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "eec2ae3b-f3b3-4468-8eac-fada17c4b294",
+                            SecurityStamp = "98359a83-c1ce-4a5a-9a6b-3c11f9661085",
                             TwoFactorEnabled = false,
                             UserName = "admin@thesis.de"
                         });
@@ -266,15 +280,16 @@ namespace ThesisDatenbank.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<int>("Name")
-                        .HasColumnType("int");
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
                     b.ToTable("Chair");
                 });
 
-            modelBuilder.Entity("ThesisDatenbank.Models.Program", b =>
+            modelBuilder.Entity("ThesisDatenbank.Models.ProgramModel", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -301,6 +316,9 @@ namespace ThesisDatenbank.Migrations
                     b.Property<bool>("Active")
                         .HasColumnType("bit");
 
+                    b.Property<int>("ChairId")
+                        .HasColumnType("int");
+
                     b.Property<string>("FirstName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -310,6 +328,8 @@ namespace ThesisDatenbank.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("ChairId");
 
                     b.ToTable("Supervisor");
                 });
@@ -325,10 +345,10 @@ namespace ThesisDatenbank.Migrations
                     b.Property<bool>("Bachelor")
                         .HasColumnType("bit");
 
-                    b.Property<int>("ChairId")
+                    b.Property<int?>("ChairId")
                         .HasColumnType("int");
 
-                    b.Property<int>("ContentVal")
+                    b.Property<int?>("ContentVal")
                         .HasColumnType("int");
 
                     b.Property<int>("ContentWt")
@@ -338,32 +358,31 @@ namespace ThesisDatenbank.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("DifficultyVal")
+                    b.Property<int?>("DifficultyVal")
                         .HasColumnType("int");
 
                     b.Property<int>("DifficultyWt")
                         .HasColumnType("int");
 
                     b.Property<string>("Evaluation")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("Filing")
+                    b.Property<DateTime?>("Filing")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("Grade")
-                        .HasColumnType("int");
+                    b.Property<double?>("Grade")
+                        .HasColumnType("float");
 
-                    b.Property<DateTime>("LastModified")
+                    b.Property<DateTime?>("LastModified")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("LayoutVal")
+                    b.Property<int?>("LayoutVal")
                         .HasColumnType("int");
 
                     b.Property<int>("LayoutWt")
                         .HasColumnType("int");
 
-                    b.Property<int>("LiteratureVal")
+                    b.Property<int?>("LiteratureVal")
                         .HasColumnType("int");
 
                     b.Property<int>("LiteratureWt")
@@ -372,16 +391,16 @@ namespace ThesisDatenbank.Migrations
                     b.Property<bool>("Master")
                         .HasColumnType("bit");
 
-                    b.Property<int>("NoveltyVal")
+                    b.Property<int?>("NoveltyVal")
                         .HasColumnType("int");
 
                     b.Property<int>("NoveltyWt")
                         .HasColumnType("int");
 
-                    b.Property<DateTime>("Registration")
+                    b.Property<DateTime?>("Registration")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("RichnessVal")
+                    b.Property<int?>("RichnessVal")
                         .HasColumnType("int");
 
                     b.Property<int>("RichnessWt")
@@ -391,42 +410,37 @@ namespace ThesisDatenbank.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Strengths")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("StructureVal")
+                    b.Property<int?>("StructureVal")
                         .HasColumnType("int");
 
                     b.Property<int>("StructureWt")
                         .HasColumnType("int");
 
                     b.Property<string>("StudentEMail")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("StudentId")
-                        .IsRequired()
                         .HasMaxLength(7)
                         .HasColumnType("nvarchar(7)");
 
                     b.Property<string>("StudentName")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("StudentProgramId")
+                    b.Property<int?>("StudentProgramId")
                         .HasColumnType("int");
 
-                    b.Property<int>("StyleVal")
+                    b.Property<int?>("StyleVal")
                         .HasColumnType("int");
 
                     b.Property<int>("StyleWt")
                         .HasColumnType("int");
 
                     b.Property<string>("Summary")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("SupervisorId")
+                    b.Property<int?>("SupervisorId")
                         .HasColumnType("int");
 
                     b.Property<string>("Title")
@@ -434,7 +448,6 @@ namespace ThesisDatenbank.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Weaknesses")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
@@ -499,31 +512,50 @@ namespace ThesisDatenbank.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("ThesisDatenbank.Models.Thesis", b =>
+            modelBuilder.Entity("ThesisDatenbank.Areas.Identity.Data.AppUser", b =>
                 {
                     b.HasOne("ThesisDatenbank.Models.Chair", "Chair")
                         .WithMany()
+                        .HasForeignKey("ChairId");
+
+                    b.Navigation("Chair");
+                });
+
+            modelBuilder.Entity("ThesisDatenbank.Models.Supervisor", b =>
+                {
+                    b.HasOne("ThesisDatenbank.Models.Chair", "Chair")
+                        .WithMany("Supervisors")
                         .HasForeignKey("ChairId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("ThesisDatenbank.Models.Program", "StudentProgram")
+                    b.Navigation("Chair");
+                });
+
+            modelBuilder.Entity("ThesisDatenbank.Models.Thesis", b =>
+                {
+                    b.HasOne("ThesisDatenbank.Models.Chair", "Chair")
                         .WithMany()
-                        .HasForeignKey("StudentProgramId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("ChairId");
+
+                    b.HasOne("ThesisDatenbank.Models.ProgramModel", "StudentProgram")
+                        .WithMany()
+                        .HasForeignKey("StudentProgramId");
 
                     b.HasOne("ThesisDatenbank.Models.Supervisor", "Supervisor")
                         .WithMany()
-                        .HasForeignKey("SupervisorId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("SupervisorId");
 
                     b.Navigation("Chair");
 
                     b.Navigation("StudentProgram");
 
                     b.Navigation("Supervisor");
+                });
+
+            modelBuilder.Entity("ThesisDatenbank.Models.Chair", b =>
+                {
+                    b.Navigation("Supervisors");
                 });
 #pragma warning restore 612, 618
         }

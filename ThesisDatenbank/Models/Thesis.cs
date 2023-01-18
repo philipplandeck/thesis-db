@@ -108,49 +108,57 @@ namespace ThesisDatenbank.Models
         [Display(Name = "Bewertung der Reichhaltigkeit")]
         public int? RichnessVal { get; set; }
 
+        [Required]
         [Range(0, 100)]
         [Display(Name = "Gewichtung des Inhalts")]
-        public int? ContentWt { get; set; } = 30;   // WIE DEFAULT VALUE RICHTIG SETZEN???
-                                                     // IRGENDWO WIRD NULL WERT EINGEFÜGT -> FEHLER
+        public int ContentWt { get; set; } = 30;
+
+        [Required]
         [Range(0, 100)]
         [Display(Name = "Gewichtung des Layouts")]
-        public int? LayoutWt { get; set; } = 15;
+        public int LayoutWt { get; set; } = 15;
 
+        [Required]
         [Range(0, 100)]
         [Display(Name = "Gewichtung der Struktur")]
-        public int? StructureWt { get; set; } = 10;
+        public int StructureWt { get; set; } = 10;
 
+        [Required]
         [Range(0, 100)]
         [Display(Name = "Gewichtung des Stils")]
-        public int? StyleWt { get; set; } = 10;
+        public int StyleWt { get; set; } = 10;
 
+        [Required]
         [Range(0, 100)]
         [Display(Name = "Gewichtung der Literatur")]
-        public int? LiteratureWt { get; set; } = 10;
+        public int LiteratureWt { get; set; } = 10;
 
+        [Required]
         [Range(0, 100)]
         [Display(Name = "Gewichtung der Schwierigkeit")]
-        public int? DifficultyWt { get; set; } = 5;
+        public int DifficultyWt { get; set; } = 5;
 
+        [Required]
         [Range(0, 100)]
         [Display(Name = "Gewichtung der Neuheit")]
-        public int? NoveltyWt { get; set; } = 10;
+        public int NoveltyWt { get; set; } = 10;
 
+        [Required]
         [Range(0, 100)]
         [Display(Name = "Gewichtung der Reichhaltigkeit")]
-        public int? RichnessWt { get; set; } = 10;
+        public int RichnessWt { get; set; } = 10;
 
         [Range(1, 5)]
         [Display(Name = "Note")]
-        public int? Grade { get; set; }
-
-        public DateTime? LastModified { get; set; }
+        public double? Grade { get; set; }
 
         [Display(Name = "Betreuer")]
         public Supervisor? Supervisor { get; set; }
 
         [Display(Name = "Lehrstuhl")]
         public Chair? Chair { get; set; }
+
+        public DateTime? LastModified { get; set; }
 
 
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)

@@ -11,24 +11,21 @@ namespace ThesisDatenbank.Areas.Identity.Data;
 
 public class AppUser : IdentityUser
 {
-    /*public enum ActivityType
+    public enum ActivityType
     {
         active,
         inactive
     }
 
     [Display(Name = "Vorname")]
-    public string FirstName { get; set; }
+    public string? FirstName { get; set; }
 
-    [Required]
     [Display(Name = "Nachname")]
-    public string LastName { get; set; }
+    public string? LastName { get; set; }
 
-    [Required]
     [Display(Name = "Lehrstuhl")]
-    public Chair Chair { get; set; }
+    public Chair? Chair { get; set; }
 
-    [Required]
     [Display(Name = "Aktivitätsstatus")]
-    public ActivityType Activity { get; set; }*/
+    public ActivityType? Activity { get; set; }
 }

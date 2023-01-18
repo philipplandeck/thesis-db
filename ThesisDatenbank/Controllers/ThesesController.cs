@@ -63,7 +63,7 @@ namespace ThesisDatenbank.Controllers
         // GET: Theses/Create
         public IActionResult Create()
         {
-            return View();
+            return View(new Thesis());
         }
 
         // POST: Theses/Create

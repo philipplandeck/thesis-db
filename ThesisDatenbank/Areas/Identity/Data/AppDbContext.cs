@@ -17,7 +17,7 @@ public class AppDbContext : IdentityDbContext<AppUser>
     public DbSet<Supervisor> Supervisor { get; set; }
     public DbSet<ProgramModel> Program { get; set; }
     public DbSet<Chair> Chair { get; set; }
-    // public DbSet<AppUser> AppUser { get; set; }
+    public DbSet<AppUser> AppUser { get; set; }
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
