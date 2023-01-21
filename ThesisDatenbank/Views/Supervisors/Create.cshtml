@@ -28,24 +28,19 @@
             </div>
             <div class="mb-3">
                 <label asp-for="Chair" class="form-label"></label>
-                <select asp-for="Chair" class="form-control">
-                    <!-- Folgende foreach-Schleife funktioniert nicht -->
-                    @foreach (Chair chair in (List<Chair>)ViewData["Chairs"])
-                    {
-                        <option value="@chair">@chair.Name</option>
-                    }
+                <select asp-for="ChairId" class ="form-control" asp-items="ViewBag.ChairId">
+                    <option value="0">--- Auswählen ---</option>
                 </select>
-                <span asp-validation-for="Chair" class="text-danger"></span>
             </div>
             <div class="mb-3">
-                <input type="submit" value="Erstellen" class="btn btn-primary" />
+                <input type="submit" value="Anlegen" class="btn btn-primary" />
             </div>
         </form>
     </div>
 </div>
 
 <div>
-    <a asp-action="Index">Zurück zur Übersicht</a>
+    <a asp-action="Index">Abbrechen</a>
 </div>
 
 @section Scripts {

@@ -18,7 +18,7 @@
             </div>
             <div class="mb-3">
                 <label asp-for="Description" class="form-label"></label>
-                <input asp-for="Description" class="form-control" />
+                <textarea rows="4" asp-for="Description" class="form-control"></textarea>
                 <span asp-validation-for="Description" class="text-danger"></span>
             </div>
             <div class="mb-3 form-check">
@@ -48,8 +48,14 @@
             </div>
             <div class="mb-3">
                 <label asp-for="StudentId" class="form-label"></label>
-                <input asp-for="StudentId" class="form-control" />
+                <input type="number" min="1000000" max="9999999" asp-for="StudentId" class="form-control" />
                 <span asp-validation-for="StudentId" class="text-danger"></span>
+            </div>
+            <div class="mb-3">
+                <label asp-for="StudentProgram" class="control-label"></label>
+                <select asp-for="StudentProgramId" class="form-control" asp-items="ViewBag.StudentProgramId">
+                    <option value="0">--- Auswählen ---</option>
+                </select>
             </div>
             <div class="mb-3">
                 <label asp-for="Registration" class="form-label"></label>
@@ -63,22 +69,22 @@
             </div>
             <div class="mb-3">
                 <label asp-for="Summary" class="form-label"></label>
-                <input asp-for="Summary" class="form-control" />
+                <textarea rows="4" asp-for="Summary" class="form-control"></textarea>
                 <span asp-validation-for="Summary" class="text-danger"></span>
             </div>
             <div class="mb-3">
                 <label asp-for="Strengths" class="form-label"></label>
-                <input asp-for="Strengths" class="form-control" />
+                <textarea rows="4" asp-for="Strengths" class="form-control"></textarea>
                 <span asp-validation-for="Strengths" class="text-danger"></span>
             </div>
             <div class="mb-3">
                 <label asp-for="Weaknesses" class="form-label"></label>
-                <input asp-for="Weaknesses" class="form-control" />
+                <textarea rows="4" asp-for="Weaknesses" class="form-control"></textarea>
                 <span asp-validation-for="Weaknesses" class="text-danger"></span>
             </div>
             <div class="mb-3">
                 <label asp-for="Evaluation" class="form-label"></label>
-                <input asp-for="Evaluation" class="form-control" />
+                <textarea rows="4" asp-for="Evaluation" class="form-control"></textarea>
                 <span asp-validation-for="Evaluation" class="text-danger"></span>
             </div>
             <div class="mb-3">
@@ -167,14 +173,23 @@
                 <span asp-validation-for="Grade" class="text-danger"></span>
             </div>
             <div class="mb-3">
-                <input type="submit" value="Create" class="btn btn-primary" />
+                <input type="hidden" asp-for="LastModified" />
+            </div>
+            <div class="mb-3">
+                <label asp-for="Supervisor" class="form-label"></label>
+                <select asp-for="SupervisorId" class="form-control" asp-items="ViewBag.SupervisorId">
+                    <option value="0">--- Auswählen ---</option>
+                </select>
+            </div>
+            <div class="mb-3">
+                <input type="submit" value="Anlegen" class="btn btn-primary" />
             </div>
         </form>
     </div>
 </div>
 
 <div>
-    <a asp-action="Index">Zurück</a>
+    <a asp-action="Index">Abbrechen</a>
 </div>
 
 @section Scripts {

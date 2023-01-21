@@ -35,5 +35,15 @@ public class AppDbContext : IdentityDbContext<AppUser>
 
         IdentityUserRole<string> ur = new IdentityUserRole<string> { UserId = user.Id, RoleId = role.Id };
         builder.Entity<IdentityUserRole<string>>().HasData(ur);
+
+        List<ProgramModel.ProgramType> programTypes = Enum.GetValues(typeof(ProgramModel.ProgramType)).Cast<ProgramModel.ProgramType>().ToList();
+        foreach (ProgramModel.ProgramType program in programTypes)
+        {
+            builder.Entity<ProgramModel>().HasData(new ProgramModel()
+            {
+                Id = programTypes.IndexOf(program) + 1,
+                Name = program
+            });
+        }
     }
 }

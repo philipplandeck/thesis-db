@@ -113,7 +113,7 @@ namespace ThesisDatenbank.Migrations
                     FirstName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     LastName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Active = table.Column<bool>(type: "bit", nullable: false),
-                    ChairId = table.Column<int>(type: "int", nullable: false)
+                    ChairId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -122,8 +122,7 @@ namespace ThesisDatenbank.Migrations
                         name: "FK_Supervisor_Chair_ChairId",
                         column: x => x.ChairId,
                         principalTable: "Chair",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -249,18 +248,12 @@ namespace ThesisDatenbank.Migrations
                     NoveltyWt = table.Column<int>(type: "int", nullable: false),
                     RichnessWt = table.Column<int>(type: "int", nullable: false),
                     Grade = table.Column<double>(type: "float", nullable: true),
-                    SupervisorId = table.Column<int>(type: "int", nullable: true),
-                    ChairId = table.Column<int>(type: "int", nullable: true),
-                    LastModified = table.Column<DateTime>(type: "datetime2", nullable: true)
+                    LastModified = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    SupervisorId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Thesis", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Thesis_Chair_ChairId",
-                        column: x => x.ChairId,
-                        principalTable: "Chair",
-                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_Thesis_Program_StudentProgramId",
                         column: x => x.StudentProgramId,
@@ -276,17 +269,28 @@ namespace ThesisDatenbank.Migrations
             migrationBuilder.InsertData(
                 table: "AspNetRoles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
-                values: new object[] { "47c267e0-3cf0-45f0-935d-374a69a1f273", "31f0a879-d1e4-489f-a8cc-c269b2abad49", "Administrator", "ADMINISTRATOR" });
+                values: new object[] { "53de138c-e4a5-43b1-951f-b676890cc40b", "b364674f-ff44-417f-8a9a-5754510d598d", "Administrator", "ADMINISTRATOR" });
 
             migrationBuilder.InsertData(
                 table: "AspNetUsers",
                 columns: new[] { "Id", "AccessFailedCount", "Activity", "ChairId", "ConcurrencyStamp", "Email", "EmailConfirmed", "FirstName", "LastName", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
-                values: new object[] { "f45ec871-047e-4d86-8141-12a43a1270ca", 0, null, null, "2d86cdb9-f4f9-41d0-94eb-ac0ade5aa036", null, false, null, null, false, null, null, "ADMIN@THESIS.DE", "AQAAAAEAACcQAAAAENAw89t51atLVwpgjNVCtCa6yId/9QLpDHsu50IJHvmdJlOKntoNnmMe4MJoEOJqDg==", null, false, "04825c56-040b-439f-a653-411fbdf00aec", false, "admin@thesis.de" });
+                values: new object[] { "32ed985d-9de8-4cce-8236-7abe5bb64ed3", 0, null, null, "9164e72c-f95a-4557-8fe1-0e1dfe2d6178", null, false, null, null, false, null, null, "ADMIN@THESIS.DE", "AQAAAAEAACcQAAAAENiyX1UK3qjC+LIovwaMesRdxO4nzCayvkUXe7wtt0Kznm9GKiUKDq8gOPulrI828A==", null, false, "f8a6028a-31e7-47ea-8240-0280b763af39", false, "admin@thesis.de" });
+
+            migrationBuilder.InsertData(
+                table: "Program",
+                columns: new[] { "Id", "Name" },
+                values: new object[,]
+                {
+                    { 1, 0 },
+                    { 2, 1 },
+                    { 3, 2 },
+                    { 4, 3 }
+                });
 
             migrationBuilder.InsertData(
                 table: "AspNetUserRoles",
                 columns: new[] { "RoleId", "UserId" },
-                values: new object[] { "47c267e0-3cf0-45f0-935d-374a69a1f273", "f45ec871-047e-4d86-8141-12a43a1270ca" });
+                values: new object[] { "53de138c-e4a5-43b1-951f-b676890cc40b", "32ed985d-9de8-4cce-8236-7abe5bb64ed3" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
@@ -335,11 +339,6 @@ namespace ThesisDatenbank.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_Supervisor_ChairId",
                 table: "Supervisor",
-                column: "ChairId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Thesis_ChairId",
-                table: "Thesis",
                 column: "ChairId");
 
             migrationBuilder.CreateIndex(

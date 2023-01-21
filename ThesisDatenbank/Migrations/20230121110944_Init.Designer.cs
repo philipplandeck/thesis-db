@@ -12,7 +12,7 @@ using ThesisDatenbank.Data;
 namespace ThesisDatenbank.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20230118132805_Init")]
+    [Migration("20230121110944_Init")]
     partial class Init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -53,8 +53,8 @@ namespace ThesisDatenbank.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "47c267e0-3cf0-45f0-935d-374a69a1f273",
-                            ConcurrencyStamp = "31f0a879-d1e4-489f-a8cc-c269b2abad49",
+                            Id = "53de138c-e4a5-43b1-951f-b676890cc40b",
+                            ConcurrencyStamp = "b364674f-ff44-417f-8a9a-5754510d598d",
                             Name = "Administrator",
                             NormalizedName = "ADMINISTRATOR"
                         });
@@ -151,8 +151,8 @@ namespace ThesisDatenbank.Migrations
                     b.HasData(
                         new
                         {
-                            UserId = "f45ec871-047e-4d86-8141-12a43a1270ca",
-                            RoleId = "47c267e0-3cf0-45f0-935d-374a69a1f273"
+                            UserId = "32ed985d-9de8-4cce-8236-7abe5bb64ed3",
+                            RoleId = "53de138c-e4a5-43b1-951f-b676890cc40b"
                         });
                 });
 
@@ -258,15 +258,15 @@ namespace ThesisDatenbank.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "f45ec871-047e-4d86-8141-12a43a1270ca",
+                            Id = "32ed985d-9de8-4cce-8236-7abe5bb64ed3",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "2d86cdb9-f4f9-41d0-94eb-ac0ade5aa036",
+                            ConcurrencyStamp = "9164e72c-f95a-4557-8fe1-0e1dfe2d6178",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             NormalizedUserName = "ADMIN@THESIS.DE",
-                            PasswordHash = "AQAAAAEAACcQAAAAENAw89t51atLVwpgjNVCtCa6yId/9QLpDHsu50IJHvmdJlOKntoNnmMe4MJoEOJqDg==",
+                            PasswordHash = "AQAAAAEAACcQAAAAENiyX1UK3qjC+LIovwaMesRdxO4nzCayvkUXe7wtt0Kznm9GKiUKDq8gOPulrI828A==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "04825c56-040b-439f-a653-411fbdf00aec",
+                            SecurityStamp = "f8a6028a-31e7-47ea-8240-0280b763af39",
                             TwoFactorEnabled = false,
                             UserName = "admin@thesis.de"
                         });
@@ -303,6 +303,28 @@ namespace ThesisDatenbank.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Program");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Name = 0
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Name = 1
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Name = 2
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Name = 3
+                        });
                 });
 
             modelBuilder.Entity("ThesisDatenbank.Models.Supervisor", b =>
@@ -316,7 +338,7 @@ namespace ThesisDatenbank.Migrations
                     b.Property<bool>("Active")
                         .HasColumnType("bit");
 
-                    b.Property<int>("ChairId")
+                    b.Property<int?>("ChairId")
                         .HasColumnType("int");
 
                     b.Property<string>("FirstName")
@@ -345,9 +367,6 @@ namespace ThesisDatenbank.Migrations
                     b.Property<bool>("Bachelor")
                         .HasColumnType("bit");
 
-                    b.Property<int?>("ChairId")
-                        .HasColumnType("int");
-
                     b.Property<int?>("ContentVal")
                         .HasColumnType("int");
 
@@ -373,7 +392,7 @@ namespace ThesisDatenbank.Migrations
                     b.Property<double?>("Grade")
                         .HasColumnType("float");
 
-                    b.Property<DateTime?>("LastModified")
+                    b.Property<DateTime>("LastModified")
                         .HasColumnType("datetime2");
 
                     b.Property<int?>("LayoutVal")
@@ -452,8 +471,6 @@ namespace ThesisDatenbank.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ChairId");
-
                     b.HasIndex("StudentProgramId");
 
                     b.HasIndex("SupervisorId");
@@ -525,19 +542,13 @@ namespace ThesisDatenbank.Migrations
                 {
                     b.HasOne("ThesisDatenbank.Models.Chair", "Chair")
                         .WithMany("Supervisors")
-                        .HasForeignKey("ChairId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("ChairId");
 
                     b.Navigation("Chair");
                 });
 
             modelBuilder.Entity("ThesisDatenbank.Models.Thesis", b =>
                 {
-                    b.HasOne("ThesisDatenbank.Models.Chair", "Chair")
-                        .WithMany()
-                        .HasForeignKey("ChairId");
-
                     b.HasOne("ThesisDatenbank.Models.ProgramModel", "StudentProgram")
                         .WithMany()
                         .HasForeignKey("StudentProgramId");
@@ -545,8 +556,6 @@ namespace ThesisDatenbank.Migrations
                     b.HasOne("ThesisDatenbank.Models.Supervisor", "Supervisor")
                         .WithMany()
                         .HasForeignKey("SupervisorId");
-
-                    b.Navigation("Chair");
 
                     b.Navigation("StudentProgram");
 

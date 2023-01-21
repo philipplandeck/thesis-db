@@ -8,7 +8,7 @@
 
   <ItemGroup>
     <None Remove="Models\Thesis.cs~RFd3e934.TMP" />
-    <None Remove="Views\Theses\Create.cshtml~RF226a516.TMP" />
+    <None Remove="Views\Deprecated\Theses\Create.cshtml~RF226a516.TMP" />
   </ItemGroup>
 
   <ItemGroup>

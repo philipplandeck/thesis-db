@@ -6,7 +6,6 @@
 }
 
 <h1>Betreuer</h1>
-
 <p>
     <a asp-action="Create">Neuen Betreuer anlegen</a>
 </p>
@@ -21,6 +20,9 @@
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Active)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Chair)
             </th>
             <th></th>
         </tr>
@@ -38,9 +40,11 @@
                 @Html.DisplayFor(modelItem => item.Active)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                @Html.DisplayFor(modelItem => item.Chair.Name)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.Id">Bearbeiten</a> |
+                <a asp-action="Delete" asp-route-id="@item.Id">Löschen</a>
             </td>
         </tr>
 }

@@ -5,8 +5,7 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Übersicht Thesen</h1>
-
+<h1>Thesen</h1>
 <p>
     <a asp-action="Create">Neue Thesis anlegen</a>
 </p>
@@ -30,6 +29,9 @@
         <tr>
             <th>
                 @Html.DisplayNameFor(model => model.Title)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Supervisor)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Status)

@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -25,48 +20,31 @@ namespace ThesisDatenbank.Controllers
         // GET: Supervisors
         public async Task<IActionResult> Index()
         {
-              return View(await _context.Supervisor.ToListAsync());
-        }
-
-        // GET: Supervisors/Details/5
-        public async Task<IActionResult> Details(int? id)
-        {
-            if (id == null || _context.Supervisor == null)
-            {
-                return NotFound();
-            }
-
-            var supervisor = await _context.Supervisor
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (supervisor == null)
-            {
-                return NotFound();
-            }
-
-            return View(supervisor);
+            var appDbContext = _context.Supervisor.Include(s => s.Chair);
+            return View(await appDbContext.ToListAsync());
         }
 
         // GET: Supervisors/Create
         public IActionResult Create()
         {
-            // Folgender Code wirft Exception
-            ViewData["Chairs"] = _context.Chair.ToList();
-            return View(ViewData["Chairs"]);
+            ViewData["ChairId"] = new SelectList(_context.Chair, "Id", "Name");
+            return View(new Supervisor());
         }
 
         // POST: Supervisors/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,FirstName,LastName,Active")] Supervisor supervisor)
+        public async Task<IActionResult> Create([Bind("Id,FirstName,LastName,Active,ChairId")] Supervisor supervisor)
         {
             if (ModelState.IsValid)
             {
+                if (supervisor.ChairId == 0) supervisor.ChairId = null;
                 _context.Add(supervisor);
+                // _context.Chair.Where(c => c.Id == supervisor.ChairId).First().Supervisors.Add(supervisor);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
+            ViewData["ChairId"] = new SelectList(_context.Chair, "Id", "Name", supervisor.ChairId);
             return View(supervisor);
         }
 
@@ -83,15 +61,14 @@ namespace ThesisDatenbank.Controllers
             {
                 return NotFound();
             }
+            ViewData["ChairId"] = new SelectList(_context.Chair, "Id", "Name", supervisor.ChairId);
             return View(supervisor);
         }
 
         // POST: Supervisors/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,FirstName,LastName,Active")] Supervisor supervisor)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,FirstName,LastName,Active,ChairId")] Supervisor supervisor)
         {
             if (id != supervisor.Id)
             {
@@ -102,6 +79,7 @@ namespace ThesisDatenbank.Controllers
             {
                 try
                 {
+                    if (supervisor.ChairId == 0) supervisor.ChairId = null;
                     _context.Update(supervisor);
                     await _context.SaveChangesAsync();
                 }
@@ -118,6 +96,7 @@ namespace ThesisDatenbank.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
+            ViewData["ChairId"] = new SelectList(_context.Chair, "Id", "Name", supervisor.ChairId);
             return View(supervisor);
         }
 
@@ -130,6 +109,7 @@ namespace ThesisDatenbank.Controllers
             }
 
             var supervisor = await _context.Supervisor
+                .Include(s => s.Chair)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (supervisor == null)
             {

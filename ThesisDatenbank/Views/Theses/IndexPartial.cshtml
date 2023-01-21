@@ -7,6 +7,9 @@
             @Html.DisplayFor(modelItem => item.Title)
         </td>
         <td>
+            @Html.DisplayFor(modelItem => item.Supervisor.FirstName) @Html.DisplayFor(modelItem => item.Supervisor.LastName)
+        </td>
+        <td>
             @Html.DisplayFor(modelItem => item.Status)
         </td>
         <td>
@@ -19,9 +22,9 @@
             @Html.DisplayFor(modelItem => item.Filing)
         </td>
         <td>
-            <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-            <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-            <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+            <a asp-action="Edit" asp-route-id="@item.Id">Bearbeiten</a> |
+            <a asp-action="Details" asp-route-id="@item.Id">Gutachten ansehen</a> |
+            <a asp-action="Delete" asp-route-id="@item.Id">Löschen</a>
         </td>
     </tr>
 }

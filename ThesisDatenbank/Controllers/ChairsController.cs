@@ -1,17 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using ThesisDatenbank.Data;
 using ThesisDatenbank.Models;
 
 namespace ThesisDatenbank.Controllers
 {
-    [Authorize(Roles ="Administrator")]
+    [Authorize(Roles = "Administrator")]
     public class ChairsController : Controller
     {
         private readonly AppDbContext _context;
@@ -27,33 +22,13 @@ namespace ThesisDatenbank.Controllers
               return View(await _context.Chair.ToListAsync());
         }
 
-        // GET: Chairs/Details/5
-        public async Task<IActionResult> Details(int? id)
-        {
-            if (id == null || _context.Chair == null)
-            {
-                return NotFound();
-            }
-
-            var chair = await _context.Chair
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (chair == null)
-            {
-                return NotFound();
-            }
-
-            return View(chair);
-        }
-
         // GET: Chairs/Create
         public IActionResult Create()
         {
-            return View();
+            return View(new Chair());
         }
 
         // POST: Chairs/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,Name")] Chair chair)
@@ -84,8 +59,6 @@ namespace ThesisDatenbank.Controllers
         }
 
         // POST: Chairs/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Id,Name")] Chair chair)

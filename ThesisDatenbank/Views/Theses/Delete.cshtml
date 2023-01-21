@@ -57,6 +57,12 @@
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.StudentId)
         </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.StudentProgram)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.StudentProgram.Name)
+        </dd>
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.Registration)
         </dt>
@@ -195,17 +201,23 @@
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.Grade)
         </dd>
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.LastModified)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.LastModified)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Supervisor)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Supervisor.FirstName) @Html.DisplayFor(model => model.Supervisor.LastName)
         </dd>
     </dl>
     
     <form asp-action="Delete">
         <input type="hidden" asp-for="Id" />
-        <input type="submit" value="Delete" class="btn btn-danger" /> |
-        <a asp-action="Index">Zurück</a>
+        <input type="submit" value="Löschen" class="btn btn-danger" /> |
+        <a asp-action="Index">Zurück zur Übersicht</a>
     </form>
 </div>

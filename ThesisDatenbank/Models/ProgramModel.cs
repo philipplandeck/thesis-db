@@ -19,6 +19,7 @@ namespace ThesisDatenbank.Models
             MIS
         }
 
+        [Key]
         public int Id { get; set; }
 
         [Required]

@@ -12,8 +12,8 @@ using ThesisDatenbank.Data;
 namespace ThesisDatenbank.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20230118140521_t1")]
-    partial class t1
+    [Migration("20230121115703_333")]
+    partial class _333
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -53,8 +53,8 @@ namespace ThesisDatenbank.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "059f8e18-5ce5-4125-84f0-72c5a6e59be7",
-                            ConcurrencyStamp = "e9ceffeb-1865-427c-9cfe-7873d2eb7cd9",
+                            Id = "6724fa16-cf3c-4037-b745-b674113d59e1",
+                            ConcurrencyStamp = "4db98a8c-f733-430d-b18e-da908100e7e0",
                             Name = "Administrator",
                             NormalizedName = "ADMINISTRATOR"
                         });
@@ -151,8 +151,8 @@ namespace ThesisDatenbank.Migrations
                     b.HasData(
                         new
                         {
-                            UserId = "1a40a8cd-d4af-4671-8be5-7c6ddb518716",
-                            RoleId = "059f8e18-5ce5-4125-84f0-72c5a6e59be7"
+                            UserId = "1f6b3d2a-76be-40c5-a659-6f8ff948abdb",
+                            RoleId = "6724fa16-cf3c-4037-b745-b674113d59e1"
                         });
                 });
 
@@ -258,15 +258,15 @@ namespace ThesisDatenbank.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "1a40a8cd-d4af-4671-8be5-7c6ddb518716",
+                            Id = "1f6b3d2a-76be-40c5-a659-6f8ff948abdb",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "09e5afcc-3002-4d8e-8611-caab6a735d32",
+                            ConcurrencyStamp = "65696923-f350-442a-80f3-f1b43370b8cb",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             NormalizedUserName = "ADMIN@THESIS.DE",
-                            PasswordHash = "AQAAAAEAACcQAAAAEG05VXjWkkYiGNFm9gXjYoBKE/5loU23+sMmQgBwwEmq3QkMSG/V06d4a//B1zFMLA==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEGub21g4YyoJYhn8sgtAc0n05E+IP6wHLec3HwwLkr//xWF+1uAe0Q2snDpj9IDNPA==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "98359a83-c1ce-4a5a-9a6b-3c11f9661085",
+                            SecurityStamp = "a20c28dc-25a0-45ff-a9d0-12c3f382ed3a",
                             TwoFactorEnabled = false,
                             UserName = "admin@thesis.de"
                         });
@@ -303,6 +303,28 @@ namespace ThesisDatenbank.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Program");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Name = 0
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Name = 1
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Name = 2
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Name = 3
+                        });
                 });
 
             modelBuilder.Entity("ThesisDatenbank.Models.Supervisor", b =>
@@ -316,7 +338,7 @@ namespace ThesisDatenbank.Migrations
                     b.Property<bool>("Active")
                         .HasColumnType("bit");
 
-                    b.Property<int>("ChairId")
+                    b.Property<int?>("ChairId")
                         .HasColumnType("int");
 
                     b.Property<string>("FirstName")
@@ -345,9 +367,6 @@ namespace ThesisDatenbank.Migrations
                     b.Property<bool>("Bachelor")
                         .HasColumnType("bit");
 
-                    b.Property<int?>("ChairId")
-                        .HasColumnType("int");
-
                     b.Property<int?>("ContentVal")
                         .HasColumnType("int");
 
@@ -373,7 +392,7 @@ namespace ThesisDatenbank.Migrations
                     b.Property<double?>("Grade")
                         .HasColumnType("float");
 
-                    b.Property<DateTime?>("LastModified")
+                    b.Property<DateTime>("LastModified")
                         .HasColumnType("datetime2");
 
                     b.Property<int?>("LayoutVal")
@@ -452,8 +471,6 @@ namespace ThesisDatenbank.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ChairId");
-
                     b.HasIndex("StudentProgramId");
 
                     b.HasIndex("SupervisorId");
@@ -524,20 +541,14 @@ namespace ThesisDatenbank.Migrations
             modelBuilder.Entity("ThesisDatenbank.Models.Supervisor", b =>
                 {
                     b.HasOne("ThesisDatenbank.Models.Chair", "Chair")
-                        .WithMany("Supervisors")
-                        .HasForeignKey("ChairId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .WithMany()
+                        .HasForeignKey("ChairId");
 
                     b.Navigation("Chair");
                 });
 
             modelBuilder.Entity("ThesisDatenbank.Models.Thesis", b =>
                 {
-                    b.HasOne("ThesisDatenbank.Models.Chair", "Chair")
-                        .WithMany()
-                        .HasForeignKey("ChairId");
-
                     b.HasOne("ThesisDatenbank.Models.ProgramModel", "StudentProgram")
                         .WithMany()
                         .HasForeignKey("StudentProgramId");
@@ -546,16 +557,9 @@ namespace ThesisDatenbank.Migrations
                         .WithMany()
                         .HasForeignKey("SupervisorId");
 
-                    b.Navigation("Chair");
-
                     b.Navigation("StudentProgram");
 
                     b.Navigation("Supervisor");
-                });
-
-            modelBuilder.Entity("ThesisDatenbank.Models.Chair", b =>
-                {
-                    b.Navigation("Supervisors");
                 });
 #pragma warning restore 612, 618
         }

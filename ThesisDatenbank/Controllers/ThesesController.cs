@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -24,22 +20,25 @@ namespace ThesisDatenbank.Controllers
         // GET: Theses
         public async Task<IActionResult> Index()
         {
+            var appDbContext = _context.Thesis.Include(t => t.StudentProgram).Include(t => t.Supervisor);
             const int length = 10;
 
             ViewData["From"] = length;
             ViewData["Length"] = length;
-            ViewData["More"] = _context.Thesis.Count() > length;
-            return View(await _context.Thesis.Take(length).ToListAsync());
+            ViewData["More"] = appDbContext.Count() > length;
+            return View(await appDbContext.Take(length).ToListAsync());
         }
 
-        // GET: Customers (PartialView)
-        public async Task<IActionResult> GetCustomers(int from, int length)
+        // GET: Theses (PartialView)
+        public async Task<IActionResult> GetTheses(int from, int length)
         {
+            var appDbContext = _context.Thesis.Include(t => t.StudentProgram).Include(t => t.Supervisor);
+
             ViewData["From"] = from + length;
             ViewData["Length"] = length;
-            ViewData["More"] = _context.Thesis.Count() > from + length;
+            ViewData["More"] = appDbContext.Count() > from + length;
 
-            return PartialView("IndexPartial", await _context.Thesis.Skip(from).Take(length).ToListAsync());
+            return PartialView("IndexPartial", await appDbContext.Skip(from).Take(length).ToListAsync());
         }
 
         // GET: Theses/Details/5
@@ -51,6 +50,8 @@ namespace ThesisDatenbank.Controllers
             }
 
             var thesis = await _context.Thesis
+                .Include(t => t.StudentProgram)
+                .Include(t => t.Supervisor)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (thesis == null)
             {
@@ -63,22 +64,26 @@ namespace ThesisDatenbank.Controllers
         // GET: Theses/Create
         public IActionResult Create()
         {
+            ViewData["StudentProgramId"] = new SelectList(_context.Program, "Id", "Name");
+            ViewData["SupervisorId"] = new SelectList(_context.Supervisor.Where(s => s.Active == true).ToList(), "Id", "LastName");
             return View(new Thesis());
         }
 
         // POST: Theses/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Title,Description,Bachelor,Master,Status,StudentName,StudentEMail,StudentId,Registration,Filing,Summary,Strengths,Weaknesses,Evaluation,ContentVal,LayoutVal,StructureVal,StyleVal,LiteratureVal,DifficultyVal,NoveltyVal,RichnessVal,ContentWt,LayoutWt,StructureWt,StyleWt,LiteratureWt,DifficultyWt,NoveltyWt,RichnessWt,Grade,LastModified")] Thesis thesis)
+        public async Task<IActionResult> Create([Bind("Id,Title,Description,Bachelor,Master,Status,StudentName,StudentEMail,StudentId,StudentProgramId,Registration,Filing,Summary,Strengths,Weaknesses,Evaluation,ContentVal,LayoutVal,StructureVal,StyleVal,LiteratureVal,DifficultyVal,NoveltyVal,RichnessVal,ContentWt,LayoutWt,StructureWt,StyleWt,LiteratureWt,DifficultyWt,NoveltyWt,RichnessWt,Grade,LastModified,SupervisorId")] Thesis thesis)
         {
             if (ModelState.IsValid)
             {
+                if (thesis.StudentProgramId == 0) thesis.StudentProgramId = null;
+                if (thesis.SupervisorId == 0) thesis.SupervisorId = null;
                 _context.Add(thesis);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
+            ViewData["StudentProgramId"] = new SelectList(_context.Program, "Id", "Name", thesis.StudentProgramId);
+            ViewData["SupervisorId"] = new SelectList(_context.Supervisor.Where(s => s.Active == true).ToList(), "Id", "LastName", thesis.SupervisorId);
             return View(thesis);
         }
 
@@ -95,15 +100,15 @@ namespace ThesisDatenbank.Controllers
             {
                 return NotFound();
             }
+            ViewData["StudentProgramId"] = new SelectList(_context.Program, "Id", "Name", thesis.StudentProgramId);
+            ViewData["SupervisorId"] = new SelectList(_context.Supervisor.Where(s => s.Active == true).ToList(), "Id", "LastName", thesis.SupervisorId);
             return View(thesis);
         }
 
         // POST: Theses/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Title,Description,Bachelor,Master,Status,StudentName,StudentEMail,StudentId,Registration,Filing,Summary,Strengths,Weaknesses,Evaluation,ContentVal,LayoutVal,StructureVal,StyleVal,LiteratureVal,DifficultyVal,NoveltyVal,RichnessVal,ContentWt,LayoutWt,StructureWt,StyleWt,LiteratureWt,DifficultyWt,NoveltyWt,RichnessWt,Grade,LastModified")] Thesis thesis)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Title,Description,Bachelor,Master,Status,StudentName,StudentEMail,StudentId,StudentProgramId,Registration,Filing,Summary,Strengths,Weaknesses,Evaluation,ContentVal,LayoutVal,StructureVal,StyleVal,LiteratureVal,DifficultyVal,NoveltyVal,RichnessVal,ContentWt,LayoutWt,StructureWt,StyleWt,LiteratureWt,DifficultyWt,NoveltyWt,RichnessWt,Grade,LastModified,SupervisorId")] Thesis thesis)
         {
             if (id != thesis.Id)
             {
@@ -114,6 +119,9 @@ namespace ThesisDatenbank.Controllers
             {
                 try
                 {
+                    if (thesis.StudentProgramId == 0) thesis.StudentProgramId = null;
+                    if (thesis.SupervisorId == 0) thesis.SupervisorId = null;
+                    thesis.LastModified = DateTime.Now;
                     _context.Update(thesis);
                     await _context.SaveChangesAsync();
                 }
@@ -130,6 +138,8 @@ namespace ThesisDatenbank.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
+            ViewData["StudentProgramId"] = new SelectList(_context.Program, "Id", "Name", thesis.StudentProgramId);
+            ViewData["SupervisorId"] = new SelectList(_context.Supervisor.Where(s => s.Active == true).ToList(), "Id", "LastName", thesis.SupervisorId);
             return View(thesis);
         }
 
@@ -142,6 +152,8 @@ namespace ThesisDatenbank.Controllers
             }
 
             var thesis = await _context.Thesis
+                .Include(t => t.StudentProgram)
+                .Include(t => t.Supervisor)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (thesis == null)
             {

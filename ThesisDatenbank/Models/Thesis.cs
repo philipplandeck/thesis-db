@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ThesisDatenbank.Models
 {
@@ -22,6 +23,7 @@ namespace ThesisDatenbank.Models
             Graded
         }
 
+        [Key]
         public int Id { get; set; }
 
         [Required]
@@ -29,15 +31,18 @@ namespace ThesisDatenbank.Models
         public string Title { get; set; }
 
         [Required]
-        [Display(Name = "Themenbeschreibung / Aufgabenstellung")]
+        [Display(Name = "Themenbeschreibung bzw. Aufgabenstellung")]
         public string Description { get; set; }
 
+        [Required]
         [Display(Name = "Thema ist für die Bearbeitung als Bachelor Thesis geeignet")]
         public bool Bachelor { get; set; }
 
+        [Required]
         [Display(Name = "Thema ist für die Bearbeitung als Master Thesis geeignet")]
         public bool Master { get; set; }
 
+        [Required]
         [Display(Name = "Status")]
         public StatusType Status { get; set; }
 
@@ -48,11 +53,11 @@ namespace ThesisDatenbank.Models
         [Display(Name = "E-Mail-Adresse des Studenten")]
         public string? StudentEMail { get; set; }
 
-        [MinLength(7, ErrorMessage = "Die Matrikelnummer muss genau 7 Ziffern enthalten.")]
-        [MaxLength(7, ErrorMessage = "Die Matrikelnummer muss genau 7 Ziffern enthalten.")]
         [Display(Name = "Matrikelnummer des Studenten")]
         public string? StudentId { get; set; }
 
+        [ForeignKey("ProgramModel")]
+        public int? StudentProgramId { get; set; }
         [Display(Name = "Studiengang des Studenten")]
         public ProgramModel? StudentProgram { get; set; }
 
@@ -152,13 +157,14 @@ namespace ThesisDatenbank.Models
         [Display(Name = "Note")]
         public double? Grade { get; set; }
 
+        [Display(Name = "Zuletzt geändert am")]
+        [DataType(DataType.Date)]
+        public DateTime LastModified { get; set; } = DateTime.Now;
+
+        [ForeignKey("Supervisor")]
+        public int? SupervisorId { get; set; }
         [Display(Name = "Betreuer")]
         public Supervisor? Supervisor { get; set; }
-
-        [Display(Name = "Lehrstuhl")]
-        public Chair? Chair { get; set; }
-
-        public DateTime? LastModified { get; set; }
 
 
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
@@ -168,12 +174,15 @@ namespace ThesisDatenbank.Models
             if (Bachelor == false && Master == false)
                 results.Add(new ValidationResult("Bachelor oder Master muss ausgewählt werden."));
 
-            var wtSum = ContentWt + LayoutWt + StructureWt + StyleWt + LiteratureWt + DifficultyWt + NoveltyWt + RichnessWt;
+            int wtSum = ContentWt + LayoutWt + StructureWt + StyleWt + LiteratureWt + DifficultyWt + NoveltyWt + RichnessWt;
             if (wtSum != 100)
                 results.Add(new ValidationResult("Die Summe aller Gewichtungsfaktoren muss 100% ergeben."));
 
             if (Status == StatusType.Graded && Grade == 0)
                 results.Add(new ValidationResult("Fehlende Note trotz begutachteter Thesis."));
+
+            if (Filing <= Registration)
+                results.Add(new ValidationResult("Abgabedatum muss nach dem Anmeldedatum liegen."));
 
             return results;
         }
