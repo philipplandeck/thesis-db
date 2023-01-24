@@ -7,6 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Controllers\SupervisorsController.cs~RF1c7e336.TMP" />
     <None Remove="Models\Thesis.cs~RFd3e934.TMP" />
     <None Remove="Views\Deprecated\Theses\Create.cshtml~RF226a516.TMP" />
   </ItemGroup>

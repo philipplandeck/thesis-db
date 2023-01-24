@@ -20,6 +20,9 @@
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1">
                         <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Overview" asp-action="Index">Übersicht</a>
+                        </li>
+                        <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Chairs" asp-action="Index">Lehrstühle</a>
                         </li>
                         <li class="nav-item">
@@ -27,6 +30,9 @@
                         </li>
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Theses" asp-action="Index">Thesen</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Users" asp-action="Index">Nutzer</a>
                         </li>
                     </ul>
                     <partial name="_LoginPartial" />

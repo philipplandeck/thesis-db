@@ -31,7 +31,7 @@ namespace ThesisDatenbank.Models
         public string Title { get; set; }
 
         [Required]
-        [Display(Name = "Themenbeschreibung bzw. Aufgabenstellung")]
+        [Display(Name = "Themenbeschreibung")]
         public string Description { get; set; }
 
         [Required]

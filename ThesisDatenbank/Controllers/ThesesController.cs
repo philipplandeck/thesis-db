@@ -1,7 +1,9 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using System.Web;
 using ThesisDatenbank.Data;
 using ThesisDatenbank.Models;
 
@@ -17,22 +19,59 @@ namespace ThesisDatenbank.Controllers
             _context = context;
         }
 
-        // GET: Theses
-        public async Task<IActionResult> Index()
+        public IQueryable<Thesis> GetTheses(string chairFilter, string studentFilter, string titleFilter)
         {
-            var appDbContext = _context.Thesis.Include(t => t.StudentProgram).Include(t => t.Supervisor);
+            IQueryable<Thesis> appDbContext = _context.Thesis.Include(t => t.StudentProgram).Include(t => t.Supervisor);
+
+            if (!String.IsNullOrEmpty(chairFilter))
+            {
+                appDbContext = appDbContext.Where(s => s.Supervisor.ChairId.ToString() == chairFilter);
+            }
+            if (!String.IsNullOrEmpty(studentFilter))
+            {
+                appDbContext = appDbContext.Where(s => s.StudentName.Contains(studentFilter));
+            }
+            if (!String.IsNullOrEmpty(titleFilter))
+            {
+                appDbContext = appDbContext.Where(s => s.Title.Contains(titleFilter));
+            }
+
+            return appDbContext.OrderBy(item => item.Registration);
+        }
+
+        // GET: Theses
+        public async Task<IActionResult> Index(string chairFilter, string studentFilter, string titleFilter)
+        {
+            IQueryable<Thesis> appDbContext = GetTheses(chairFilter, studentFilter, titleFilter);
+
+            var selectList = new SelectList(_context.Chair, "Id", "Name");
+
+            if (!String.IsNullOrEmpty(chairFilter))
+            {
+                selectList.Where(x => x.Value == chairFilter).First().Selected = true;
+            }
+
             const int length = 10;
 
             ViewData["From"] = length;
             ViewData["Length"] = length;
             ViewData["More"] = appDbContext.Count() > length;
+
+            ViewData["ChairFilter"] = selectList;
+            ViewData["StudentFilter"] = studentFilter;
+            ViewData["TitleFilter"] = titleFilter;
+
             return View(await appDbContext.Take(length).ToListAsync());
         }
 
         // GET: Theses (PartialView)
-        public async Task<IActionResult> GetTheses(int from, int length)
+        public async Task<IActionResult> GetMoreTheses(int from, int length)
         {
-            var appDbContext = _context.Thesis.Include(t => t.StudentProgram).Include(t => t.Supervisor);
+            Uri currentUrl = new Uri(Request.GetDisplayUrl());
+            string chairFilter = HttpUtility.ParseQueryString(currentUrl.Query).Get("ChairFilter");
+            string studentFilter = HttpUtility.ParseQueryString(currentUrl.Query).Get("StudentFilter");
+            string titleFilter = HttpUtility.ParseQueryString(currentUrl.Query).Get("TitleFilter");
+            IQueryable<Thesis> appDbContext = GetTheses(chairFilter, studentFilter, titleFilter);
 
             ViewData["From"] = from + length;
             ViewData["Length"] = length;

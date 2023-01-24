@@ -1,0 +1,47 @@
+﻿@using ThesisDatenbank.Areas.Identity.Data;
+@model ThesisDatenbank.Areas.Identity.Data.AppUser
+
+@{
+    ViewData["Title"] = "Edit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Nutzer bearbeiten</h1>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Id" />
+            <div class="form-floating mb-3">
+                <input asp-for="FirstName" class="form-control" aria-required="true" />
+                <label asp-for="FirstName"></label>
+            </div>
+            <div class="form-floating mb-3">
+                <input asp-for="LastName" class="form-control" aria-required="true" />
+                <label asp-for="LastName"></label>
+            </div>
+            <div class="form-floating mb-3">
+                <select asp-for="ChairId" class="form-control" asp-items="ViewBag.ChairId">
+                    <option value="0">--- Auswählen ---</option>
+                </select>
+                <label asp-for="ChairId"></label>
+            </div>
+            <div class="form-floating mb-3">
+                <select asp-for="Activity" asp-items="@Html.GetEnumSelectList<AppUser.ActivityType>()" class="form-select" aria-required="true"></select>
+                <label asp-for="Activity"></label>
+            </div>
+            <div class="mb-3">
+                <input type="submit" value="Speichern" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Abbrechen</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

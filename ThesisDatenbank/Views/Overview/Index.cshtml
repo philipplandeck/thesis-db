@@ -1,0 +1,65 @@
+﻿@model IEnumerable<ThesisDatenbank.Models.Thesis>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Übersicht Thesen</h1>
+<style>
+    .hidden {
+        display: none;
+        background-color: lightgrey;
+    }
+</style>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Title)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Supervisor)
+            </th>
+            <th>
+                E-Mail-Adresse des Betreuers
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Status)
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td onclick="toggleRow(@item.Id)">
+                    @Html.DisplayFor(modelItem => item.Title)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Supervisor.FirstName) @Html.DisplayFor(modelItem => item.Supervisor.LastName)
+                </td>
+                <td>
+                    <a href="mailto:@ViewData[item.SupervisorId.ToString()]">@ViewData[item.SupervisorId.ToString()]</a>
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Status)
+                </td>
+            </tr>
+            <tr class="hidden" id="@item.Id">
+                <td colspan="4">
+                    <b>Themenbeschreibung:</b> @Html.DisplayFor(modelItem => item.Description)
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@section Scripts {
+    <script type="text/javascript">
+        function toggleRow(row) {
+            $("#" + row).toggle();
+        }
+    </script>
+}

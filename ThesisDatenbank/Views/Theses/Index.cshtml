@@ -9,21 +9,33 @@
 <p>
     <a asp-action="Create">Neue Thesis anlegen</a>
 </p>
-<div class="mb-3">
-    <hr />
-    <h3>Filteroptionen</h3>
-    <label for="list">Datum / Lehrstuhl:</label>
-    <select name="list" id="list">
-        <option value="date" selected="selected">Datum</option>
-        <option value="chair">Lehrstuhl</option>
-    </select><br />
-    <label for="supervisor">Name des Betreuers:</label>
-    <input type="text" id="supervisor" name="supervisor" /><br />
-    <label for="title">Titel der Thesis:</label>
-    <input type="text" id="title" name="title" /><br />
-    <button id="filter" onclick="filter()" class="btn btn-primary">Filter anwenden</button>
-    <hr />
-</div>
+<hr />
+<details>
+    <summary><h3>Filteroptionen</h3></summary>
+    @using (Html.BeginForm("Index", "Theses", FormMethod.Get)){
+        <div class="col-md-4">
+            <div class="mb-3">
+                <label for="ChairFilter" class="form-label">Lehrstuhl</label>
+                <select name="ChairFilter" id="ChairFilter" class="form-control" asp-items="ViewBag.ChairFilter">
+                    <option value="">--- Auswählen ---</option>
+                </select>
+            </div>
+            <div class="mb-3">
+                <label for="StudentFilter" class="form-label">Bearbeiter</label>
+                <input name="StudentFilter" id="StudentFilter" type="text" value="@ViewBag.StudentFilter" class="form-control" />
+            </div>
+            <div class="mb-3">
+                <label for="TitleFilter" class="form-label">Titel</label>
+                <input name="TitleFilter" id="TitleFilter" type="text" value="@ViewBag.TitleFilter" class="form-control" />
+            </div>
+            <div class="mb-3">
+                <input type="submit" value="Filter anwenden" class="btn btn-primary" />
+            </div>
+        </div>
+    }
+</details>
+<hr />
+
 <table class="table">
     <thead>
         <tr>
@@ -56,7 +68,7 @@
 @section Scripts {
     <script>
         function loadmore() {
-            $.get("@Url.Action("GetTheses")", {
+            $.get("@Url.Action("GetMoreTheses")", {
                 from: $("#LoadButton").attr("data-from"),
                 length: $("#LoadButton").attr("data-length"),
             },

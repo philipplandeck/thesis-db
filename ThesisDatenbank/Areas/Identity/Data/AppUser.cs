@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.AspNetCore.Identity;
 using ThesisDatenbank.Models;
 
@@ -18,6 +19,8 @@ public class AppUser : IdentityUser
     [Display(Name = "Nachname")]
     public string? LastName { get; set; }
 
+    [ForeignKey("Chair")]
+    public int? ChairId { get; set; }
     [Display(Name = "Lehrstuhl")]
     public Chair? Chair { get; set; }
 

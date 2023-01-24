@@ -17,14 +17,13 @@ public class AppDbContext : IdentityDbContext<AppUser>
     public DbSet<Supervisor> Supervisor { get; set; }
     public DbSet<ProgramModel> Program { get; set; }
     public DbSet<Chair> Chair { get; set; }
-    public DbSet<AppUser> AppUser { get; set; }
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
         base.OnModelCreating(builder);
 
         PasswordHasher<AppUser> hasher = new PasswordHasher<AppUser>();
-        AppUser user = new AppUser() { Id = Guid.NewGuid().ToString(), UserName = "admin@thesis.de" };
+        AppUser user = new AppUser() { Id = Guid.NewGuid().ToString(), UserName = "admin@thesis.de", Email = "admin@thesis.de" };
         user.NormalizedUserName = user.UserName.ToUpper();
         user.PasswordHash = hasher.HashPassword(user, "admin");
         builder.Entity<AppUser>().HasData(user);

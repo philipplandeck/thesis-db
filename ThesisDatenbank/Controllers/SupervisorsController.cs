@@ -11,7 +11,7 @@ namespace ThesisDatenbank.Controllers
     public class SupervisorsController : Controller
     {
         private readonly AppDbContext _context;
-
+        
         public SupervisorsController(AppDbContext context)
         {
             _context = context;
