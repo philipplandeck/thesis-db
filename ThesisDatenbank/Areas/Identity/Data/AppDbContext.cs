@@ -22,10 +22,21 @@ public class AppDbContext : IdentityDbContext<AppUser>
     {
         base.OnModelCreating(builder);
 
+        string adminUsername = "admin@thesis.de";
+        string adminPassword = "admin";
+        AppUser user = new AppUser
+        {
+            Id = Guid.NewGuid().ToString(),
+            FirstName = "Hans",
+            LastName = "Meier",
+            Activity = AppUser.ActivityType.active,
+            UserName = adminUsername,
+            NormalizedUserName = adminUsername.ToUpper(),
+            Email = adminUsername,
+            NormalizedEmail = adminUsername.ToUpper()
+        };
         PasswordHasher<AppUser> hasher = new PasswordHasher<AppUser>();
-        AppUser user = new AppUser() { Id = Guid.NewGuid().ToString(), UserName = "admin@thesis.de", Email = "admin@thesis.de" };
-        user.NormalizedUserName = user.UserName.ToUpper();
-        user.PasswordHash = hasher.HashPassword(user, "admin");
+        user.PasswordHash = hasher.HashPassword(user, adminPassword);
         builder.Entity<AppUser>().HasData(user);
 
         IdentityRole role = new IdentityRole() { Id = Guid.NewGuid().ToString(), Name = "Administrator" };
@@ -35,14 +46,23 @@ public class AppDbContext : IdentityDbContext<AppUser>
         IdentityUserRole<string> ur = new IdentityUserRole<string> { UserId = user.Id, RoleId = role.Id };
         builder.Entity<IdentityUserRole<string>>().HasData(ur);
 
-        List<ProgramModel.ProgramType> programTypes = Enum.GetValues(typeof(ProgramModel.ProgramType)).Cast<ProgramModel.ProgramType>().ToList();
-        foreach (ProgramModel.ProgramType program in programTypes)
+        List<ProgramModel.ProgramType> programs = Enum.GetValues(typeof(ProgramModel.ProgramType)).Cast<ProgramModel.ProgramType>().ToList();
+        foreach (ProgramModel.ProgramType program in programs)
         {
             builder.Entity<ProgramModel>().HasData(new ProgramModel()
             {
-                Id = programTypes.IndexOf(program) + 1,
+                Id = programs.IndexOf(program) + 1,
                 Name = program
             });
         }
+
+        /* According to
+         * https://learn.microsoft.com/en-us/ef/core/saving/cascade-delete
+        
+        builder.
+            Entity<Chair>()
+            .HasMany(s => s.Supervisors)
+            .WithOne(x => x.Chair)
+            .OnDelete(DeleteBehavior.ClientCascade); */
     }
 }

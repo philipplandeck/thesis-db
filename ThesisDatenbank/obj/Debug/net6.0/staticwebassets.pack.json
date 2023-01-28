@@ -13,6 +13,14 @@
       "PackagePath": "staticwebassets\\favicon.ico"
     },
     {
+      "Id": "D:\\Advanced Web Engineering\\source\\repos\\thesis-db\\ThesisDatenbank\\wwwroot\\images\\jmu-logo.svg",
+      "PackagePath": "staticwebassets\\images\\jmu-logo.svg"
+    },
+    {
+      "Id": "D:\\Advanced Web Engineering\\source\\repos\\thesis-db\\ThesisDatenbank\\wwwroot\\images\\thesis-chalk.jpg",
+      "PackagePath": "staticwebassets\\images\\thesis-chalk.jpg"
+    },
+    {
       "Id": "D:\\Advanced Web Engineering\\source\\repos\\thesis-db\\ThesisDatenbank\\wwwroot\\js\\site.js",
       "PackagePath": "staticwebassets\\js\\site.js"
     },
@@ -195,6 +203,10 @@
     {
       "Id": "D:\\Advanced Web Engineering\\source\\repos\\thesis-db\\ThesisDatenbank\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.min.js.map",
       "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\js\\bootstrap.min.js.map"
+    },
+    {
+      "Id": "D:\\Advanced Web Engineering\\source\\repos\\thesis-db\\ThesisDatenbank\\wwwroot\\lib\\bootstrap\\sandstone\\bootstrap.min.css",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\sandstone\\bootstrap.min.css"
     },
     {
       "Id": "D:\\Advanced Web Engineering\\source\\repos\\thesis-db\\ThesisDatenbank\\wwwroot\\lib\\jquery-validation-unobtrusive\\LICENSE.txt",

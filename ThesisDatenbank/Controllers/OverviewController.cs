@@ -1,7 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using System.Globalization;
 using System.Text;
 using ThesisDatenbank.Data;
 using ThesisDatenbank.Models;
@@ -46,30 +44,28 @@ namespace ThesisDatenbank.Controllers
         static string ParseEmail(string firstName, string lastName)
         {
             string email = firstName.ToLower() + "." + lastName.ToLower() + "@uni-wuerzburg.de";
-            return RemoveDiacritics(email);
-        }
+            StringBuilder stringBuilder = new StringBuilder();
 
-        /* According to Stack Overflow
-         * https://stackoverflow.com/questions/249087/how-do-i-remove-diacritics-accents-from-a-string-in-net
-         */
-        static string RemoveDiacritics(string text)
-        {
-            var normalizedString = text.Normalize(NormalizationForm.FormD);
-            var stringBuilder = new StringBuilder(capacity: normalizedString.Length);
-
-            for (int i = 0; i < normalizedString.Length; i++)
+            foreach (char letter in email)
             {
-                char c = normalizedString[i];
-                var unicodeCategory = CharUnicodeInfo.GetUnicodeCategory(c);
-                if (unicodeCategory != UnicodeCategory.NonSpacingMark)
+                switch (letter)
                 {
-                    stringBuilder.Append(c);
+                    case 'ä':
+                        stringBuilder.Append("ae");
+                        break;
+                    case 'ö':
+                        stringBuilder.Append("oe");
+                        break;
+                    case 'ü':
+                        stringBuilder.Append("ue");
+                        break;
+                    default:
+                        stringBuilder.Append(letter);
+                        break;
                 }
             }
 
-            return stringBuilder
-                .ToString()
-                .Normalize(NormalizationForm.FormC);
+            return stringBuilder.ToString();
         }
     }
 }

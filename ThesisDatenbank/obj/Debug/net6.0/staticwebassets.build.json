@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "QqEgeVb9IkR1fdbbop41euX8aR2DZdwiESX7+aBjvqk=",
+  "Hash": "sUcQ5VjMEAyO5EaqqxncAYx5DSl0Fjeq4IJs90AXF5s=",
   "Source": "ThesisDatenbank",
   "BasePath": "_content/ThesisDatenbank",
   "Mode": "Default",
@@ -1105,6 +1105,40 @@
       "OriginalItemSpec": "wwwroot\\favicon.ico"
     },
     {
+      "Identity": "D:\\Advanced Web Engineering\\source\\repos\\thesis-db\\ThesisDatenbank\\wwwroot\\images\\jmu-logo.svg",
+      "SourceId": "ThesisDatenbank",
+      "SourceType": "Discovered",
+      "ContentRoot": "D:\\Advanced Web Engineering\\source\\repos\\thesis-db\\ThesisDatenbank\\wwwroot\\",
+      "BasePath": "_content/ThesisDatenbank",
+      "RelativePath": "images/jmu-logo.svg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\images\\jmu-logo.svg"
+    },
+    {
+      "Identity": "D:\\Advanced Web Engineering\\source\\repos\\thesis-db\\ThesisDatenbank\\wwwroot\\images\\thesis-chalk.jpg",
+      "SourceId": "ThesisDatenbank",
+      "SourceType": "Discovered",
+      "ContentRoot": "D:\\Advanced Web Engineering\\source\\repos\\thesis-db\\ThesisDatenbank\\wwwroot\\",
+      "BasePath": "_content/ThesisDatenbank",
+      "RelativePath": "images/thesis-chalk.jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\images\\thesis-chalk.jpg"
+    },
+    {
       "Identity": "D:\\Advanced Web Engineering\\source\\repos\\thesis-db\\ThesisDatenbank\\wwwroot\\js\\site.js",
       "SourceId": "ThesisDatenbank",
       "SourceType": "Discovered",
@@ -1885,6 +1919,23 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\lib\\bootstrap\\LICENSE"
+    },
+    {
+      "Identity": "D:\\Advanced Web Engineering\\source\\repos\\thesis-db\\ThesisDatenbank\\wwwroot\\lib\\bootstrap\\sandstone\\bootstrap.min.css",
+      "SourceId": "ThesisDatenbank",
+      "SourceType": "Discovered",
+      "ContentRoot": "D:\\Advanced Web Engineering\\source\\repos\\thesis-db\\ThesisDatenbank\\wwwroot\\",
+      "BasePath": "_content/ThesisDatenbank",
+      "RelativePath": "lib/bootstrap/sandstone/bootstrap.min.css",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\lib\\bootstrap\\sandstone\\bootstrap.min.css"
     },
     {
       "Identity": "D:\\Advanced Web Engineering\\source\\repos\\thesis-db\\ThesisDatenbank\\wwwroot\\lib\\jquery\\dist\\jquery.js",

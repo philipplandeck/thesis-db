@@ -58,6 +58,7 @@ namespace ThesisDatenbank.Models
 
         [ForeignKey("ProgramModel")]
         public int? StudentProgramId { get; set; }
+
         [Display(Name = "Studiengang des Studenten")]
         public ProgramModel? StudentProgram { get; set; }
 
@@ -157,12 +158,14 @@ namespace ThesisDatenbank.Models
         [Display(Name = "Note")]
         public double? Grade { get; set; }
 
-        [Display(Name = "Zuletzt geändert am")]
+        [Required]
         [DataType(DataType.Date)]
+        [Display(Name = "Zuletzt geändert am")]
         public DateTime LastModified { get; set; } = DateTime.Now;
 
         [ForeignKey("Supervisor")]
         public int? SupervisorId { get; set; }
+
         [Display(Name = "Betreuer")]
         public Supervisor? Supervisor { get; set; }
 
@@ -178,11 +181,11 @@ namespace ThesisDatenbank.Models
             if (wtSum != 100)
                 results.Add(new ValidationResult("Die Summe aller Gewichtungsfaktoren muss 100% ergeben."));
 
-            if (Status == StatusType.Graded && Grade == 0)
+            if (Status == StatusType.Graded && Grade == null)
                 results.Add(new ValidationResult("Fehlende Note trotz begutachteter Thesis."));
 
             if (Filing <= Registration)
-                results.Add(new ValidationResult("Abgabedatum muss nach dem Anmeldedatum liegen."));
+                results.Add(new ValidationResult("Das Abgabedatum muss nach dem Anmeldedatum liegen."));
 
             return results;
         }

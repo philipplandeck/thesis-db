@@ -4,18 +4,34 @@
     ViewData["Title"] = "Register";
 }
 
-<h1>@ViewData["Title"]</h1>
-
+<h1>Neuen Account erstellen</h1>
+<hr />
 <div class="row">
     <div class="col-md-4">
         <form id="registerForm" asp-route-returnUrl="@Model.ReturnUrl" method="post">
-            <h2>Neuen Account erstellen.</h2>
-            <hr />
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-floating mb-3">
+                <input asp-for="Input.FirstName" class="form-control" aria-required="true" />
+                <label asp-for="Input.FirstName"></label>
+            </div>
+            <div class="form-floating mb-3">
+                <input asp-for="Input.LastName" class="form-control" aria-required="true" />
+                <label asp-for="Input.LastName"></label>
+            </div>
             <div class="form-floating mb-3">
                 <input asp-for="Input.Email" class="form-control" autocomplete="username" aria-required="true" />
                 <label asp-for="Input.Email"></label>
                 <span asp-validation-for="Input.Email" class="text-danger"></span>
+            </div>
+            <div class="form-floating mb-3">
+                <select asp-for="Input.Activity" asp-items="@Html.GetEnumSelectList<AppUser.ActivityType>()" class="form-select" aria-required="true"></select>
+                <label asp-for="Input.Activity"></label>
+            </div>
+            <div class="form-floating mb-3">
+                <select asp-for="Input.ChairId" asp-items="Model.Chairs" class="form-select" aria-required="true">
+                    <option value="0">Keiner</option>
+                </select>
+                <label asp-for="Input.ChairId"></label>
             </div>
             <div class="form-floating mb-3">
                 <input asp-for="Input.Password" class="form-control" autocomplete="new-password" aria-required="true" />
@@ -26,22 +42,6 @@
                 <input asp-for="Input.ConfirmPassword" class="form-control" autocomplete="new-password" aria-required="true" />
                 <label asp-for="Input.ConfirmPassword"></label>
                 <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
-            </div>
-            <div class="form-floating mb-3">
-                <input asp-for="Input.FirstName" class="form-control" aria-required="true" />
-                <label asp-for="Input.FirstName"></label>
-            </div>
-            <div class="form-floating mb-3">
-                <input asp-for="Input.LastName" class="form-control" aria-required="true" />
-                <label asp-for="Input.LastName"></label>
-            </div>
-            <div class="form-floating mb-3">
-                <select asp-for="Input.ChairId" asp-items="Model.Chairs" class="form-select" aria-required="true"></select>
-                <label asp-for="Input.ChairId"></label>
-            </div>
-            <div class="form-floating mb-3">
-                <select asp-for="Input.Activity" asp-items="@Html.GetEnumSelectList<AppUser.ActivityType>()" class="form-select" aria-required="true"></select>
-                <label asp-for="Input.Activity"></label>
             </div>
             <button id="registerSubmit" type="submit" class="w-100 btn btn-lg btn-primary">Registrieren</button>
         </form>

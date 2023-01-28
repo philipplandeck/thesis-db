@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace ThesisDatenbank.Migrations
 {
-    public partial class Init : Migration
+    public partial class DD : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -75,10 +75,10 @@ namespace ThesisDatenbank.Migrations
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    FirstName = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    LastName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    FirstName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    LastName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Activity = table.Column<int>(type: "int", nullable: false),
                     ChairId = table.Column<int>(type: "int", nullable: true),
-                    Activity = table.Column<int>(type: "int", nullable: true),
                     UserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     NormalizedUserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     Email = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
@@ -223,7 +223,7 @@ namespace ThesisDatenbank.Migrations
                     Status = table.Column<int>(type: "int", nullable: false),
                     StudentName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     StudentEMail = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    StudentId = table.Column<string>(type: "nvarchar(7)", maxLength: 7, nullable: true),
+                    StudentId = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     StudentProgramId = table.Column<int>(type: "int", nullable: true),
                     Registration = table.Column<DateTime>(type: "datetime2", nullable: true),
                     Filing = table.Column<DateTime>(type: "datetime2", nullable: true),
@@ -269,12 +269,12 @@ namespace ThesisDatenbank.Migrations
             migrationBuilder.InsertData(
                 table: "AspNetRoles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
-                values: new object[] { "53de138c-e4a5-43b1-951f-b676890cc40b", "b364674f-ff44-417f-8a9a-5754510d598d", "Administrator", "ADMINISTRATOR" });
+                values: new object[] { "8cd2dcc5-1de3-4b8a-bb6c-3deb14da3880", "4dd5d4c8-e736-4f7a-9379-d25e612dd13d", "Administrator", "ADMINISTRATOR" });
 
             migrationBuilder.InsertData(
                 table: "AspNetUsers",
                 columns: new[] { "Id", "AccessFailedCount", "Activity", "ChairId", "ConcurrencyStamp", "Email", "EmailConfirmed", "FirstName", "LastName", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
-                values: new object[] { "32ed985d-9de8-4cce-8236-7abe5bb64ed3", 0, null, null, "9164e72c-f95a-4557-8fe1-0e1dfe2d6178", null, false, null, null, false, null, null, "ADMIN@THESIS.DE", "AQAAAAEAACcQAAAAENiyX1UK3qjC+LIovwaMesRdxO4nzCayvkUXe7wtt0Kznm9GKiUKDq8gOPulrI828A==", null, false, "f8a6028a-31e7-47ea-8240-0280b763af39", false, "admin@thesis.de" });
+                values: new object[] { "acd726cd-3de1-4c88-9d62-f7c21ab06ca6", 0, 0, null, "91ab54c5-1be4-4d56-8947-e26505b97a52", "admin@thesis.de", false, "Hans", "Meier", false, null, "ADMIN@THESIS.DE", "ADMIN@THESIS.DE", "AQAAAAEAACcQAAAAEP4oBG+B2UN6QoiT3hfCEfRb9vK2QfF5PxYV6YszxGKhV4vkAfWCjuALrbcHci7q3Q==", null, false, "8f596ee3-8fa1-4ed5-8872-70ba6ccb40c1", false, "admin@thesis.de" });
 
             migrationBuilder.InsertData(
                 table: "Program",
@@ -290,7 +290,7 @@ namespace ThesisDatenbank.Migrations
             migrationBuilder.InsertData(
                 table: "AspNetUserRoles",
                 columns: new[] { "RoleId", "UserId" },
-                values: new object[] { "53de138c-e4a5-43b1-951f-b676890cc40b", "32ed985d-9de8-4cce-8236-7abe5bb64ed3" });
+                values: new object[] { "8cd2dcc5-1de3-4b8a-bb6c-3deb14da3880", "acd726cd-3de1-4c88-9d62-f7c21ab06ca6" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",

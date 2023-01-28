@@ -22,6 +22,7 @@ namespace ThesisDatenbank.Models
 
         [ForeignKey("Chair")]
         public int? ChairId { get; set; }
+
         [Display(Name = "Lehrstuhl")]
         public Chair? Chair { get; set; }
     }

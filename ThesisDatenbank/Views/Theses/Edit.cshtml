@@ -54,8 +54,8 @@
             </div>
             <div class="mb-3">
                 <label asp-for="StudentProgram" class="control-label"></label>
-                <select asp-for="StudentProgramId" class="form-control" asp-items="ViewBag.StudentProgramId">
-                    <option value="0">--- Auswählen ---</option>
+                <select asp-for="StudentProgramId" class="form-control" asp-items="@Html.GetEnumSelectList<ProgramModel.ProgramType>()">
+                    <option value="-1">--- Auswählen ---</option>
                 </select>
             </div>
             <div class="mb-3">
@@ -179,7 +179,7 @@
             <div class="mb-3">
                 <label asp-for="Supervisor" class="form-label"></label>
                 <select asp-for="SupervisorId" class="form-control" asp-items="ViewBag.SupervisorId">
-                    <option value="0">--- Auswählen ---</option>
+                    <option disabled>--- Auswählen ---</option>
                 </select>
             </div>
             <div class="mb-3">

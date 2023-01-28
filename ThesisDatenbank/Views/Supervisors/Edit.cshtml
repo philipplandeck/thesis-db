@@ -29,8 +29,8 @@
             </div>
             <div class="mb-3">
                 <label asp-for="Chair" class="control-label"></label>
-                <select asp-for="ChairId" class="form-control" asp-items="ViewBag.ChairId">
-                    <option value="0">--- Auswählen ---</option>
+                <select asp-for="ChairId" class="form-control" asp-items="ViewBag.ChairId" required>
+                    <option disabled>--- Auswählen ---</option>
                 </select>
             </div>
             <div class="mb-3">

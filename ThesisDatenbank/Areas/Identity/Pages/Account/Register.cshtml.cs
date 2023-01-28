@@ -78,7 +78,7 @@ namespace ThesisDatenbank.Areas.Identity.Pages.Account
             /// </summary>
             [Required]
             [EmailAddress]
-            [Display(Name = "Email")]
+            [Display(Name = "E-Mail-Adresse")]
             public string Email { get; set; }
 
             /// <summary>
@@ -88,7 +88,7 @@ namespace ThesisDatenbank.Areas.Identity.Pages.Account
             [Required]
             [StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 6)]
             [DataType(DataType.Password)]
-            [Display(Name = "Password")]
+            [Display(Name = "Passwort")]
             public string Password { get; set; }
 
             /// <summary>
@@ -96,7 +96,7 @@ namespace ThesisDatenbank.Areas.Identity.Pages.Account
             ///     directly from your code. This API may change or be removed in future releases.
             /// </summary>
             [DataType(DataType.Password)]
-            [Display(Name = "Confirm password")]
+            [Display(Name = "Passwort bestätigen")]
             [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
             public string ConfirmPassword { get; set; }
 
@@ -104,15 +104,16 @@ namespace ThesisDatenbank.Areas.Identity.Pages.Account
             [Display(Name = "Vorname")]
             public string FirstName { get; set; }
 
+            [Required]
             [Display(Name = "Nachname")]
             public string LastName { get; set; }
 
             [Required]
-            [Display(Name = "Lehrstuhl")]
-            public int ChairId { get; set; }
-
             [Display(Name = "Aktivitätsstatus")]
             public ActivityType Activity { get; set; }
+
+            [Display(Name = "Lehrstuhl")]
+            public int? ChairId { get; set; }
         }
 
         public SelectList Chairs { get; set; }
@@ -120,22 +121,26 @@ namespace ThesisDatenbank.Areas.Identity.Pages.Account
         public async Task OnGetAsync(string returnUrl = null)
         {
             Chairs = new SelectList(await _context.Chair.ToListAsync(), nameof(Chair.Id), nameof(Chair.Name));
-
             ReturnUrl = returnUrl;
-            // ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
         }
 
         public async Task<IActionResult> OnPostAsync(string returnUrl = null)
         {
             returnUrl ??= Url.Content("~/");
-            //ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
             if (ModelState.IsValid)
             {
                 var user = CreateUser();
                 user.FirstName = Input.FirstName;
                 user.LastName = Input.LastName;
-                user.ChairId = Input.ChairId;
                 user.Activity = Input.Activity;
+                if (Input.ChairId == 0)
+                {
+                    user.ChairId = null;
+                }
+                else
+                {
+                    user.ChairId = Input.ChairId;
+                }
 
                 await _userStore.SetUserNameAsync(user, Input.Email, CancellationToken.None);
                 await _emailStore.SetEmailAsync(user, Input.Email, CancellationToken.None);

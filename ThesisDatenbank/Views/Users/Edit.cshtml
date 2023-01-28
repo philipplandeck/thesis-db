@@ -22,14 +22,14 @@
                 <label asp-for="LastName"></label>
             </div>
             <div class="form-floating mb-3">
-                <select asp-for="ChairId" class="form-control" asp-items="ViewBag.ChairId">
-                    <option value="0">--- Auswählen ---</option>
-                </select>
-                <label asp-for="ChairId"></label>
-            </div>
-            <div class="form-floating mb-3">
                 <select asp-for="Activity" asp-items="@Html.GetEnumSelectList<AppUser.ActivityType>()" class="form-select" aria-required="true"></select>
                 <label asp-for="Activity"></label>
+            </div>
+            <div class="form-floating mb-3">
+                <select asp-for="ChairId" class="form-control" asp-items="ViewBag.ChairId">
+                    <option value="0">Keiner</option>
+                </select>
+                <label asp-for="Chair"></label>
             </div>
             <div class="mb-3">
                 <input type="submit" value="Speichern" class="btn btn-primary" />

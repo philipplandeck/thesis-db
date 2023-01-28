@@ -6,21 +6,35 @@
 }
 
 <style>
+    h1 {
+        font: 28px Arial, sans-serif;
+        font-weight: bold;
+        text-align: center;
+        padding: 14px;
+    }
+
+    table {
+        margin: auto;
+    }
+
     table, td {
         border: 1px solid black;
         border-collapse: collapse;
         padding: 10px;
-        font: 12px Arial, sans-serif;
+        font: 14px Arial, sans-serif;
     }
 
     td:nth-child(odd) {
         background-color: lightgrey;
         font-weight: bold;
     }
+
+    td:nth-child(even) {
+        min-width: 300px;
+    }
 </style>
 
-<h1>Gutachten der Thesis</h1>
-
+<h1>Gutachten der Thesis "@Html.DisplayFor(model => model.Title)"</h1>
 <table>
     <tr>
         <td>@Html.DisplayNameFor(model => model.Title)</td>
@@ -139,9 +153,3 @@
         <td>@Html.DisplayFor(model => model.LastModified)</td>
     </tr>
 </table>
-
-<br />
-<div>
-    <a asp-action="Edit" asp-route-id="@Model?.Id">Bearbeiten</a> |
-    <a asp-action="Index">Zurück zur Übersicht</a>
-</div>

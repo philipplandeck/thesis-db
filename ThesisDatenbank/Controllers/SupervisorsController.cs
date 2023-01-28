@@ -38,9 +38,7 @@ namespace ThesisDatenbank.Controllers
         {
             if (ModelState.IsValid)
             {
-                if (supervisor.ChairId == 0) supervisor.ChairId = null;
                 _context.Add(supervisor);
-                // _context.Chair.Where(c => c.Id == supervisor.ChairId).First().Supervisors.Add(supervisor);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
@@ -79,7 +77,6 @@ namespace ThesisDatenbank.Controllers
             {
                 try
                 {
-                    if (supervisor.ChairId == 0) supervisor.ChairId = null;
                     _context.Update(supervisor);
                     await _context.SaveChangesAsync();
                 }

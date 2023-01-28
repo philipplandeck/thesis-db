@@ -19,7 +19,7 @@ namespace ThesisDatenbank.Controllers
             _context = context;
         }
 
-        public IQueryable<Thesis> GetTheses(string chairFilter, string studentFilter, string titleFilter)
+        public IQueryable<Thesis> GetTheses(string? chairFilter, string? studentFilter, string? titleFilter)
         {
             IQueryable<Thesis> appDbContext = _context.Thesis.Include(t => t.StudentProgram).Include(t => t.Supervisor);
 
@@ -39,16 +39,28 @@ namespace ThesisDatenbank.Controllers
             return appDbContext.OrderBy(item => item.Registration);
         }
 
+        public SelectList GetSupervisorSelectList(int? selectedSupervisor)
+        {
+            List<SelectListItem> supervisorList = new List<SelectListItem>();
+            foreach (Supervisor supervisor in _context.Supervisor.Where(s => s.Active == true).ToList())
+            {
+                string text = supervisor.FirstName + " " + supervisor.LastName;
+                string value = supervisor.Id.ToString();
+                supervisorList.Add(new SelectListItem() { Text = text, Value = value });
+            }
+            return new SelectList(supervisorList, "Value", "Text", selectedSupervisor);
+        }
+
         // GET: Theses
-        public async Task<IActionResult> Index(string chairFilter, string studentFilter, string titleFilter)
+        public async Task<IActionResult> Index(string? chairFilter, string? studentFilter, string? titleFilter)
         {
             IQueryable<Thesis> appDbContext = GetTheses(chairFilter, studentFilter, titleFilter);
 
-            var selectList = new SelectList(_context.Chair, "Id", "Name");
+            SelectList selectList = new SelectList(_context.Chair, "Id", "Name");
 
             if (!String.IsNullOrEmpty(chairFilter))
             {
-                selectList.Where(x => x.Value == chairFilter).First().Selected = true;
+                selectList.Where(x => x.Value.ToString() == chairFilter).First().Selected = true;
             }
 
             const int length = 10;
@@ -65,12 +77,12 @@ namespace ThesisDatenbank.Controllers
         }
 
         // GET: Theses (PartialView)
-        public async Task<IActionResult> GetMoreTheses(int from, int length)
+        public async Task<IActionResult> LoadMoreTheses(int from, int length)
         {
             Uri currentUrl = new Uri(Request.GetDisplayUrl());
-            string chairFilter = HttpUtility.ParseQueryString(currentUrl.Query).Get("ChairFilter");
-            string studentFilter = HttpUtility.ParseQueryString(currentUrl.Query).Get("StudentFilter");
-            string titleFilter = HttpUtility.ParseQueryString(currentUrl.Query).Get("TitleFilter");
+            string? chairFilter = HttpUtility.ParseQueryString(currentUrl.Query).Get("ChairFilter");
+            string? studentFilter = HttpUtility.ParseQueryString(currentUrl.Query).Get("StudentFilter");
+            string? titleFilter = HttpUtility.ParseQueryString(currentUrl.Query).Get("TitleFilter");
             IQueryable<Thesis> appDbContext = GetTheses(chairFilter, studentFilter, titleFilter);
 
             ViewData["From"] = from + length;
@@ -103,8 +115,7 @@ namespace ThesisDatenbank.Controllers
         // GET: Theses/Create
         public IActionResult Create()
         {
-            ViewData["StudentProgramId"] = new SelectList(_context.Program, "Id", "Name");
-            ViewData["SupervisorId"] = new SelectList(_context.Supervisor.Where(s => s.Active == true).ToList(), "Id", "LastName");
+            ViewData["SupervisorId"] = GetSupervisorSelectList(null);
             return View(new Thesis());
         }
 
@@ -115,14 +126,19 @@ namespace ThesisDatenbank.Controllers
         {
             if (ModelState.IsValid)
             {
-                if (thesis.StudentProgramId == 0) thesis.StudentProgramId = null;
-                if (thesis.SupervisorId == 0) thesis.SupervisorId = null;
+                if (thesis.StudentProgramId == -1)
+                {
+                    thesis.StudentProgramId = null;
+                }
+                else
+                {
+                    thesis.StudentProgramId++;
+                }
                 _context.Add(thesis);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["StudentProgramId"] = new SelectList(_context.Program, "Id", "Name", thesis.StudentProgramId);
-            ViewData["SupervisorId"] = new SelectList(_context.Supervisor.Where(s => s.Active == true).ToList(), "Id", "LastName", thesis.SupervisorId);
+            ViewData["SupervisorId"] = GetSupervisorSelectList(thesis.SupervisorId);
             return View(thesis);
         }
 
@@ -139,8 +155,7 @@ namespace ThesisDatenbank.Controllers
             {
                 return NotFound();
             }
-            ViewData["StudentProgramId"] = new SelectList(_context.Program, "Id", "Name", thesis.StudentProgramId);
-            ViewData["SupervisorId"] = new SelectList(_context.Supervisor.Where(s => s.Active == true).ToList(), "Id", "LastName", thesis.SupervisorId);
+            ViewData["SupervisorId"] = GetSupervisorSelectList(thesis.SupervisorId);
             return View(thesis);
         }
 
@@ -158,8 +173,14 @@ namespace ThesisDatenbank.Controllers
             {
                 try
                 {
-                    if (thesis.StudentProgramId == 0) thesis.StudentProgramId = null;
-                    if (thesis.SupervisorId == 0) thesis.SupervisorId = null;
+                    if (thesis.StudentProgramId == -1)
+                    {
+                        thesis.StudentProgramId = null;
+                    }
+                    else
+                    {
+                        thesis.StudentProgramId++;
+                    }
                     thesis.LastModified = DateTime.Now;
                     _context.Update(thesis);
                     await _context.SaveChangesAsync();
@@ -177,8 +198,7 @@ namespace ThesisDatenbank.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["StudentProgramId"] = new SelectList(_context.Program, "Id", "Name", thesis.StudentProgramId);
-            ViewData["SupervisorId"] = new SelectList(_context.Supervisor.Where(s => s.Active == true).ToList(), "Id", "LastName", thesis.SupervisorId);
+            ViewData["SupervisorId"] = GetSupervisorSelectList(thesis.SupervisorId);
             return View(thesis);
         }
 

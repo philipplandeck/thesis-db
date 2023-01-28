@@ -11,13 +11,13 @@
 </p>
 <hr />
 <details>
-    <summary><h3>Filteroptionen</h3></summary>
+    <summary>Ausklappen von <h3>Filteroptionen</h3></summary>
     @using (Html.BeginForm("Index", "Theses", FormMethod.Get)){
         <div class="col-md-4">
             <div class="mb-3">
                 <label for="ChairFilter" class="form-label">Lehrstuhl</label>
                 <select name="ChairFilter" id="ChairFilter" class="form-control" asp-items="ViewBag.ChairFilter">
-                    <option value="">--- Auswählen ---</option>
+                    <option value="">--- Nicht Filtern ---</option>
                 </select>
             </div>
             <div class="mb-3">
@@ -35,6 +35,7 @@
     }
 </details>
 <hr />
+<br />
 
 <table class="table">
     <thead>
@@ -68,13 +69,13 @@
 @section Scripts {
     <script>
         function loadmore() {
-            $.get("@Url.Action("GetMoreTheses")", {
+            $.get("@Url.Action("LoadMoreTheses")", {
                 from: $("#LoadButton").attr("data-from"),
                 length: $("#LoadButton").attr("data-length"),
             },
                 function (data, status, jq) {
                     $("#LoadRow").replaceWith(data);
                 })
-        };
+        }
     </script>
 }

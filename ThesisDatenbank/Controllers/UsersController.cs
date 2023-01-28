@@ -38,20 +38,17 @@ namespace ThesisDatenbank.Controllers
             {
                 return NotFound();
             }
+
             ViewData["ChairId"] = new SelectList(await _context.Chair.ToListAsync(), nameof(Chair.Id), nameof(Chair.Name), user.ChairId);
             return View(user);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(string id, [Bind("Id,FirstName,LastName,ChairId, Activity")] AppUser newUser)
+        public async Task<IActionResult> Edit(string id, [Bind("Id,FirstName,LastName,Activity,ChairId")] AppUser newUser)
         {
             AppUser user = await _userManager.FindByIdAsync(id);
-            if (user == null)
-            {
-                return NotFound();
-            }
-            if (id != newUser.Id)
+            if (user == null || id != newUser.Id)
             {
                 return NotFound();
             }
@@ -62,6 +59,7 @@ namespace ThesisDatenbank.Controllers
                 {
                     user.FirstName = newUser.FirstName;
                     user.LastName = newUser.LastName;
+                    user.Activity = newUser.Activity;
                     if (newUser.ChairId == 0)
                     {
                         user.ChairId = null;
@@ -70,13 +68,11 @@ namespace ThesisDatenbank.Controllers
                     {
                         user.ChairId = newUser.ChairId;
                     }
-                    user.ChairId = newUser.ChairId;
-                    user.Activity = newUser.Activity;
                     await _userManager.UpdateAsync(user);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    bool userExists = await _userManager.FindByIdAsync(user.Id.ToString()) != null;
+                    bool userExists = await _userManager.FindByIdAsync(id) != null;
                     if (!userExists)
                     {
                         return NotFound();
@@ -88,6 +84,7 @@ namespace ThesisDatenbank.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
+
             ViewData["ChairId"] = new SelectList(await _context.Chair.ToListAsync(), nameof(Chair.Id), nameof(Chair.Name), user.ChairId);
             return View(user);
         }
