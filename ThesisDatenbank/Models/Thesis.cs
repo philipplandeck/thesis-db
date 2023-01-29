@@ -60,7 +60,7 @@ namespace ThesisDatenbank.Models
         public int? StudentProgramId { get; set; }
 
         [Display(Name = "Studiengang des Studenten")]
-        public ProgramModel? StudentProgram { get; set; }
+        public virtual ProgramModel? StudentProgram { get; set; }
 
         [DataType(DataType.Date)]
         [Display(Name = "Anmeldedatum")]
@@ -167,7 +167,7 @@ namespace ThesisDatenbank.Models
         public int? SupervisorId { get; set; }
 
         [Display(Name = "Betreuer")]
-        public Supervisor? Supervisor { get; set; }
+        public virtual Supervisor? Supervisor { get; set; }
 
 
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)

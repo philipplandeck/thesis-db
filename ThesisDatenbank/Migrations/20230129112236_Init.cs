@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace ThesisDatenbank.Migrations
 {
-    public partial class DD : Migration
+    public partial class Init : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -101,7 +101,8 @@ namespace ThesisDatenbank.Migrations
                         name: "FK_AspNetUsers_Chair_ChairId",
                         column: x => x.ChairId,
                         principalTable: "Chair",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -113,7 +114,7 @@ namespace ThesisDatenbank.Migrations
                     FirstName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     LastName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Active = table.Column<bool>(type: "bit", nullable: false),
-                    ChairId = table.Column<int>(type: "int", nullable: true)
+                    ChairId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -122,7 +123,8 @@ namespace ThesisDatenbank.Migrations
                         name: "FK_Supervisor_Chair_ChairId",
                         column: x => x.ChairId,
                         principalTable: "Chair",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -249,7 +251,7 @@ namespace ThesisDatenbank.Migrations
                     RichnessWt = table.Column<int>(type: "int", nullable: false),
                     Grade = table.Column<double>(type: "float", nullable: true),
                     LastModified = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    SupervisorId = table.Column<int>(type: "int", nullable: true)
+                    SupervisorId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -263,18 +265,19 @@ namespace ThesisDatenbank.Migrations
                         name: "FK_Thesis_Supervisor_SupervisorId",
                         column: x => x.SupervisorId,
                         principalTable: "Supervisor",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.InsertData(
                 table: "AspNetRoles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
-                values: new object[] { "8cd2dcc5-1de3-4b8a-bb6c-3deb14da3880", "4dd5d4c8-e736-4f7a-9379-d25e612dd13d", "Administrator", "ADMINISTRATOR" });
+                values: new object[] { "1ff660c9-9a8c-40f8-8885-ed1fe54e5fcf", "af431917-4875-4474-9c4e-dd564c4e3dc4", "Administrator", "ADMINISTRATOR" });
 
             migrationBuilder.InsertData(
                 table: "AspNetUsers",
                 columns: new[] { "Id", "AccessFailedCount", "Activity", "ChairId", "ConcurrencyStamp", "Email", "EmailConfirmed", "FirstName", "LastName", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
-                values: new object[] { "acd726cd-3de1-4c88-9d62-f7c21ab06ca6", 0, 0, null, "91ab54c5-1be4-4d56-8947-e26505b97a52", "admin@thesis.de", false, "Hans", "Meier", false, null, "ADMIN@THESIS.DE", "ADMIN@THESIS.DE", "AQAAAAEAACcQAAAAEP4oBG+B2UN6QoiT3hfCEfRb9vK2QfF5PxYV6YszxGKhV4vkAfWCjuALrbcHci7q3Q==", null, false, "8f596ee3-8fa1-4ed5-8872-70ba6ccb40c1", false, "admin@thesis.de" });
+                values: new object[] { "bbceee4f-8dac-4bc2-ae31-cb710ab3c495", 0, 0, null, "cafe975f-2071-4d35-abe9-be853aaf19ec", "admin@thesis.de", false, "Hans", "Meier", false, null, "ADMIN@THESIS.DE", "ADMIN@THESIS.DE", "AQAAAAEAACcQAAAAEC1lTA/Nbk9B5fO25S1CuLH/SLGW/n0OQ7Rok78h/lbeAtECtyKWY92dso3IjiYBfQ==", null, false, "bbb5acf5-2675-42d2-ac22-5b73c97f0534", false, "admin@thesis.de" });
 
             migrationBuilder.InsertData(
                 table: "Program",
@@ -290,7 +293,7 @@ namespace ThesisDatenbank.Migrations
             migrationBuilder.InsertData(
                 table: "AspNetUserRoles",
                 columns: new[] { "RoleId", "UserId" },
-                values: new object[] { "8cd2dcc5-1de3-4b8a-bb6c-3deb14da3880", "acd726cd-3de1-4c88-9d62-f7c21ab06ca6" });
+                values: new object[] { "1ff660c9-9a8c-40f8-8885-ed1fe54e5fcf", "bbceee4f-8dac-4bc2-ae31-cb710ab3c495" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",

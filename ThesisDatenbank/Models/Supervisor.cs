@@ -24,6 +24,8 @@ namespace ThesisDatenbank.Models
         public int? ChairId { get; set; }
 
         [Display(Name = "Lehrstuhl")]
-        public Chair? Chair { get; set; }
+        public virtual Chair? Chair { get; set; }
+
+        public virtual ICollection<Thesis>? Theses { get; set; }
     }
 }

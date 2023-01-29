@@ -63,27 +63,35 @@ namespace ThesisDatenbank.Controllers
                 selectList.Where(x => x.Value.ToString() == chairFilter).First().Selected = true;
             }
 
+            ViewData["ChairFilter"] = selectList;
+            ViewData["ChairString"] = chairFilter;
+            ViewData["StudentFilter"] = studentFilter;
+            ViewData["TitleFilter"] = titleFilter;
+
             const int length = 10;
 
             ViewData["From"] = length;
             ViewData["Length"] = length;
             ViewData["More"] = appDbContext.Count() > length;
 
-            ViewData["ChairFilter"] = selectList;
-            ViewData["StudentFilter"] = studentFilter;
-            ViewData["TitleFilter"] = titleFilter;
-
             return View(await appDbContext.Take(length).ToListAsync());
         }
 
         // GET: Theses (PartialView)
-        public async Task<IActionResult> LoadMoreTheses(int from, int length)
+        public async Task<IActionResult> LoadMoreTheses(int from, int length, string? chair, string? student, string? title)
         {
-            Uri currentUrl = new Uri(Request.GetDisplayUrl());
-            string? chairFilter = HttpUtility.ParseQueryString(currentUrl.Query).Get("ChairFilter");
-            string? studentFilter = HttpUtility.ParseQueryString(currentUrl.Query).Get("StudentFilter");
-            string? titleFilter = HttpUtility.ParseQueryString(currentUrl.Query).Get("TitleFilter");
-            IQueryable<Thesis> appDbContext = GetTheses(chairFilter, studentFilter, titleFilter);
+            /* Not working due to changed URL
+             * Uri currentUrl = new Uri(Request.GetDisplayUrl());
+             * string? chairFilter = HttpUtility.ParseQueryString(currentUrl.Query).Get("ChairFilter");
+             * string? studentFilter = HttpUtility.ParseQueryString(currentUrl.Query).Get("StudentFilter");
+             * string? titleFilter = HttpUtility.ParseQueryString(currentUrl.Query).Get("TitleFilter");
+             */
+
+            IQueryable<Thesis> appDbContext = GetTheses(chair, student, title);
+
+            ViewData["ChairString"] = chair;
+            ViewData["StudentFilter"] = student;
+            ViewData["TitleFilter"] = title;
 
             ViewData["From"] = from + length;
             ViewData["Length"] = length;

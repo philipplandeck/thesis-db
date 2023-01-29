@@ -12,8 +12,8 @@ namespace ThesisDatenbank.Models
         [Display(Name = "Lehrstuhl")]
         public string Name { get; set; }
 
-        public ICollection<Supervisor>? Supervisors { get; set; }
+        public virtual ICollection<Supervisor>? Supervisors { get; set; }
 
-        public ICollection<AppUser>? Users { get; set; }
+        public virtual ICollection<AppUser>? Users { get; set; }
     }
 }

@@ -72,6 +72,9 @@
             $.get("@Url.Action("LoadMoreTheses")", {
                 from: $("#LoadButton").attr("data-from"),
                 length: $("#LoadButton").attr("data-length"),
+                chair: $("#LoadButton").attr("data-chair"),
+                student: $("#LoadButton").attr("data-student"),
+                title: $("#LoadButton").attr("data-title"),
             },
                 function (data, status, jq) {
                     $("#LoadRow").replaceWith(data);

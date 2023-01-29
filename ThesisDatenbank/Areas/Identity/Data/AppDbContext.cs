@@ -18,9 +18,31 @@ public class AppDbContext : IdentityDbContext<AppUser>
     public DbSet<ProgramModel> Program { get; set; }
     public DbSet<Chair> Chair { get; set; }
 
-    protected override void OnModelCreating(ModelBuilder builder)
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        base.OnModelCreating(builder);
+        base.OnModelCreating(modelBuilder);
+
+        /*
+         * One-to-many relationships according to
+         * https://learn.microsoft.com/en-us/ef/core/modeling/relationships?tabs=fluent-api%2Cfluent-api-simple-key%2Csimple-key
+         */
+        modelBuilder.Entity<Supervisor>()
+            .HasOne(s => s.Chair)
+            .WithMany(c => c.Supervisors)
+            .IsRequired()
+            .OnDelete(DeleteBehavior.Cascade);
+
+        modelBuilder.Entity<AppUser>()
+            .HasOne(u => u.Chair)
+            .WithMany(c => c.Users)
+            .IsRequired(false)
+            .OnDelete(DeleteBehavior.Cascade);
+
+        modelBuilder.Entity<Thesis>()
+            .HasOne(t => t.Supervisor)
+            .WithMany(s => s.Theses)
+            .IsRequired()
+            .OnDelete(DeleteBehavior.Cascade);
 
         string adminUsername = "admin@thesis.de";
         string adminPassword = "admin";
@@ -37,32 +59,23 @@ public class AppDbContext : IdentityDbContext<AppUser>
         };
         PasswordHasher<AppUser> hasher = new PasswordHasher<AppUser>();
         user.PasswordHash = hasher.HashPassword(user, adminPassword);
-        builder.Entity<AppUser>().HasData(user);
+        modelBuilder.Entity<AppUser>().HasData(user);
 
         IdentityRole role = new IdentityRole() { Id = Guid.NewGuid().ToString(), Name = "Administrator" };
         role.NormalizedName = role.Name.ToUpper();
-        builder.Entity<IdentityRole>().HasData(role);
+        modelBuilder.Entity<IdentityRole>().HasData(role);
 
         IdentityUserRole<string> ur = new IdentityUserRole<string> { UserId = user.Id, RoleId = role.Id };
-        builder.Entity<IdentityUserRole<string>>().HasData(ur);
+        modelBuilder.Entity<IdentityUserRole<string>>().HasData(ur);
 
         List<ProgramModel.ProgramType> programs = Enum.GetValues(typeof(ProgramModel.ProgramType)).Cast<ProgramModel.ProgramType>().ToList();
         foreach (ProgramModel.ProgramType program in programs)
         {
-            builder.Entity<ProgramModel>().HasData(new ProgramModel()
+            modelBuilder.Entity<ProgramModel>().HasData(new ProgramModel()
             {
                 Id = programs.IndexOf(program) + 1,
                 Name = program
             });
         }
-
-        /* According to
-         * https://learn.microsoft.com/en-us/ef/core/saving/cascade-delete
-        
-        builder.
-            Entity<Chair>()
-            .HasMany(s => s.Supervisors)
-            .WithOne(x => x.Chair)
-            .OnDelete(DeleteBehavior.ClientCascade); */
     }
 }

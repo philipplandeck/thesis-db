@@ -51,8 +51,8 @@ namespace ThesisDatenbank.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "8cd2dcc5-1de3-4b8a-bb6c-3deb14da3880",
-                            ConcurrencyStamp = "4dd5d4c8-e736-4f7a-9379-d25e612dd13d",
+                            Id = "1ff660c9-9a8c-40f8-8885-ed1fe54e5fcf",
+                            ConcurrencyStamp = "af431917-4875-4474-9c4e-dd564c4e3dc4",
                             Name = "Administrator",
                             NormalizedName = "ADMINISTRATOR"
                         });
@@ -149,8 +149,8 @@ namespace ThesisDatenbank.Migrations
                     b.HasData(
                         new
                         {
-                            UserId = "acd726cd-3de1-4c88-9d62-f7c21ab06ca6",
-                            RoleId = "8cd2dcc5-1de3-4b8a-bb6c-3deb14da3880"
+                            UserId = "bbceee4f-8dac-4bc2-ae31-cb710ab3c495",
+                            RoleId = "1ff660c9-9a8c-40f8-8885-ed1fe54e5fcf"
                         });
                 });
 
@@ -258,10 +258,10 @@ namespace ThesisDatenbank.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "acd726cd-3de1-4c88-9d62-f7c21ab06ca6",
+                            Id = "bbceee4f-8dac-4bc2-ae31-cb710ab3c495",
                             AccessFailedCount = 0,
                             Activity = 0,
-                            ConcurrencyStamp = "91ab54c5-1be4-4d56-8947-e26505b97a52",
+                            ConcurrencyStamp = "cafe975f-2071-4d35-abe9-be853aaf19ec",
                             Email = "admin@thesis.de",
                             EmailConfirmed = false,
                             FirstName = "Hans",
@@ -269,9 +269,9 @@ namespace ThesisDatenbank.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@THESIS.DE",
                             NormalizedUserName = "ADMIN@THESIS.DE",
-                            PasswordHash = "AQAAAAEAACcQAAAAEP4oBG+B2UN6QoiT3hfCEfRb9vK2QfF5PxYV6YszxGKhV4vkAfWCjuALrbcHci7q3Q==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEC1lTA/Nbk9B5fO25S1CuLH/SLGW/n0OQ7Rok78h/lbeAtECtyKWY92dso3IjiYBfQ==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "8f596ee3-8fa1-4ed5-8872-70ba6ccb40c1",
+                            SecurityStamp = "bbb5acf5-2675-42d2-ac22-5b73c97f0534",
                             TwoFactorEnabled = false,
                             UserName = "admin@thesis.de"
                         });
@@ -344,6 +344,7 @@ namespace ThesisDatenbank.Migrations
                         .HasColumnType("bit");
 
                     b.Property<int?>("ChairId")
+                        .IsRequired()
                         .HasColumnType("int");
 
                     b.Property<string>("FirstName")
@@ -464,6 +465,7 @@ namespace ThesisDatenbank.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int?>("SupervisorId")
+                        .IsRequired()
                         .HasColumnType("int");
 
                     b.Property<string>("Title")
@@ -537,7 +539,8 @@ namespace ThesisDatenbank.Migrations
                 {
                     b.HasOne("ThesisDatenbank.Models.Chair", "Chair")
                         .WithMany("Users")
-                        .HasForeignKey("ChairId");
+                        .HasForeignKey("ChairId")
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.Navigation("Chair");
                 });
@@ -546,7 +549,9 @@ namespace ThesisDatenbank.Migrations
                 {
                     b.HasOne("ThesisDatenbank.Models.Chair", "Chair")
                         .WithMany("Supervisors")
-                        .HasForeignKey("ChairId");
+                        .HasForeignKey("ChairId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Chair");
                 });
@@ -558,8 +563,10 @@ namespace ThesisDatenbank.Migrations
                         .HasForeignKey("StudentProgramId");
 
                     b.HasOne("ThesisDatenbank.Models.Supervisor", "Supervisor")
-                        .WithMany()
-                        .HasForeignKey("SupervisorId");
+                        .WithMany("Theses")
+                        .HasForeignKey("SupervisorId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("StudentProgram");
 
@@ -571,6 +578,11 @@ namespace ThesisDatenbank.Migrations
                     b.Navigation("Supervisors");
 
                     b.Navigation("Users");
+                });
+
+            modelBuilder.Entity("ThesisDatenbank.Models.Supervisor", b =>
+                {
+                    b.Navigation("Theses");
                 });
 #pragma warning restore 612, 618
         }
