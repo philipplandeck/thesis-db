@@ -44,7 +44,7 @@ namespace ThesisDatenbank.Models
 
         [Required]
         [Display(Name = "Status")]
-        public StatusType Status { get; set; }
+        public StatusType Status { get; set; } = StatusType.Available;
 
         [Display(Name = "Name des Studenten")]
         public string? StudentName { get; set; }

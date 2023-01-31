@@ -17,6 +17,24 @@
 </style>
 
 <h1>Übersicht Thesen</h1>
+<hr />
+@using (Html.BeginForm("Index", "Overview", FormMethod.Get))
+{
+    <div class="col-md-4">
+        <div class="mb-3">
+            <label for="ChairFilter" class="form-label">Nach Lehrstuhl filtern:</label>
+            <select name="ChairFilter" id="ChairFilter" class="form-control" asp-items="ViewBag.ChairFilter">
+                <option value="">--- Nicht Filtern ---</option>
+            </select>
+        </div>
+        <div class="mb-3">
+            <input type="submit" value="Filter anwenden" class="btn btn-primary" />
+        </div>
+    </div>
+}
+<hr />
+<br />
+
 <table class="table">
     <thead>
         <tr>
@@ -64,6 +82,6 @@
     <script type="text/javascript">
         function toggleRow(row) {
             $("#" + row).toggle();
-        }
+        };
     </script>
 }

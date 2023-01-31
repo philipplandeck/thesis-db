@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using System.Text;
 using ThesisDatenbank.Data;
@@ -15,14 +16,23 @@ namespace ThesisDatenbank.Controllers
             _context = context;
         }
 
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string? chairFilter)
         {
             var appDbContext = _context.Thesis.Include(t => t.StudentProgram).Include(t => t.Supervisor)
-                .Where(x => x.Status == Thesis.StatusType.Available || x.Status == Thesis.StatusType.Allocated)
-                .OrderBy(x => x.Supervisor.ChairId);
+                .Where(t => t.Status == Thesis.StatusType.Available || t.Status == Thesis.StatusType.Allocated);
+
+            SelectList chairSelectList = new(_context.Chair, "Id", "Name");
+
+            if (!string.IsNullOrEmpty(chairFilter))
+            {
+                appDbContext = appDbContext.Where(t => t.Supervisor != null && t.Supervisor.ChairId != null && t.Supervisor.ChairId.ToString() == chairFilter);
+                chairSelectList.Where(x => x.Value.ToString() == chairFilter).First().Selected = true;
+            }
+
+            ViewData["ChairFilter"] = chairSelectList;
 
             await CreateEmails(appDbContext);
-            
+
             return View(await appDbContext.ToListAsync());
         }
 
@@ -50,6 +60,9 @@ namespace ThesisDatenbank.Controllers
             {
                 switch (letter)
                 {
+                    case 'ß':
+                        stringBuilder.Append("ss");
+                        break;
                     case 'ä':
                         stringBuilder.Append("ae");
                         break;

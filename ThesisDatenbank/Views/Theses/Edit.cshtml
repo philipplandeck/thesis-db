@@ -174,12 +174,15 @@
                 <span asp-validation-for="Grade" class="text-danger"></span>
             </div>
             <div class="mb-3">
-                <input type="hidden" asp-for="LastModified" />
+                <label asp-for="Supervisor.Chair" class="form-label"></label>
+                <select id="SelectChair" class="form-control" asp-items="ViewBag.Chairs">
+                    <option value="-1">--- Auswählen ---</option>
+                </select>
             </div>
             <div class="mb-3">
                 <label asp-for="Supervisor" class="form-label"></label>
-                <select asp-for="SupervisorId" class="form-control" asp-items="ViewBag.SupervisorId">
-                    <option disabled>--- Auswählen ---</option>
+                <select id="SelectSupervisor" asp-for="SupervisorId" class="form-control" asp-items="ViewBag.Supervisors">
+                    <option value="-1">--- Auswählen ---</option>
                 </select>
             </div>
             <div class="mb-3">
@@ -197,4 +200,30 @@
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }
+
+    <script>
+        $(document).ready(function () {
+            $("#SelectChair").on("change", function () {
+                $.get("@Url.Action("GetSupervisorSelectList")", {
+                    chairId: this.value
+                },
+                    function (data, status, jq) {
+                        var items = "<option value='-1'>--- Auswählen ---</option>";
+                        $(data).each(function () {
+                            items += "<option value='" + this.value + "'>" + this.text + "</option>";
+                        });
+                        $("#SelectSupervisor").html(items);
+                    });
+            });
+
+            $("#SelectSupervisor").on("change", function () {
+                $.get("@Url.Action("GetChairId")", {
+                    supervisorId: this.value
+                },
+                    function (data, status, jq) {
+                        $("#SelectChair").val(data);
+                    });
+            });
+        });
+    </script>
 }

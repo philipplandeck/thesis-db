@@ -1,9 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using System.Web;
 using ThesisDatenbank.Data;
 using ThesisDatenbank.Models;
 
@@ -23,32 +21,62 @@ namespace ThesisDatenbank.Controllers
         {
             IQueryable<Thesis> appDbContext = _context.Thesis.Include(t => t.StudentProgram).Include(t => t.Supervisor);
 
-            if (!String.IsNullOrEmpty(chairFilter))
+            if (!string.IsNullOrEmpty(chairFilter))
             {
-                appDbContext = appDbContext.Where(s => s.Supervisor.ChairId.ToString() == chairFilter);
+                appDbContext = appDbContext.Where(t => t.Supervisor != null && t.Supervisor.ChairId != null && t.Supervisor.ChairId.ToString() == chairFilter);
             }
-            if (!String.IsNullOrEmpty(studentFilter))
+            if (!string.IsNullOrEmpty(studentFilter))
             {
-                appDbContext = appDbContext.Where(s => s.StudentName.Contains(studentFilter));
+                appDbContext = appDbContext.Where(t => t.StudentName != null && t.StudentName.Contains(studentFilter));
             }
-            if (!String.IsNullOrEmpty(titleFilter))
+            if (!string.IsNullOrEmpty(titleFilter))
             {
-                appDbContext = appDbContext.Where(s => s.Title.Contains(titleFilter));
+                appDbContext = appDbContext.Where(t => t.Title != null && t.Title.Contains(titleFilter));
             }
 
-            return appDbContext.OrderBy(item => item.Registration);
+            return appDbContext.OrderBy(t => t.Registration);
         }
 
-        public SelectList GetSupervisorSelectList(int? selectedSupervisor)
+        public int GetChairId(int supervisorId)
         {
-            List<SelectListItem> supervisorList = new List<SelectListItem>();
-            foreach (Supervisor supervisor in _context.Supervisor.Where(s => s.Active == true).ToList())
+            if (supervisorId != -1)
+            {
+                Supervisor? supervisor = _context.Supervisor.Find(supervisorId);
+                if (supervisor != null)
+                {
+                    int? chairId = supervisor.ChairId;
+                    if (chairId != null)
+                    {
+                        return (int) chairId;
+                    }
+                }
+
+            }
+            return supervisorId;
+        }
+
+        public SelectList GetSupervisorSelectList(int? chairId, int? selectedSupervisorId)
+        {
+            List<SelectListItem> selectListItems = new();
+            List<Supervisor> supervisors = new();
+
+            if (chairId == null || chairId == -1) 
+            {
+                supervisors = _context.Supervisor.Where(s => s.Active == true).ToList();
+            }
+            else
+            {
+                supervisors = _context.Supervisor.Where(s => s.ChairId != null && s.ChairId == chairId).Where(s => s.Active == true).ToList();
+            }
+
+            foreach (Supervisor supervisor in supervisors)
             {
                 string text = supervisor.FirstName + " " + supervisor.LastName;
                 string value = supervisor.Id.ToString();
-                supervisorList.Add(new SelectListItem() { Text = text, Value = value });
+                selectListItems.Add(new SelectListItem() { Text = text, Value = value });
             }
-            return new SelectList(supervisorList, "Value", "Text", selectedSupervisor);
+
+            return new SelectList(selectListItems, "Value", "Text", selectedSupervisorId);
         }
 
         // GET: Theses
@@ -56,14 +84,14 @@ namespace ThesisDatenbank.Controllers
         {
             IQueryable<Thesis> appDbContext = GetTheses(chairFilter, studentFilter, titleFilter);
 
-            SelectList selectList = new SelectList(_context.Chair, "Id", "Name");
+            SelectList chairSelectList = new(_context.Chair, "Id", "Name");
 
-            if (!String.IsNullOrEmpty(chairFilter))
+            if (!string.IsNullOrEmpty(chairFilter))
             {
-                selectList.Where(x => x.Value.ToString() == chairFilter).First().Selected = true;
+                chairSelectList.Where(x => x.Value.ToString() == chairFilter).First().Selected = true;
             }
 
-            ViewData["ChairFilter"] = selectList;
+            ViewData["ChairFilter"] = chairSelectList;
             ViewData["ChairString"] = chairFilter;
             ViewData["StudentFilter"] = studentFilter;
             ViewData["TitleFilter"] = titleFilter;
@@ -80,13 +108,6 @@ namespace ThesisDatenbank.Controllers
         // GET: Theses (PartialView)
         public async Task<IActionResult> LoadMoreTheses(int from, int length, string? chair, string? student, string? title)
         {
-            /* Not working due to changed URL
-             * Uri currentUrl = new Uri(Request.GetDisplayUrl());
-             * string? chairFilter = HttpUtility.ParseQueryString(currentUrl.Query).Get("ChairFilter");
-             * string? studentFilter = HttpUtility.ParseQueryString(currentUrl.Query).Get("StudentFilter");
-             * string? titleFilter = HttpUtility.ParseQueryString(currentUrl.Query).Get("TitleFilter");
-             */
-
             IQueryable<Thesis> appDbContext = GetTheses(chair, student, title);
 
             ViewData["ChairString"] = chair;
@@ -123,7 +144,8 @@ namespace ThesisDatenbank.Controllers
         // GET: Theses/Create
         public IActionResult Create()
         {
-            ViewData["SupervisorId"] = GetSupervisorSelectList(null);
+            ViewData["Chairs"] = new SelectList(_context.Chair, "Id", "Name");
+            ViewData["Supervisors"] = GetSupervisorSelectList(null, null);
             return View(new Thesis());
         }
 
@@ -134,19 +156,28 @@ namespace ThesisDatenbank.Controllers
         {
             if (ModelState.IsValid)
             {
-                if (thesis.StudentProgramId == -1)
+                if (thesis.SupervisorId == -1)
                 {
-                    thesis.StudentProgramId = null;
-                }
-                else
-                {
-                    thesis.StudentProgramId++;
+                    thesis.SupervisorId = null;
                 }
                 _context.Add(thesis);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["SupervisorId"] = GetSupervisorSelectList(thesis.SupervisorId);
+            if (thesis.SupervisorId is not null and not (-1))
+            {
+                Supervisor? supervisor = await _context.Supervisor.FindAsync(thesis.SupervisorId);
+                if (supervisor != null)
+                {
+                    ViewData["Chairs"] = new SelectList(_context.Chair, "Id", "Name", supervisor.ChairId);
+                    ViewData["Supervisors"] = GetSupervisorSelectList(supervisor.ChairId, thesis.SupervisorId);
+                }
+            }
+            else
+            {
+                ViewData["Chairs"] = new SelectList(_context.Chair, "Id", "Name");
+                ViewData["Supervisors"] = GetSupervisorSelectList(null, null);
+            }
             return View(thesis);
         }
 
@@ -163,7 +194,20 @@ namespace ThesisDatenbank.Controllers
             {
                 return NotFound();
             }
-            ViewData["SupervisorId"] = GetSupervisorSelectList(thesis.SupervisorId);
+            if (thesis.SupervisorId is not null and not (-1))
+            {
+                Supervisor? supervisor = await _context.Supervisor.FindAsync(thesis.SupervisorId);
+                if (supervisor != null)
+                {
+                    ViewData["Chairs"] = new SelectList(_context.Chair, "Id", "Name", supervisor.ChairId);
+                    ViewData["Supervisors"] = GetSupervisorSelectList(supervisor.ChairId, thesis.SupervisorId);
+                }
+            }
+            else
+            {
+                ViewData["Chairs"] = new SelectList(_context.Chair, "Id", "Name");
+                ViewData["Supervisors"] = GetSupervisorSelectList(null, null);
+            }
             return View(thesis);
         }
 
@@ -189,6 +233,10 @@ namespace ThesisDatenbank.Controllers
                     {
                         thesis.StudentProgramId++;
                     }
+                    if (thesis.SupervisorId == -1)
+                    {
+                        thesis.SupervisorId = null;
+                    }
                     thesis.LastModified = DateTime.Now;
                     _context.Update(thesis);
                     await _context.SaveChangesAsync();
@@ -206,7 +254,20 @@ namespace ThesisDatenbank.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["SupervisorId"] = GetSupervisorSelectList(thesis.SupervisorId);
+            if (thesis.SupervisorId is not null and not (-1))
+            {
+                Supervisor? supervisor = await _context.Supervisor.FindAsync(thesis.SupervisorId);
+                if (supervisor != null)
+                {
+                    ViewData["Chairs"] = new SelectList(_context.Chair, "Id", "Name", supervisor.ChairId);
+                    ViewData["Supervisors"] = GetSupervisorSelectList(supervisor.ChairId, thesis.SupervisorId);
+                }
+            }
+            else
+            {
+                ViewData["Chairs"] = new SelectList(_context.Chair, "Id", "Name");
+                ViewData["Supervisors"] = GetSupervisorSelectList(null, null);
+            }
             return View(thesis);
         }
 
