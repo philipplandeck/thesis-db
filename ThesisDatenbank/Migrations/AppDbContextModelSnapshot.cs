@@ -51,8 +51,8 @@ namespace ThesisDatenbank.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "1ff660c9-9a8c-40f8-8885-ed1fe54e5fcf",
-                            ConcurrencyStamp = "af431917-4875-4474-9c4e-dd564c4e3dc4",
+                            Id = "e3fbd14a-bbcc-4f45-83db-0a3c37db8817",
+                            ConcurrencyStamp = "6b3acbb2-a97a-4450-9f97-89b98aaa9bba",
                             Name = "Administrator",
                             NormalizedName = "ADMINISTRATOR"
                         });
@@ -149,8 +149,8 @@ namespace ThesisDatenbank.Migrations
                     b.HasData(
                         new
                         {
-                            UserId = "bbceee4f-8dac-4bc2-ae31-cb710ab3c495",
-                            RoleId = "1ff660c9-9a8c-40f8-8885-ed1fe54e5fcf"
+                            UserId = "62fddf35-96d1-4b21-9925-68ab2b12e4f3",
+                            RoleId = "e3fbd14a-bbcc-4f45-83db-0a3c37db8817"
                         });
                 });
 
@@ -187,6 +187,7 @@ namespace ThesisDatenbank.Migrations
                         .HasColumnType("int");
 
                     b.Property<int?>("ChairId")
+                        .IsRequired()
                         .HasColumnType("int");
 
                     b.Property<string>("ConcurrencyStamp")
@@ -258,10 +259,11 @@ namespace ThesisDatenbank.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "bbceee4f-8dac-4bc2-ae31-cb710ab3c495",
+                            Id = "62fddf35-96d1-4b21-9925-68ab2b12e4f3",
                             AccessFailedCount = 0,
                             Activity = 0,
-                            ConcurrencyStamp = "cafe975f-2071-4d35-abe9-be853aaf19ec",
+                            ChairId = 2,
+                            ConcurrencyStamp = "7d80efda-7e3b-4f20-9f5f-528131a8f23c",
                             Email = "admin@thesis.de",
                             EmailConfirmed = false,
                             FirstName = "Hans",
@@ -269,9 +271,9 @@ namespace ThesisDatenbank.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@THESIS.DE",
                             NormalizedUserName = "ADMIN@THESIS.DE",
-                            PasswordHash = "AQAAAAEAACcQAAAAEC1lTA/Nbk9B5fO25S1CuLH/SLGW/n0OQ7Rok78h/lbeAtECtyKWY92dso3IjiYBfQ==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEOq8xzsnyt3Xl3AERpMboOGu3P7lpRDF9eDug4i8yVpjra/Ca2YKYgVz26fD1rOJpQ==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "bbb5acf5-2675-42d2-ac22-5b73c97f0534",
+                            SecurityStamp = "3696c2af-60d2-4a55-831a-985ac196e830",
                             TwoFactorEnabled = false,
                             UserName = "admin@thesis.de"
                         });
@@ -292,6 +294,28 @@ namespace ThesisDatenbank.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Chair");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Name = "BWL und Wirtschaftsinformatik"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Name = "Wirtschaftsinformatik und Systementwicklung"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Name = "Wirtschaftsinformatik und Business Analytics"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Name = "Prozess- und IT-Integration für KI im Unternehmen"
+                        });
                 });
 
             modelBuilder.Entity("ThesisDatenbank.Models.ProgramModel", b =>
@@ -347,6 +371,10 @@ namespace ThesisDatenbank.Migrations
                         .IsRequired()
                         .HasColumnType("int");
 
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("FirstName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -355,9 +383,14 @@ namespace ThesisDatenbank.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
+
                     b.HasKey("Id");
 
                     b.HasIndex("ChairId");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("Supervisor");
                 });
@@ -540,7 +573,8 @@ namespace ThesisDatenbank.Migrations
                     b.HasOne("ThesisDatenbank.Models.Chair", "Chair")
                         .WithMany("Users")
                         .HasForeignKey("ChairId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Chair");
                 });
@@ -553,7 +587,13 @@ namespace ThesisDatenbank.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("ThesisDatenbank.Areas.Identity.Data.AppUser", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId");
+
                     b.Navigation("Chair");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("ThesisDatenbank.Models.Thesis", b =>

@@ -78,7 +78,7 @@ namespace ThesisDatenbank.Migrations
                     FirstName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     LastName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Activity = table.Column<int>(type: "int", nullable: false),
-                    ChairId = table.Column<int>(type: "int", nullable: true),
+                    ChairId = table.Column<int>(type: "int", nullable: false),
                     UserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     NormalizedUserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     Email = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
@@ -99,28 +99,6 @@ namespace ThesisDatenbank.Migrations
                     table.PrimaryKey("PK_AspNetUsers", x => x.Id);
                     table.ForeignKey(
                         name: "FK_AspNetUsers_Chair_ChairId",
-                        column: x => x.ChairId,
-                        principalTable: "Chair",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Supervisor",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    FirstName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    LastName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Active = table.Column<bool>(type: "bit", nullable: false),
-                    ChairId = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Supervisor", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Supervisor_Chair_ChairId",
                         column: x => x.ChairId,
                         principalTable: "Chair",
                         principalColumn: "Id",
@@ -213,6 +191,35 @@ namespace ThesisDatenbank.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Supervisor",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    FirstName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    LastName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Active = table.Column<bool>(type: "bit", nullable: false),
+                    ChairId = table.Column<int>(type: "int", nullable: false),
+                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Supervisor", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Supervisor_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_Supervisor_Chair_ChairId",
+                        column: x => x.ChairId,
+                        principalTable: "Chair",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Thesis",
                 columns: table => new
                 {
@@ -272,12 +279,18 @@ namespace ThesisDatenbank.Migrations
             migrationBuilder.InsertData(
                 table: "AspNetRoles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
-                values: new object[] { "1ff660c9-9a8c-40f8-8885-ed1fe54e5fcf", "af431917-4875-4474-9c4e-dd564c4e3dc4", "Administrator", "ADMINISTRATOR" });
+                values: new object[] { "e3fbd14a-bbcc-4f45-83db-0a3c37db8817", "6b3acbb2-a97a-4450-9f97-89b98aaa9bba", "Administrator", "ADMINISTRATOR" });
 
             migrationBuilder.InsertData(
-                table: "AspNetUsers",
-                columns: new[] { "Id", "AccessFailedCount", "Activity", "ChairId", "ConcurrencyStamp", "Email", "EmailConfirmed", "FirstName", "LastName", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
-                values: new object[] { "bbceee4f-8dac-4bc2-ae31-cb710ab3c495", 0, 0, null, "cafe975f-2071-4d35-abe9-be853aaf19ec", "admin@thesis.de", false, "Hans", "Meier", false, null, "ADMIN@THESIS.DE", "ADMIN@THESIS.DE", "AQAAAAEAACcQAAAAEC1lTA/Nbk9B5fO25S1CuLH/SLGW/n0OQ7Rok78h/lbeAtECtyKWY92dso3IjiYBfQ==", null, false, "bbb5acf5-2675-42d2-ac22-5b73c97f0534", false, "admin@thesis.de" });
+                table: "Chair",
+                columns: new[] { "Id", "Name" },
+                values: new object[,]
+                {
+                    { 1, "BWL und Wirtschaftsinformatik" },
+                    { 2, "Wirtschaftsinformatik und Systementwicklung" },
+                    { 3, "Wirtschaftsinformatik und Business Analytics" },
+                    { 4, "Prozess- und IT-Integration für KI im Unternehmen" }
+                });
 
             migrationBuilder.InsertData(
                 table: "Program",
@@ -291,9 +304,14 @@ namespace ThesisDatenbank.Migrations
                 });
 
             migrationBuilder.InsertData(
+                table: "AspNetUsers",
+                columns: new[] { "Id", "AccessFailedCount", "Activity", "ChairId", "ConcurrencyStamp", "Email", "EmailConfirmed", "FirstName", "LastName", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
+                values: new object[] { "62fddf35-96d1-4b21-9925-68ab2b12e4f3", 0, 0, 2, "7d80efda-7e3b-4f20-9f5f-528131a8f23c", "admin@thesis.de", false, "Hans", "Meier", false, null, "ADMIN@THESIS.DE", "ADMIN@THESIS.DE", "AQAAAAEAACcQAAAAEOq8xzsnyt3Xl3AERpMboOGu3P7lpRDF9eDug4i8yVpjra/Ca2YKYgVz26fD1rOJpQ==", null, false, "3696c2af-60d2-4a55-831a-985ac196e830", false, "admin@thesis.de" });
+
+            migrationBuilder.InsertData(
                 table: "AspNetUserRoles",
                 columns: new[] { "RoleId", "UserId" },
-                values: new object[] { "1ff660c9-9a8c-40f8-8885-ed1fe54e5fcf", "bbceee4f-8dac-4bc2-ae31-cb710ab3c495" });
+                values: new object[] { "e3fbd14a-bbcc-4f45-83db-0a3c37db8817", "62fddf35-96d1-4b21-9925-68ab2b12e4f3" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
@@ -345,6 +363,11 @@ namespace ThesisDatenbank.Migrations
                 column: "ChairId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Supervisor_UserId",
+                table: "Supervisor",
+                column: "UserId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Thesis_StudentProgramId",
                 table: "Thesis",
                 column: "StudentProgramId");
@@ -379,13 +402,13 @@ namespace ThesisDatenbank.Migrations
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
-                name: "AspNetUsers");
-
-            migrationBuilder.DropTable(
                 name: "Program");
 
             migrationBuilder.DropTable(
                 name: "Supervisor");
+
+            migrationBuilder.DropTable(
+                name: "AspNetUsers");
 
             migrationBuilder.DropTable(
                 name: "Chair");

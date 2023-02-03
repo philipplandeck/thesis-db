@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using ThesisDatenbank.Areas.Identity.Data;
 
 namespace ThesisDatenbank.Models
 {
@@ -17,6 +18,11 @@ namespace ThesisDatenbank.Models
         public string LastName { get; set; }
 
         [Required]
+        [EmailAddress]
+        [Display(Name = "E-Mail-Adresse")]
+        public string Email { get; set; }
+
+        [Required]
         [Display(Name = "Aktiver Mitarbeiter?")]
         public bool Active { get; set; }
 
@@ -25,6 +31,12 @@ namespace ThesisDatenbank.Models
 
         [Display(Name = "Lehrstuhl")]
         public virtual Chair? Chair { get; set; }
+
+        [ForeignKey("AppUser")]
+        public string? UserId { get; set; }
+
+        [Display(Name = "Lehrstuhl")]
+        public virtual AppUser? User { get; set; }
 
         public virtual ICollection<Thesis>? Theses { get; set; }
     }

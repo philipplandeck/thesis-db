@@ -24,8 +24,9 @@ public class AppUser : IdentityUser
     [Display(Name = "Nachname")]
     public string LastName { get; set; }
 
+    [Required]
     [Display(Name = "Aktivitätsstatus")]
-    public ActivityType Activity { get; set; }
+    public ActivityType Activity { get; set; } = ActivityType.active;
 
     [ForeignKey("Chair")]
     public int? ChairId { get; set; }

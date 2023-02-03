@@ -7,7 +7,7 @@ namespace ThesisDatenbank.Models
         public enum ProgramType
         {
             [Display(Name = "Bachelor Wirtschaftsinformatik")]
-            BAWI,
+            BAWIINFO,
 
             [Display(Name = "Bachelor Wirtschaftswissenschaften")]
             BAWIWI,

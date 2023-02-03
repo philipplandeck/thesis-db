@@ -8,24 +8,20 @@ namespace ThesisDatenbank.Data;
 
 public class AppDbContext : IdentityDbContext<AppUser>
 {
+    public DbSet<Chair> Chair { get; set; }
+    public DbSet<Supervisor> Supervisor { get; set; }
+    public DbSet<Thesis> Thesis { get; set; }
+    public DbSet<ProgramModel> Program { get; set; }
+
     public AppDbContext(DbContextOptions<AppDbContext> options)
         : base(options)
     {
     }
 
-    public DbSet<Thesis> Thesis { get; set; }
-    public DbSet<Supervisor> Supervisor { get; set; }
-    public DbSet<ProgramModel> Program { get; set; }
-    public DbSet<Chair> Chair { get; set; }
-
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
 
-        /*
-         * One-to-many relationships according to
-         * https://learn.microsoft.com/en-us/ef/core/modeling/relationships?tabs=fluent-api%2Cfluent-api-simple-key%2Csimple-key
-         */
         modelBuilder.Entity<Supervisor>()
             .HasOne(s => s.Chair)
             .WithMany(c => c.Supervisors)
@@ -35,7 +31,7 @@ public class AppDbContext : IdentityDbContext<AppUser>
         modelBuilder.Entity<AppUser>()
             .HasOne(u => u.Chair)
             .WithMany(c => c.Users)
-            .IsRequired(false)
+            .IsRequired()
             .OnDelete(DeleteBehavior.Cascade);
 
         modelBuilder.Entity<Thesis>()
@@ -43,30 +39,22 @@ public class AppDbContext : IdentityDbContext<AppUser>
             .WithMany(s => s.Theses)
             .IsRequired()
             .OnDelete(DeleteBehavior.Cascade);
-
-        string adminUsername = "admin@thesis.de";
-        string adminPassword = "admin";
-        AppUser user = new AppUser
+        
+        List<string> chairs = new()
         {
-            Id = Guid.NewGuid().ToString(),
-            FirstName = "Hans",
-            LastName = "Meier",
-            Activity = AppUser.ActivityType.active,
-            UserName = adminUsername,
-            NormalizedUserName = adminUsername.ToUpper(),
-            Email = adminUsername,
-            NormalizedEmail = adminUsername.ToUpper()
+            "BWL und Wirtschaftsinformatik",
+            "Wirtschaftsinformatik und Systementwicklung",
+            "Wirtschaftsinformatik und Business Analytics",
+            "Prozess- und IT-Integration für KI im Unternehmen"
         };
-        PasswordHasher<AppUser> hasher = new PasswordHasher<AppUser>();
-        user.PasswordHash = hasher.HashPassword(user, adminPassword);
-        modelBuilder.Entity<AppUser>().HasData(user);
-
-        IdentityRole role = new IdentityRole() { Id = Guid.NewGuid().ToString(), Name = "Administrator" };
-        role.NormalizedName = role.Name.ToUpper();
-        modelBuilder.Entity<IdentityRole>().HasData(role);
-
-        IdentityUserRole<string> ur = new IdentityUserRole<string> { UserId = user.Id, RoleId = role.Id };
-        modelBuilder.Entity<IdentityUserRole<string>>().HasData(ur);
+        foreach (string chair in chairs)
+        {
+            modelBuilder.Entity<Chair>().HasData(new Chair()
+            {
+                Id = chairs.IndexOf(chair) + 1,
+                Name = chair
+            });
+        }
 
         List<ProgramModel.ProgramType> programs = Enum.GetValues(typeof(ProgramModel.ProgramType)).Cast<ProgramModel.ProgramType>().ToList();
         foreach (ProgramModel.ProgramType program in programs)
@@ -77,5 +65,29 @@ public class AppDbContext : IdentityDbContext<AppUser>
                 Name = program
             });
         }
+
+        string adminUsername = "admin@thesis.de";
+        string adminPassword = "admin";
+        AppUser user = new()
+        {
+            Id = Guid.NewGuid().ToString(),
+            FirstName = "Hans",
+            LastName = "Meier",
+            ChairId = 2,
+            UserName = adminUsername,
+            NormalizedUserName = adminUsername.ToUpper(),
+            Email = adminUsername,
+            NormalizedEmail = adminUsername.ToUpper()
+        };
+        PasswordHasher<AppUser> hasher = new();
+        user.PasswordHash = hasher.HashPassword(user, adminPassword);
+        modelBuilder.Entity<AppUser>().HasData(user);
+
+        IdentityRole role = new() { Id = Guid.NewGuid().ToString(), Name = "Administrator" };
+        role.NormalizedName = role.Name.ToUpper();
+        modelBuilder.Entity<IdentityRole>().HasData(role);
+
+        IdentityUserRole<string> ur = new() { UserId = user.Id, RoleId = role.Id };
+        modelBuilder.Entity<IdentityUserRole<string>>().HasData(ur);
     }
 }

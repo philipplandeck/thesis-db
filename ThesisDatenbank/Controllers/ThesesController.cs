@@ -37,36 +37,18 @@ namespace ThesisDatenbank.Controllers
             return appDbContext.OrderBy(t => t.Registration);
         }
 
-        public int GetChairId(int supervisorId)
-        {
-            if (supervisorId != -1)
-            {
-                Supervisor? supervisor = _context.Supervisor.Find(supervisorId);
-                if (supervisor != null)
-                {
-                    int? chairId = supervisor.ChairId;
-                    if (chairId != null)
-                    {
-                        return (int) chairId;
-                    }
-                }
-
-            }
-            return supervisorId;
-        }
-
         public SelectList GetSupervisorSelectList(int? chairId, int? selectedSupervisorId)
         {
             List<SelectListItem> selectListItems = new();
             List<Supervisor> supervisors = new();
 
-            if (chairId == null || chairId == -1) 
+            if (chairId != null && chairId != -1) 
             {
-                supervisors = _context.Supervisor.Where(s => s.Active == true).ToList();
+                supervisors = _context.Supervisor.Where(s => s.ChairId == chairId).Where(s => s.Active == true).ToList();
             }
             else
             {
-                supervisors = _context.Supervisor.Where(s => s.ChairId != null && s.ChairId == chairId).Where(s => s.Active == true).ToList();
+                supervisors = _context.Supervisor.Where(s => s.Active == true).ToList();
             }
 
             foreach (Supervisor supervisor in supervisors)
@@ -77,6 +59,24 @@ namespace ThesisDatenbank.Controllers
             }
 
             return new SelectList(selectListItems, "Value", "Text", selectedSupervisorId);
+        }
+
+        public int GetChairId(int supervisorId)
+        {
+            if (supervisorId != -1)
+            {
+                Supervisor? supervisor = _context.Supervisor.Find(supervisorId);
+                if (supervisor != null)
+                {
+                    int? chairId = supervisor.ChairId;
+                    if (chairId != null)
+                    {
+                        return (int)chairId;
+                    }
+                }
+
+            }
+            return supervisorId;
         }
 
         // GET: Theses

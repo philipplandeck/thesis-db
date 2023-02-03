@@ -108,10 +108,6 @@ namespace ThesisDatenbank.Areas.Identity.Pages.Account
             [Display(Name = "Nachname")]
             public string LastName { get; set; }
 
-            [Required]
-            [Display(Name = "Aktivitätsstatus")]
-            public ActivityType Activity { get; set; }
-
             [Display(Name = "Lehrstuhl")]
             public int? ChairId { get; set; }
         }
@@ -132,12 +128,7 @@ namespace ThesisDatenbank.Areas.Identity.Pages.Account
                 var user = CreateUser();
                 user.FirstName = Input.FirstName;
                 user.LastName = Input.LastName;
-                user.Activity = Input.Activity;
-                if (Input.ChairId == 0)
-                {
-                    user.ChairId = null;
-                }
-                else
+                if (Input.ChairId != -1)
                 {
                     user.ChairId = Input.ChairId;
                 }

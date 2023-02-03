@@ -6,7 +6,7 @@
 }
 
 <style>
-    .hover:hover {
+    .thesis:hover .filter:hover {
         background-color: #DCDCDC;
     }
 
@@ -16,7 +16,7 @@
     }
 </style>
 
-<h1>Übersicht Thesen</h1>
+<h1>Themenvorschläge für eine Thesis</h1>
 <hr />
 @using (Html.BeginForm("Index", "Overview", FormMethod.Get))
 {
@@ -55,7 +55,7 @@
     <tbody>
         @foreach (var item in Model)
         {
-            <tr class="hover" onclick="toggleRow(@item.Id)">
+            <tr class="thesis" onclick="toggleRow(@item.Id)">
                 <td>
                     @Html.DisplayFor(modelItem => item.Title)
                 </td>
@@ -63,7 +63,7 @@
                     @Html.DisplayFor(modelItem => item.Supervisor.FirstName) @Html.DisplayFor(modelItem => item.Supervisor.LastName)
                 </td>
                 <td>
-                    <a href="mailto:@ViewData[item.SupervisorId.ToString()]">@ViewData[item.SupervisorId.ToString()]</a>
+                    @Html.DisplayFor(modelItem => item.Supervisor.Email)
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Status)

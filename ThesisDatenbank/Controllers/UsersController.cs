@@ -23,7 +23,7 @@ namespace ThesisDatenbank.Controllers
 
         public async Task<IActionResult> Index()
         {
-            return View(await _userManager.Users.Include(s => s.Chair).ToListAsync());
+            return View(await _userManager.Users.Include(u => u.Chair).Where(u => u.Chair != null).ToListAsync());
         }
 
         public async Task<IActionResult> Edit(string? id)
@@ -60,14 +60,23 @@ namespace ThesisDatenbank.Controllers
                     user.FirstName = newUser.FirstName;
                     user.LastName = newUser.LastName;
                     user.Activity = newUser.Activity;
-                    if (newUser.ChairId == 0)
-                    {
-                        user.ChairId = null;
-                    }
-                    else
+                    if (newUser.ChairId != -1)
                     {
                         user.ChairId = newUser.ChairId;
                     }
+
+                    Supervisor? supervisor = await _context.Supervisor.FirstOrDefaultAsync(s => s.UserId == id);
+                    if (supervisor != null)
+                    {
+                        supervisor.FirstName = user.FirstName;
+                        supervisor.LastName = user.LastName;
+                        supervisor.Active = user.Activity == AppUser.ActivityType.active;
+                        supervisor.ChairId = user.ChairId;
+
+                        _context.Update(supervisor);
+                        await _context.SaveChangesAsync();
+                    }
+
                     await _userManager.UpdateAsync(user);
                 }
                 catch (DbUpdateConcurrencyException)

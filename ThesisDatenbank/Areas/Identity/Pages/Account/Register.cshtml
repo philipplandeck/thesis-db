@@ -24,12 +24,8 @@
                 <span asp-validation-for="Input.Email" class="text-danger"></span>
             </div>
             <div class="form-floating mb-3">
-                <select asp-for="Input.Activity" asp-items="@Html.GetEnumSelectList<AppUser.ActivityType>()" class="form-select" aria-required="true"></select>
-                <label asp-for="Input.Activity"></label>
-            </div>
-            <div class="form-floating mb-3">
                 <select asp-for="Input.ChairId" asp-items="Model.Chairs" class="form-select" aria-required="true">
-                    <option value="0">Keiner</option>
+                    <option value="-1">--- Auswählen ---</option>
                 </select>
                 <label asp-for="Input.ChairId"></label>
             </div>

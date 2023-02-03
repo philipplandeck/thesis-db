@@ -5,48 +5,94 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+<style>
+    .button {
+        padding: 28px;
+        text-align: center;
+        font-size: 20px;
+    }
+</style>
+
 <h1>Betreuer</h1>
-<p>
-    <a asp-action="Create">Neuen Betreuer anlegen</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.FirstName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.LastName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Active)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Chair)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.FirstName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.LastName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Active)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Chair.Name)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Bearbeiten</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Löschen</a>
-            </td>
-        </tr>
+
+@if (ViewBag.UserIsAdministrator)
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.FirstName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.LastName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Email)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Active)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Chair)
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.FirstName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.LastName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Email)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Active)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Chair.Name)
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
 }
-    </tbody>
-</table>
+else
+{
+    <hr />
+    <br>
+    <p>
+        Hallo liebe Kolleginnen und Kollegen,<br><br>
+
+        Sie haben sich erfolgreich in unserem neuen Portal zur Thesenverwaltung registriert.<br>
+        Falls Sie sich als <b>Betreuer</b> für Thesen registrieren wollen, bestätigen Sie dies bitte mit dem folgenden Button. Dies können Sie auf gleiche Weise wieder rückgängig machen.<br>
+        Falls Sie eine <b>passive Rolle</b> einnehmen wollen, müssen Sie an dieser Stelle nichts weiter tun und können diese Seite ignorieren.<br><br>
+        Bei Fragen wenden Sie sich gerne per Mail an mich: <a href="mailto:admin@thesis.de">admin@thesis.de</a>.<br><br>
+
+        Mit freundlichen Grüßen<br>
+        Administrator Hans Meier<br><br>
+    </p>
+
+    @if (ViewBag.SupervisorExists)
+    {
+        @using (Html.BeginForm("Delete", "Supervisors", FormMethod.Get))
+        {
+            <p>
+                <input type="submit" value="Als Betreuer entfernen" class="button btn btn-danger" />
+            </p>
+        }
+    }
+    else
+    {
+        @using (Html.BeginForm("Create", "Supervisors", FormMethod.Get))
+        {
+            <p>
+                <input type="submit" value="Als Betreuer registrieren" class="button btn btn-success" />
+            </p>
+        }
+    }
+}
