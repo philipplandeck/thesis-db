@@ -60,10 +60,7 @@ namespace ThesisDatenbank.Controllers
                     user.FirstName = newUser.FirstName;
                     user.LastName = newUser.LastName;
                     user.Activity = newUser.Activity;
-                    if (newUser.ChairId != -1)
-                    {
-                        user.ChairId = newUser.ChairId;
-                    }
+                    user.ChairId = newUser.ChairId;
 
                     Supervisor? supervisor = await _context.Supervisor.FirstOrDefaultAsync(s => s.UserId == id);
                     if (supervisor != null)

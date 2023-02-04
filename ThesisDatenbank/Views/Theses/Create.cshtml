@@ -34,14 +34,15 @@
             <div class="mb-3">
                 <label asp-for="Supervisor.Chair" class="form-label"></label>
                 <select id="SelectChair" class="form-control" asp-items="ViewBag.Chairs">
-                    <option value="-1">--- Auswählen ---</option>
+                    <option value="">--- Auswählen ---</option>
                 </select>
             </div>
             <div class="mb-3">
                 <label asp-for="Supervisor" class="form-label"></label>
                 <select id="SelectSupervisor" asp-for="SupervisorId" class="form-control" asp-items="ViewBag.Supervisors">
-                    <option value="-1">--- Auswählen ---</option>
+                    <option value="">--- Auswählen ---</option>
                 </select>
+                <span asp-validation-for="SupervisorId" class="text-danger"></span>
             </div>
             <div class="mb-3">
                 <input type="submit" value="Anlegen" class="btn btn-primary" />
@@ -64,7 +65,7 @@
                     chairId: this.value
                 },
                     function (data, status, jq) {
-                        var items = "<option value='-1'>--- Auswählen ---</option>";
+                        var items = "<option value=''>--- Auswählen ---</option>";
                         $(data).each(function () {
                             items += "<option value='" + this.value + "'>" + this.text + "</option>";
                         });

@@ -16,11 +16,11 @@ public class AppUser : IdentityUser
         inactive
     }
 
-    [Required]
+    [Required(ErrorMessage = "Bitte geben Sie einen Vornamen an.")]
     [Display(Name = "Vorname")]
     public string FirstName { get; set; }
 
-    [Required]
+    [Required(ErrorMessage = "Bitte geben Sie einen Nachnamen an.")]
     [Display(Name = "Nachname")]
     public string LastName { get; set; }
 
@@ -28,6 +28,7 @@ public class AppUser : IdentityUser
     [Display(Name = "Aktivitätsstatus")]
     public ActivityType Activity { get; set; } = ActivityType.active;
 
+    [Required(ErrorMessage = "Bitte geben Sie einen Lehrstuhl an.")]
     [ForeignKey("Chair")]
     public int? ChairId { get; set; }
 

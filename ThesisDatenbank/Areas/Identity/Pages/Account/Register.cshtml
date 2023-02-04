@@ -13,10 +13,12 @@
             <div class="form-floating mb-3">
                 <input asp-for="Input.FirstName" class="form-control" aria-required="true" />
                 <label asp-for="Input.FirstName"></label>
+                <span asp-validation-for="Input.FirstName" class="text-danger"></span>
             </div>
             <div class="form-floating mb-3">
                 <input asp-for="Input.LastName" class="form-control" aria-required="true" />
                 <label asp-for="Input.LastName"></label>
+                <span asp-validation-for="Input.LastName" class="text-danger"></span>
             </div>
             <div class="form-floating mb-3">
                 <input asp-for="Input.Email" class="form-control" autocomplete="username" aria-required="true" />
@@ -25,9 +27,10 @@
             </div>
             <div class="form-floating mb-3">
                 <select asp-for="Input.ChairId" asp-items="Model.Chairs" class="form-select" aria-required="true">
-                    <option value="-1">--- Auswählen ---</option>
+                    <option value="">--- Auswählen ---</option>
                 </select>
                 <label asp-for="Input.ChairId"></label>
+                <span asp-validation-for="Input.ChairId" class="text-danger"></span>
             </div>
             <div class="form-floating mb-3">
                 <input asp-for="Input.Password" class="form-control" autocomplete="new-password" aria-required="true" />

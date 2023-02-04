@@ -51,8 +51,8 @@ namespace ThesisDatenbank.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "e3fbd14a-bbcc-4f45-83db-0a3c37db8817",
-                            ConcurrencyStamp = "6b3acbb2-a97a-4450-9f97-89b98aaa9bba",
+                            Id = "4ed921bd-a7aa-4a4a-87d6-bb9de0099949",
+                            ConcurrencyStamp = "89cd5218-fd02-4d60-bbd2-d0938bc60b11",
                             Name = "Administrator",
                             NormalizedName = "ADMINISTRATOR"
                         });
@@ -149,8 +149,8 @@ namespace ThesisDatenbank.Migrations
                     b.HasData(
                         new
                         {
-                            UserId = "62fddf35-96d1-4b21-9925-68ab2b12e4f3",
-                            RoleId = "e3fbd14a-bbcc-4f45-83db-0a3c37db8817"
+                            UserId = "f8e4caaf-9beb-4d53-a53f-7c14f0bd7a2e",
+                            RoleId = "4ed921bd-a7aa-4a4a-87d6-bb9de0099949"
                         });
                 });
 
@@ -259,11 +259,11 @@ namespace ThesisDatenbank.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "62fddf35-96d1-4b21-9925-68ab2b12e4f3",
+                            Id = "f8e4caaf-9beb-4d53-a53f-7c14f0bd7a2e",
                             AccessFailedCount = 0,
                             Activity = 0,
                             ChairId = 2,
-                            ConcurrencyStamp = "7d80efda-7e3b-4f20-9f5f-528131a8f23c",
+                            ConcurrencyStamp = "848a57b7-43db-440c-a571-823ff7e7c738",
                             Email = "admin@thesis.de",
                             EmailConfirmed = false,
                             FirstName = "Hans",
@@ -271,9 +271,9 @@ namespace ThesisDatenbank.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@THESIS.DE",
                             NormalizedUserName = "ADMIN@THESIS.DE",
-                            PasswordHash = "AQAAAAEAACcQAAAAEOq8xzsnyt3Xl3AERpMboOGu3P7lpRDF9eDug4i8yVpjra/Ca2YKYgVz26fD1rOJpQ==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEGd5DzDE5Nco7KLmEXUaPeD8JRMhKI5KsB5Wxely5M25Qhpwn84ExVsp4iOAWu/I6w==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "3696c2af-60d2-4a55-831a-985ac196e830",
+                            SecurityStamp = "b11a5275-26f4-4e75-b739-5f055b293c7e",
                             TwoFactorEnabled = false,
                             UserName = "admin@thesis.de"
                         });

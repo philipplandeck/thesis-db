@@ -76,7 +76,7 @@ namespace ThesisDatenbank.Areas.Identity.Pages.Account
             ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
             ///     directly from your code. This API may change or be removed in future releases.
             /// </summary>
-            [Required]
+            [Required(ErrorMessage = "Bitte geben Sie eine E-Mail-Adresse an.")]
             [EmailAddress]
             [Display(Name = "E-Mail-Adresse")]
             public string Email { get; set; }
@@ -85,8 +85,8 @@ namespace ThesisDatenbank.Areas.Identity.Pages.Account
             ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
             ///     directly from your code. This API may change or be removed in future releases.
             /// </summary>
-            [Required]
-            [StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 6)]
+            [Required(ErrorMessage = "Bitte geben Sie ein Passwort an.")]
+            [StringLength(100, ErrorMessage = "Das Passwort muss mindestens {2} und maximal {1} Zeichen lang sein.", MinimumLength = 6)]
             [DataType(DataType.Password)]
             [Display(Name = "Passwort")]
             public string Password { get; set; }
@@ -97,17 +97,18 @@ namespace ThesisDatenbank.Areas.Identity.Pages.Account
             /// </summary>
             [DataType(DataType.Password)]
             [Display(Name = "Passwort bestätigen")]
-            [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
+            [Compare("Password", ErrorMessage = "Die eingegebenen Passwörter stimmen nicht überein.")]
             public string ConfirmPassword { get; set; }
 
-            [Required]
+            [Required(ErrorMessage = "Bitte geben Sie einen Vornamen an.")]
             [Display(Name = "Vorname")]
             public string FirstName { get; set; }
 
-            [Required]
+            [Required(ErrorMessage = "Bitte geben Sie einen Nachnamen an.")]
             [Display(Name = "Nachname")]
             public string LastName { get; set; }
 
+            [Required(ErrorMessage = "Bitte geben Sie einen Lehrstuhl an.")]
             [Display(Name = "Lehrstuhl")]
             public int? ChairId { get; set; }
         }
@@ -128,10 +129,7 @@ namespace ThesisDatenbank.Areas.Identity.Pages.Account
                 var user = CreateUser();
                 user.FirstName = Input.FirstName;
                 user.LastName = Input.LastName;
-                if (Input.ChairId != -1)
-                {
-                    user.ChairId = Input.ChairId;
-                }
+                user.ChairId = Input.ChairId;
 
                 await _userStore.SetUserNameAsync(user, Input.Email, CancellationToken.None);
                 await _emailStore.SetEmailAsync(user, Input.Email, CancellationToken.None);

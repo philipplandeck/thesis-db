@@ -279,7 +279,7 @@ namespace ThesisDatenbank.Migrations
             migrationBuilder.InsertData(
                 table: "AspNetRoles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
-                values: new object[] { "e3fbd14a-bbcc-4f45-83db-0a3c37db8817", "6b3acbb2-a97a-4450-9f97-89b98aaa9bba", "Administrator", "ADMINISTRATOR" });
+                values: new object[] { "4ed921bd-a7aa-4a4a-87d6-bb9de0099949", "89cd5218-fd02-4d60-bbd2-d0938bc60b11", "Administrator", "ADMINISTRATOR" });
 
             migrationBuilder.InsertData(
                 table: "Chair",
@@ -306,12 +306,12 @@ namespace ThesisDatenbank.Migrations
             migrationBuilder.InsertData(
                 table: "AspNetUsers",
                 columns: new[] { "Id", "AccessFailedCount", "Activity", "ChairId", "ConcurrencyStamp", "Email", "EmailConfirmed", "FirstName", "LastName", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
-                values: new object[] { "62fddf35-96d1-4b21-9925-68ab2b12e4f3", 0, 0, 2, "7d80efda-7e3b-4f20-9f5f-528131a8f23c", "admin@thesis.de", false, "Hans", "Meier", false, null, "ADMIN@THESIS.DE", "ADMIN@THESIS.DE", "AQAAAAEAACcQAAAAEOq8xzsnyt3Xl3AERpMboOGu3P7lpRDF9eDug4i8yVpjra/Ca2YKYgVz26fD1rOJpQ==", null, false, "3696c2af-60d2-4a55-831a-985ac196e830", false, "admin@thesis.de" });
+                values: new object[] { "f8e4caaf-9beb-4d53-a53f-7c14f0bd7a2e", 0, 0, 2, "848a57b7-43db-440c-a571-823ff7e7c738", "admin@thesis.de", false, "Hans", "Meier", false, null, "ADMIN@THESIS.DE", "ADMIN@THESIS.DE", "AQAAAAEAACcQAAAAEGd5DzDE5Nco7KLmEXUaPeD8JRMhKI5KsB5Wxely5M25Qhpwn84ExVsp4iOAWu/I6w==", null, false, "b11a5275-26f4-4e75-b739-5f055b293c7e", false, "admin@thesis.de" });
 
             migrationBuilder.InsertData(
                 table: "AspNetUserRoles",
                 columns: new[] { "RoleId", "UserId" },
-                values: new object[] { "e3fbd14a-bbcc-4f45-83db-0a3c37db8817", "62fddf35-96d1-4b21-9925-68ab2b12e4f3" });
+                values: new object[] { "4ed921bd-a7aa-4a4a-87d6-bb9de0099949", "f8e4caaf-9beb-4d53-a53f-7c14f0bd7a2e" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",

@@ -8,7 +8,7 @@ namespace ThesisDatenbank.Models
         [Key]
         public int Id { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Für den Lehrstuhl muss ein Name angegeben werden.")]
         [Display(Name = "Lehrstuhl")]
         public string Name { get; set; }
 
