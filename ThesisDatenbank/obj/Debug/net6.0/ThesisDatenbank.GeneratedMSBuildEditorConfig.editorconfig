@@ -100,6 +100,10 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVGhlc2VzXEVkaXQuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
+[D:/Advanced Web Engineering/source/repos/thesis-db/ThesisDatenbank/Views/Theses/EditDeprecated.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVGhlc2VzXEVkaXREZXByZWNhdGVkLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
 [D:/Advanced Web Engineering/source/repos/thesis-db/ThesisDatenbank/Views/Theses/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVGhlc2VzXEluZGV4LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 

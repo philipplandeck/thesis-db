@@ -1,4 +1,4 @@
-﻿@model ThesisDatenbank.Models.Thesis
+@model ThesisDatenbank.Models.Thesis
 
 @{
     ViewData["Title"] = "Edit";
@@ -13,179 +13,337 @@
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="Id" />
             <div class="mb-3">
-                <label asp-for="Title" class="form-label"></label>
-                <input asp-for="Title" class="form-control" />
-                <span asp-validation-for="Title" class="text-danger"></span>
-            </div>
-            <div class="mb-3">
-                <label asp-for="Description" class="form-label"></label>
-                <input asp-for="Description" class="form-control" />
-                <span asp-validation-for="Description" class="text-danger"></span>
-            </div>
-            <div class="mb-3 form-check">
-                <label class="form-check-label">
-                    <input class="form-check-input" asp-for="Bachelor" /> @Html.DisplayNameFor(model => model.Bachelor)
-                </label>
-            </div>
-            <div class="mb-3 form-check">
-                <label class="form-check-label">
+                <h3>Thema</h3>
+                <div class="mb-3">
+                    <label asp-for="Title" class="form-label"></label>
+                    <input asp-for="Title" class="form-control" />
+                    <span asp-validation-for="Title" class="text-danger"></span>
+                </div>
+                <div class="mb-3">
+                    <label asp-for="Description" class="form-label"></label>
+                    <textarea asp-for="Description" class="form-control"></textarea>
+                    <span asp-validation-for="Description" class="text-danger"></span>
+                </div>
+                <div class="mb-3">
+                    <label asp-for="Supervisor" class="form-label"></label>
+                    <select asp-for="SupervisorId" class="form-control" asp-items="ViewBag.SupervisorId">
+                     <option value="0">--- Auswählen ---</option>
+                    </select>
+                 </div>
+                 <div class="mb-3 form-check">
+                    <label class="form-check-label">
+                        <input class="form-check-input" asp-for="Bachelor" /> @Html.DisplayNameFor(model => model.Bachelor)
+                    </label>
+                 </div>
+                 <div class="mb-3 form-check">
+                     <label class="form-check-label">
                     <input class="form-check-input" asp-for="Master" /> @Html.DisplayNameFor(model => model.Master)
                 </label>
+                 </div>
             </div>
+           <hr />
+            <div class="mb-3 form-check">
+                <h3>Bearbeitung</h3>
+                 <div class="mb-3">
+                    <label asp-for="Status" class="form-label"></label>
+                    <select asp-for="Status" asp-items="@Html.GetEnumSelectList<Thesis.StatusType>()" class="form-control"></select>
+                    <span asp-validation-for="Status" class="text-danger"></span>
+                </div>
+                <div class="mb-3">
+                    <label asp-for="StudentName" class="form-label"></label>
+                    <input asp-for="StudentName" class="form-control" />
+                    <span asp-validation-for="StudentName" class="text-danger"></span>
+                </div>
+                <div class="mb-3">
+                    <label asp-for="StudentId" class="form-label"></label>
+                    <input asp-for="StudentId" class="form-control" />
+                    <span asp-validation-for="StudentId" class="text-danger"></span>
+                </div>
+                <div class="mb-3">
+                    <label asp-for="StudentEMail" class="form-label"></label>
+                    <input asp-for="StudentEMail" class="form-control" />
+                    <span asp-validation-for="StudentEMail" class="text-danger"></span>
+                </div>
+            
+                <div class="mb-3">
+                    <label asp-for="StudentProgram" class="control-label"></label>
+                    <select asp-for="StudentProgramId" class="form-control" asp-items="ViewBag.StudentProgramId">
+                        <option value="0">--- Auswählen ---</option>
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label asp-for="Registration" class="form-label"></label>
+                    <input asp-for="Registration" class="form-control" />
+                    <span asp-validation-for="Registration" class="text-danger"></span>
+                </div>
+                <div class="mb-3">
+                    <label asp-for="Filing" class="form-label"></label>
+                    <input asp-for="Filing" class="form-control" />
+                    <span asp-validation-for="Filing" class="text-danger"></span>
+                </div>
+            </div>
+           
+            <hr />
+            <div>
+                <h3>Gutachten</h3>
+                 <div class="mb-3">
+                    <label asp-for="Summary" class="form-label"></label>
+                    <textarea asp-for="Summary" class="form-control"></textarea>
+                    <span asp-validation-for="Summary" class="text-danger"></span>
+                </div>
+                <div class="mb-3">
+                    <label asp-for="Strengths" class="form-label"></label>
+                    <textarea asp-for="Strengths" class="form-control"></textarea>
+                    <span asp-validation-for="Strengths" class="text-danger"></span>
+                </div>
+                <div class="mb-3">
+                    <label asp-for="Weaknesses" class="form-label"></label>
+                    <textarea asp-for="Weaknesses" class="form-control"></textarea>
+                    <span asp-validation-for="Weaknesses" class="text-danger"></span>
+                </div>
+                 <div class="mb-3">
+                    <label asp-for="Evaluation" class="form-label"></label>
+                    <textarea asp-for="Evaluation" class="form-control"></textarea>
+                    <span asp-validation-for="Evaluation" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="ContentVal" class="form-label"></label>
+                    <input asp-for="ContentVal" class="form-control" oninput="updateTable()"/>
+                    <span asp-validation-for="ContentVal" class="text-danger"></span>
+                </div>
+                <div class="mb-3">
+                    <label asp-for="LayoutVal" class="form-label"></label>
+                    <input asp-for="LayoutVal" class="form-control" />
+                    <span asp-validation-for="LayoutVal" class="text-danger"></span>
+                </div>
+                <div class="mb-3">
+                    <label asp-for="StructureVal" class="form-label"></label>
+                    <input asp-for="StructureVal" class="form-control" />
+                    <span asp-validation-for="StructureVal" class="text-danger"></span>
+                </div>
+                <div class="mb-3">
+                    <label asp-for="StyleVal" class="form-label"></label>
+                    <input asp-for="StyleVal" class="form-control" />
+                    <span asp-validation-for="StyleVal" class="text-danger"></span>
+                </div>
+                <div class="mb-3">
+                    <label asp-for="LiteratureVal" class="form-label"></label>
+                    <input asp-for="LiteratureVal" class="form-control" />
+                    <span asp-validation-for="LiteratureVal" class="text-danger"></span>
+                </div>
+                <div class="mb-3">
+                    <label asp-for="DifficultyVal" class="form-label"></label>
+                    <input asp-for="DifficultyVal" class="form-control" />
+                    <span asp-validation-for="DifficultyVal" class="text-danger"></span>
+                </div>
+                <div class="mb-3">
+                    <label asp-for="NoveltyVal" class="form-label"></label>
+                    <input asp-for="NoveltyVal" class="form-control" />
+                    <span asp-validation-for="NoveltyVal" class="text-danger"></span>
+                </div>
+                <div class="mb-3">
+                    <label asp-for="RichnessVal" class="form-label"></label>
+                    <input asp-for="RichnessVal" class="form-control" />
+                    <span asp-validation-for="RichnessVal" class="text-danger"></span>
+                </div>
+                <div class="mb-3">
+                    <label asp-for="ContentWt" class="form-label"></label>
+                    <input asp-for="ContentWt" class="form-control" />
+                    <span asp-validation-for="ContentWt" class="text-danger"></span>
+                </div>
+                <div class="mb-3">
+                    <label asp-for="LayoutWt" class="form-label"></label>
+                    <input asp-for="LayoutWt" class="form-control" />
+                    <span asp-validation-for="LayoutWt" class="text-danger"></span>
+                </div>
+                <div class="mb-3">
+                    <label asp-for="StructureWt" class="form-label"></label>
+                    <input asp-for="StructureWt" class="form-control" />
+                    <span asp-validation-for="StructureWt" class="text-danger"></span>
+                </div>
+                <div class="mb-3">
+                    <label asp-for="StyleWt" class="form-label"></label>
+                    <input asp-for="StyleWt" class="form-control" />
+                    <span asp-validation-for="StyleWt" class="text-danger"></span>
+                </div>
+                <div class="mb-3">
+                    <label asp-for="LiteratureWt" class="form-label"></label>
+                    <input asp-for="LiteratureWt" class="form-control" />
+                    <span asp-validation-for="LiteratureWt" class="text-danger"></span>
+                </div>
+                <div class="mb-3">
+                    <label asp-for="DifficultyWt" class="form-label"></label>
+                    <input asp-for="DifficultyWt" class="form-control" />
+                    <span asp-validation-for="DifficultyWt" class="text-danger"></span>
+                </div>
+                <div class="mb-3">
+                    <label asp-for="NoveltyWt" class="form-label"></label>
+                    <input asp-for="NoveltyWt" class="form-control" />
+                    <span asp-validation-for="NoveltyWt" class="text-danger"></span>
+                </div>
+                <div class="mb-3">
+                    <label asp-for="RichnessWt" class="form-label"></label>
+                    <input asp-for="RichnessWt" class="form-control" />
+                    <span asp-validation-for="RichnessWt" class="text-danger"></span>
+                </div>
+            </div>
+           
+            <hr />
+            <div>
+                <h3>Note</h3>
+                <div class="mb-3">
+                    <label asp-for="Grade" class="form-label"></label>
+                    <select asp-for="Grade" class="form-control">
+                        <option>1.0</option>
+                        <option>1.3</option>
+                        <option>1.7</option>
+                        <option>2.0</option>
+                        <option>2.3</option>
+                        <option>2.7</option>
+                        <option>3.0</option>
+                        <option>3.3</option>
+                        <option>3.7</option>
+                        <option>4.0</option>
+                        <option>5.0</option>
+                        
+                    <span asp-validation-for="Grade" class="text-danger"></span>
+                    </select>
+                </div>
+            </div>
+            
+
+            <hr />
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">Kriterium</th>
+                        <th scope="col">Bewertung</th>
+                        <th scope="col">Gewichtung</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Inhalt</td>
+                        <td>
+                            <label>1</label>
+                            <input type="radio" name="ratingContent" value="1"/>
+                            <input type="radio" name="ratingContent" value="2"/>
+                            <input type="radio" name="ratingContent" value="3"/>
+                            <input type="radio" name="ratingContent" value="4"/>
+                            <input type="radio" name="ratingContent" value="5"/>
+                            <label>5</label>
+                        </td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>Gestaltung</td>
+                        <td>
+                            <label>1</label>
+                            <input type="radio" name="ratingGestaltung" value="1" />
+                            <input type="radio" name="ratingGestaltung" value="2" />
+                            <input type="radio" name="ratingGestatlung" value="3" />
+                            <input type="radio" name="ratingGestaltung" value="4" />
+                            <input type="radio" name="ratingGestaltung" value="5" />
+                            <label>5</label>
+                        </td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>Aufbau</td>
+                        <td>
+                            <label>1 </label>
+                            <input type="radio" name="ratingAufbau" value="1" />
+                            <input type="radio" name="ratingAufbau" value="2" />
+                            <input type="radio" name="ratingAufbau" value="3" />
+                            <input type="radio" name="ratingAufbau" value="4" />
+                            <input type="radio" name="ratingAufbau" value="5" />
+                            <label> 5</label>
+                        </td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>Sprache</td>
+                        <td>
+                            <label>1</label>
+                            <input type="radio" name="ratingSprache" value="1" />
+                            <input type="radio" name="ratingSprache" value="2" />
+                            <input type="radio" name="ratingSprache" value="3" />
+                            <input type="radio" name="ratingSprache" value="4" />
+                            <input type="radio" name="ratingSprache" value="5" />
+                            <label>5</label>
+                        </td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>Literatur</td>
+                        <td>
+                            <label>1</label>
+                            <input type="radio" name="ratingLiteratur" value="1" />
+                            <input type="radio" name="ratingLiteratur" value="2" />
+                            <input type="radio" name="ratingLiteratur" value="3" />
+                            <input type="radio" name="ratingLiteratur" value="4" />
+                            <input type="radio" name="ratingLiteratur" value="5" />
+                            <label>5</label>
+                        </td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>Schwierigkeitsgrad</td>
+                        <td>
+                            <label>1</label>
+                            <input type="radio" name="ratingSchwierigkeitsgrad" value="1" />
+                            <input type="radio" name="ratingSchwierigkeitsgrad" value="2" />
+                            <input type="radio" name="ratingSchwierigkeitsgrad" value="3" />
+                            <input type="radio" name="ratingSchwierigkeitsgrad" value="4" />
+                            <input type="radio" name="ratingSchwierigkeitsgrad" value="5" />
+                            <label>5</label>
+                        </td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>Neuigkeitsgrad</td>
+                        <td>
+                            <label>1</label>
+                            <input type="radio" name="ratingNeuigkeitsgrad" value="1" />
+                            <input type="radio" name="ratingNeuigkeitsgrad" value="2" />
+                            <input type="radio" name="ratingNeuigkeitsgrad" value="3" />
+                            <input type="radio" name="ratingNeuigkeitsgrad" value="4" />
+                            <input type="radio" name="ratingNeuigkeitsgrad" value="5" />
+                            <label>5</label>
+                        </td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>Themenerfassung</td>
+                        <td>
+                            <label>1</label>
+                            <input type="radio" name="ratingThemenerfassung" value="1" />
+                            <input type="radio" name="ratingThemenerfassung" value="2" />
+                            <input type="radio" name="ratingThemenerfassung" value="3" />
+                            <input type="radio" name="ratingThemenerfassung" value="4" />
+                            <input type="radio" name="ratingThemenerfassung" value="5" />
+                            <label>5</label>
+                        </td>
+                        <td></td>
+                    </tr>
+
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+
+
+                </tbody>
+            </table>
+            
+           
+            
             <div class="mb-3">
-                <label asp-for="Status" class="form-label"></label>
-                <select asp-for="Status" asp-items="@Html.GetEnumSelectList<Thesis.StatusType>()" class="form-control"></select>
-                <span asp-validation-for="Status" class="text-danger"></span>
+                <input type="hidden" asp-for="LastModified" />
             </div>
-            <div class="mb-3">
-                <label asp-for="StudentName" class="form-label"></label>
-                <input asp-for="StudentName" class="form-control" />
-                <span asp-validation-for="StudentName" class="text-danger"></span>
-            </div>
-            <div class="mb-3">
-                <label asp-for="StudentEMail" class="form-label"></label>
-                <input asp-for="StudentEMail" class="form-control" />
-                <span asp-validation-for="StudentEMail" class="text-danger"></span>
-            </div>
-            <div class="mb-3">
-                <label asp-for="StudentId" class="form-label"></label>
-                <input asp-for="StudentId" class="form-control" />
-                <span asp-validation-for="StudentId" class="text-danger"></span>
-            </div>
-            <div class="mb-3">
-                <label asp-for="StudentProgram" class="control-label"></label>
-                <select asp-for="StudentProgramId" class="form-control" asp-items="@Html.GetEnumSelectList<ProgramModel.ProgramType>()">
-                    <option value="-1">--- Auswählen ---</option>
-                </select>
-            </div>
-            <div class="mb-3">
-                <label asp-for="Registration" class="form-label"></label>
-                <input asp-for="Registration" class="form-control" />
-                <span asp-validation-for="Registration" class="text-danger"></span>
-            </div>
-            <div class="mb-3">
-                <label asp-for="Filing" class="form-label"></label>
-                <input asp-for="Filing" class="form-control" />
-                <span asp-validation-for="Filing" class="text-danger"></span>
-            </div>
-            <div class="mb-3">
-                <label asp-for="Summary" class="form-label"></label>
-                <input asp-for="Summary" class="form-control" />
-                <span asp-validation-for="Summary" class="text-danger"></span>
-            </div>
-            <div class="mb-3">
-                <label asp-for="Strengths" class="form-label"></label>
-                <input asp-for="Strengths" class="form-control" />
-                <span asp-validation-for="Strengths" class="text-danger"></span>
-            </div>
-            <div class="mb-3">
-                <label asp-for="Weaknesses" class="form-label"></label>
-                <input asp-for="Weaknesses" class="form-control" />
-                <span asp-validation-for="Weaknesses" class="text-danger"></span>
-            </div>
-            <div class="mb-3">
-                <label asp-for="Evaluation" class="form-label"></label>
-                <input asp-for="Evaluation" class="form-control" />
-                <span asp-validation-for="Evaluation" class="text-danger"></span>
-            </div>
-            <div class="mb-3">
-                <label asp-for="ContentVal" class="form-label"></label>
-                <input asp-for="ContentVal" class="form-control" />
-                <span asp-validation-for="ContentVal" class="text-danger"></span>
-            </div>
-            <div class="mb-3">
-                <label asp-for="LayoutVal" class="form-label"></label>
-                <input asp-for="LayoutVal" class="form-control" />
-                <span asp-validation-for="LayoutVal" class="text-danger"></span>
-            </div>
-            <div class="mb-3">
-                <label asp-for="StructureVal" class="form-label"></label>
-                <input asp-for="StructureVal" class="form-control" />
-                <span asp-validation-for="StructureVal" class="text-danger"></span>
-            </div>
-            <div class="mb-3">
-                <label asp-for="StyleVal" class="form-label"></label>
-                <input asp-for="StyleVal" class="form-control" />
-                <span asp-validation-for="StyleVal" class="text-danger"></span>
-            </div>
-            <div class="mb-3">
-                <label asp-for="LiteratureVal" class="form-label"></label>
-                <input asp-for="LiteratureVal" class="form-control" />
-                <span asp-validation-for="LiteratureVal" class="text-danger"></span>
-            </div>
-            <div class="mb-3">
-                <label asp-for="DifficultyVal" class="form-label"></label>
-                <input asp-for="DifficultyVal" class="form-control" />
-                <span asp-validation-for="DifficultyVal" class="text-danger"></span>
-            </div>
-            <div class="mb-3">
-                <label asp-for="NoveltyVal" class="form-label"></label>
-                <input asp-for="NoveltyVal" class="form-control" />
-                <span asp-validation-for="NoveltyVal" class="text-danger"></span>
-            </div>
-            <div class="mb-3">
-                <label asp-for="RichnessVal" class="form-label"></label>
-                <input asp-for="RichnessVal" class="form-control" />
-                <span asp-validation-for="RichnessVal" class="text-danger"></span>
-            </div>
-            <div class="mb-3">
-                <label asp-for="ContentWt" class="form-label"></label>
-                <input asp-for="ContentWt" class="form-control" />
-                <span asp-validation-for="ContentWt" class="text-danger"></span>
-            </div>
-            <div class="mb-3">
-                <label asp-for="LayoutWt" class="form-label"></label>
-                <input asp-for="LayoutWt" class="form-control" />
-                <span asp-validation-for="LayoutWt" class="text-danger"></span>
-            </div>
-            <div class="mb-3">
-                <label asp-for="StructureWt" class="form-label"></label>
-                <input asp-for="StructureWt" class="form-control" />
-                <span asp-validation-for="StructureWt" class="text-danger"></span>
-            </div>
-            <div class="mb-3">
-                <label asp-for="StyleWt" class="form-label"></label>
-                <input asp-for="StyleWt" class="form-control" />
-                <span asp-validation-for="StyleWt" class="text-danger"></span>
-            </div>
-            <div class="mb-3">
-                <label asp-for="LiteratureWt" class="form-label"></label>
-                <input asp-for="LiteratureWt" class="form-control" />
-                <span asp-validation-for="LiteratureWt" class="text-danger"></span>
-            </div>
-            <div class="mb-3">
-                <label asp-for="DifficultyWt" class="form-label"></label>
-                <input asp-for="DifficultyWt" class="form-control" />
-                <span asp-validation-for="DifficultyWt" class="text-danger"></span>
-            </div>
-            <div class="mb-3">
-                <label asp-for="NoveltyWt" class="form-label"></label>
-                <input asp-for="NoveltyWt" class="form-control" />
-                <span asp-validation-for="NoveltyWt" class="text-danger"></span>
-            </div>
-            <div class="mb-3">
-                <label asp-for="RichnessWt" class="form-label"></label>
-                <input asp-for="RichnessWt" class="form-control" />
-                <span asp-validation-for="RichnessWt" class="text-danger"></span>
-            </div>
-            <div class="mb-3">
-                <label asp-for="Grade" class="form-label"></label>
-                <input asp-for="Grade" class="form-control" />
-                <span asp-validation-for="Grade" class="text-danger"></span>
-            </div>
-            <div class="mb-3">
-                <label asp-for="Supervisor.Chair" class="form-label"></label>
-                <select id="SelectChair" class="form-control" asp-items="ViewBag.Chairs">
-                    <option value="">--- Auswählen ---</option>
-                </select>
-            </div>
-            <div class="mb-3">
-                <label asp-for="Supervisor" class="form-label"></label>
-                <select id="SelectSupervisor" asp-for="SupervisorId" class="form-control" asp-items="ViewBag.Supervisors">
-                    <option value="">--- Auswählen ---</option>
-                </select>
-                <span asp-validation-for="SupervisorId" class="text-danger"></span>
-            </div>
+            
             <div class="mb-3">
                 <input type="submit" value="Speichern" class="btn btn-primary" />
             </div>
@@ -198,33 +356,16 @@
 </div>
 
 @section Scripts {
+    <script type="text/javascript">
+        function updateTable() {
+            var inputValue = document.querySelector('input[asp-for="ContentVal"]').value;
+            alert("Hallo")
+            document.querySelector('#value').innerHTML = inputValue;
+        }
+    </script>
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }
-
-    <script>
-        $(document).ready(function () {
-            $("#SelectChair").on("change", function () {
-                $.get("@Url.Action("GetSupervisorSelectList")", {
-                    chairId: this.value
-                },
-                    function (data, status, jq) {
-                        var items = "<option value=''>--- Auswählen ---</option>";
-                        $(data).each(function () {
-                            items += "<option value='" + this.value + "'>" + this.text + "</option>";
-                        });
-                        $("#SelectSupervisor").html(items);
-                    });
-            });
-
-            $("#SelectSupervisor").on("change", function () {
-                $.get("@Url.Action("GetChairId")", {
-                    supervisorId: this.value
-                },
-                    function (data, status, jq) {
-                        $("#SelectChair").val(data);
-                    });
-            });
-        });
-    </script>
+   
 }
+    
