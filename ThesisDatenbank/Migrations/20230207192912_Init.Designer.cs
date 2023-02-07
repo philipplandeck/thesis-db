@@ -12,7 +12,7 @@ using ThesisDatenbank.Data;
 namespace ThesisDatenbank.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20230204203818_Init")]
+    [Migration("20230207192912_Init")]
     partial class Init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -53,8 +53,8 @@ namespace ThesisDatenbank.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "4ed921bd-a7aa-4a4a-87d6-bb9de0099949",
-                            ConcurrencyStamp = "89cd5218-fd02-4d60-bbd2-d0938bc60b11",
+                            Id = "d93c039c-7a0b-4132-81c5-3e98aabbea35",
+                            ConcurrencyStamp = "0486d8ca-f214-4420-b851-bc874094d7d3",
                             Name = "Administrator",
                             NormalizedName = "ADMINISTRATOR"
                         });
@@ -151,8 +151,8 @@ namespace ThesisDatenbank.Migrations
                     b.HasData(
                         new
                         {
-                            UserId = "f8e4caaf-9beb-4d53-a53f-7c14f0bd7a2e",
-                            RoleId = "4ed921bd-a7aa-4a4a-87d6-bb9de0099949"
+                            UserId = "2863b717-e0f6-427c-aa73-a9b0c385a9ca",
+                            RoleId = "d93c039c-7a0b-4132-81c5-3e98aabbea35"
                         });
                 });
 
@@ -261,11 +261,11 @@ namespace ThesisDatenbank.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "f8e4caaf-9beb-4d53-a53f-7c14f0bd7a2e",
+                            Id = "2863b717-e0f6-427c-aa73-a9b0c385a9ca",
                             AccessFailedCount = 0,
                             Activity = 0,
                             ChairId = 2,
-                            ConcurrencyStamp = "848a57b7-43db-440c-a571-823ff7e7c738",
+                            ConcurrencyStamp = "2207f90c-86b6-4607-9e8f-b7de715e791a",
                             Email = "admin@thesis.de",
                             EmailConfirmed = false,
                             FirstName = "Hans",
@@ -273,9 +273,9 @@ namespace ThesisDatenbank.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@THESIS.DE",
                             NormalizedUserName = "ADMIN@THESIS.DE",
-                            PasswordHash = "AQAAAAEAACcQAAAAEGd5DzDE5Nco7KLmEXUaPeD8JRMhKI5KsB5Wxely5M25Qhpwn84ExVsp4iOAWu/I6w==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEK1VnGZLTLar8gqDH42/H8EJpa0pXdZIJjarAlyrXsbV05zFoTzgVaGFUQFqh+mLCA==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "b11a5275-26f4-4e75-b739-5f055b293c7e",
+                            SecurityStamp = "c828fe4a-df5e-4549-bdba-301e700bbf10",
                             TwoFactorEnabled = false,
                             UserName = "admin@thesis.de"
                         });

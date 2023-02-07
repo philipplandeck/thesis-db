@@ -185,9 +185,6 @@ namespace ThesisDatenbank.Models
             if (Status == StatusType.Graded && Grade == null)
                 results.Add(new ValidationResult("Fehlende Note trotz begutachteter Thesis."));
 
-            if (!string.IsNullOrEmpty(StudentEMail) && !StudentEMail.Contains("@stud-mail.uni-wuerzburg.de"))
-                results.Add(new ValidationResult("Für Studenten können nur Stud-Mail-Adressen angegeben werden."));
-
             if (Filing <= Registration)
                 results.Add(new ValidationResult("Das Abgabedatum muss nach dem Anmeldedatum liegen."));
 

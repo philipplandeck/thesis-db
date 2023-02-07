@@ -23,7 +23,11 @@ namespace ThesisDatenbank.Controllers
 
         public async Task<IActionResult> Index()
         {
-            return View(await _userManager.Users.Include(u => u.Chair).Where(u => u.Chair != null).ToListAsync());
+            return View(await _userManager.Users
+                .Include(u => u.Chair)
+                .Where(u => u.Chair != null)
+                .OrderBy(u => u.LastName)
+                .ToListAsync());
         }
 
         public async Task<IActionResult> Edit(string? id)

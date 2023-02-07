@@ -36,7 +36,7 @@ namespace ThesisDatenbank.Controllers
                 Supervisor? supervisor = await _context.Supervisor.FirstOrDefaultAsync(s => s.UserId == currentUser.Id);
                 ViewData["SupervisorExists"] = supervisor != null;
             }
-            return View(await appDbContext.ToListAsync());
+            return View(await appDbContext.OrderBy(s => s.LastName).ToListAsync());
         }
 
         public async Task<IActionResult> Create()

@@ -35,7 +35,7 @@ namespace ThesisDatenbank.Models
         [ForeignKey("AppUser")]
         public string? UserId { get; set; }
 
-        [Display(Name = "Lehrstuhl")]
+        [Display(Name = "Nutzer")]
         public virtual AppUser? User { get; set; }
 
         public virtual ICollection<Thesis>? Theses { get; set; }

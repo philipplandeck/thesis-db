@@ -31,7 +31,7 @@ namespace ThesisDatenbank.Controllers
 
             ViewData["ChairFilter"] = chairSelectList;
 
-            return View(await appDbContext.ToListAsync());
+            return View(await appDbContext.OrderBy(t => t.Supervisor.Chair.Name).ToListAsync());
         }
     }
 }

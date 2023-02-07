@@ -5,6 +5,12 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+<style>
+    .title {
+        max-width: 200px;
+    }
+</style>
+
 <h1>Thesen</h1>
 <p>
     <a asp-action="Create">Neue Thesis anlegen</a>
@@ -40,7 +46,7 @@
 <table class="table">
     <thead>
         <tr>
-            <th>
+            <th class="title">
                 @Html.DisplayNameFor(model => model.Title)
             </th>
             <th>
