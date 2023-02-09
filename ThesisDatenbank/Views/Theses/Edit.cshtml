@@ -24,12 +24,29 @@
                     <textarea asp-for="Description" class="form-control"></textarea>
                     <span asp-validation-for="Description" class="text-danger"></span>
                 </div>
+                <hr style="border: 2px solid black;">
+                <h4>Betreuer</h4>
                 <div class="mb-3">
-                    <label asp-for="Supervisor" class="form-label"></label>
-                    <select asp-for="SupervisorId" class="form-control" asp-items="ViewBag.SupervisorId">
-                     <option value="0">--- Auswählen ---</option>
-                    </select>
+                    <label class="form-label" asp-for="Supervisor">Vorname</label>
+                    <input asp-for="Supervisor.FirstName" class="form-control"/>
+                    <span asp-validation-for="Supervisor" class="text-danger"></span>
                  </div>
+
+                 <div class="mb-3">
+                    <label class="form-label" asp-for="Supervisor">Nachname</label>
+                    <input asp-for="Supervisor.LastName" class="form-control"/>
+                    <span asp-validation-for="Supervisor" class="text-danger"></span>
+                 </div>
+
+                 <div class="mb-3">
+                    <label asp-for="Supervisor.Chair" class="form-label"></label>
+                    <select id="SelectChair" class="form-control" asp-items="ViewBag.Chairs">
+                    <option value="">--- Auswählen ---</option>
+                    </select>
+                </div>
+
+                 <hr style="border: 2px solid black;"/>
+
                  <div class="mb-3 form-check">
                     <label class="form-check-label">
                         <input class="form-check-input" asp-for="Bachelor" /> @Html.DisplayNameFor(model => model.Bachelor)
@@ -41,7 +58,7 @@
                 </label>
                  </div>
             </div>
-           <hr />
+           <hr style="border: 2px solid black;"/>
             <div class="mb-3 form-check">
                 <h3>Bearbeitung</h3>
                  <div class="mb-3">
@@ -67,8 +84,8 @@
             
                 <div class="mb-3">
                     <label asp-for="StudentProgram" class="control-label"></label>
-                    <select asp-for="StudentProgramId" class="form-control" asp-items="ViewBag.StudentProgramId">
-                        <option value="0">--- Auswählen ---</option>
+                    <select asp-for="StudentProgramId" class="form-control" asp-items="@Html.GetEnumSelectList<ProgramModel.ProgramType>()">
+                        <option value="">--- Auswählen ---</option>
                     </select>
                 </div>
                 <div class="mb-3">
@@ -83,7 +100,7 @@
                 </div>
             </div>
            
-            <hr />
+            <hr style="border: 2px solid black;"/>
             <div>
                 <h3>Gutachten</h3>
                  <div class="mb-3">
@@ -109,89 +126,91 @@
 
                 <div class="mb-3">
                     <label asp-for="ContentVal" class="form-label"></label>
-                    <input asp-for="ContentVal" class="form-control" oninput="updateTable()"/>
+                    <input asp-for="ContentVal"  min="1" max="5" class="form-control"/>
                     <span asp-validation-for="ContentVal" class="text-danger"></span>
                 </div>
                 <div class="mb-3">
                     <label asp-for="LayoutVal" class="form-label"></label>
-                    <input asp-for="LayoutVal" class="form-control" />
+                    <input asp-for="LayoutVal" min="1" max="5" class="form-control" />
                     <span asp-validation-for="LayoutVal" class="text-danger"></span>
                 </div>
                 <div class="mb-3">
                     <label asp-for="StructureVal" class="form-label"></label>
-                    <input asp-for="StructureVal" class="form-control" />
+                    <input asp-for="StructureVal" min="1" max="5" class="form-control" />
                     <span asp-validation-for="StructureVal" class="text-danger"></span>
                 </div>
                 <div class="mb-3">
                     <label asp-for="StyleVal" class="form-label"></label>
-                    <input asp-for="StyleVal" class="form-control" />
+                    <input asp-for="StyleVal" min="1" max="5" class="form-control" />
                     <span asp-validation-for="StyleVal" class="text-danger"></span>
                 </div>
                 <div class="mb-3">
                     <label asp-for="LiteratureVal" class="form-label"></label>
-                    <input asp-for="LiteratureVal" class="form-control" />
+                    <input asp-for="LiteratureVal" min="1" max="5" class="form-control" />
                     <span asp-validation-for="LiteratureVal" class="text-danger"></span>
                 </div>
                 <div class="mb-3">
                     <label asp-for="DifficultyVal" class="form-label"></label>
-                    <input asp-for="DifficultyVal" class="form-control" />
-                    <span asp-validation-for="DifficultyVal" class="text-danger"></span>
+                    <input asp-for="DifficultyVal" min="1" max="5" class="form-control" />
+                    
                 </div>
                 <div class="mb-3">
                     <label asp-for="NoveltyVal" class="form-label"></label>
-                    <input asp-for="NoveltyVal" class="form-control" />
-                    <span asp-validation-for="NoveltyVal" class="text-danger"></span>
+                    <input asp-for="NoveltyVal" min="1" max="5" class="form-control"/>
+                   
                 </div>
                 <div class="mb-3">
                     <label asp-for="RichnessVal" class="form-label"></label>
-                    <input asp-for="RichnessVal" class="form-control" />
-                    <span asp-validation-for="RichnessVal" class="text-danger"></span>
+                    <input asp-for="RichnessVal" min="1" max="5" class="form-control" />
                 </div>
+
                 <div class="mb-3">
                     <label asp-for="ContentWt" class="form-label"></label>
-                    <input asp-for="ContentWt" class="form-control" />
-                    <span asp-validation-for="ContentWt" class="text-danger"></span>
+                    <input asp-for="ContentWt" name="ContentWt" class="form-control" />  
                 </div>
+
                 <div class="mb-3">
                     <label asp-for="LayoutWt" class="form-label"></label>
-                    <input asp-for="LayoutWt" class="form-control" />
-                    <span asp-validation-for="LayoutWt" class="text-danger"></span>
+                    <input asp-for="LayoutWt" name="LayoutWt" class="form-control"/>
                 </div>
+
                 <div class="mb-3">
                     <label asp-for="StructureWt" class="form-label"></label>
-                    <input asp-for="StructureWt" class="form-control" />
-                    <span asp-validation-for="StructureWt" class="text-danger"></span>
+                    <input asp-for="StructureWt" name="StructureWt" class="form-control" />    
                 </div>
+
                 <div class="mb-3">
                     <label asp-for="StyleWt" class="form-label"></label>
-                    <input asp-for="StyleWt" class="form-control" />
-                    <span asp-validation-for="StyleWt" class="text-danger"></span>
+                    <input asp-for="StyleWt" name="StyleWt"  class="form-control" />
                 </div>
                 <div class="mb-3">
                     <label asp-for="LiteratureWt" class="form-label"></label>
-                    <input asp-for="LiteratureWt" class="form-control" />
-                    <span asp-validation-for="LiteratureWt" class="text-danger"></span>
+                    <input asp-for="LiteratureWt" name="LiteratureWt" class="form-control" />
                 </div>
                 <div class="mb-3">
                     <label asp-for="DifficultyWt" class="form-label"></label>
-                    <input asp-for="DifficultyWt" class="form-control" />
-                    <span asp-validation-for="DifficultyWt" class="text-danger"></span>
+                    <input asp-for="DifficultyWt" name="DifficultyWt" class="form-control" />
                 </div>
                 <div class="mb-3">
                     <label asp-for="NoveltyWt" class="form-label"></label>
-                    <input asp-for="NoveltyWt" class="form-control" />
-                    <span asp-validation-for="NoveltyWt" class="text-danger"></span>
+                    <input asp-for="NoveltyWt" name="NoveltyWt" class="form-control" />
                 </div>
                 <div class="mb-3">
                     <label asp-for="RichnessWt" class="form-label"></label>
-                    <input asp-for="RichnessWt" class="form-control" />
-                    <span asp-validation-for="RichnessWt" class="text-danger"></span>
+                    <input asp-for="RichnessWt" name="RichnessWt" class="form-control" />
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Summe aller Gewichte:</label>
+                    <p class="totalWeight"></p>
                 </div>
             </div>
            
-            <hr />
+            <hr style="border: 2px solid black;"/>
             <div>
                 <h3>Note</h3>
+                <label asp-for="Grade" class="form-label">Notenvorschlag:</label>
+                <p id="suggestedGrade"></p>
                 <div class="mb-3">
                     <label asp-for="Grade" class="form-label"></label>
                     <select asp-for="Grade" class="form-control">
@@ -213,132 +232,152 @@
             </div>
             
 
-            <hr />
-            <table class="table">
+            <hr style="border: 2px solid black;"/>
+            <table class="table table-hover" style="width:700px">
                 <thead>
                     <tr>
-                        <th scope="col">Kriterium</th>
-                        <th scope="col">Bewertung</th>
-                        <th scope="col">Gewichtung</th>
+                        <th scope="col" style="border: 2px solid black;">Kriterium</th>
+                        <th scope="col" style="border: 2px solid black;">Bewertung</th>
+                        <th scope="col" style="border: 2px solid black;">Gewichtung in %</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
-                        <td>Inhalt</td>
-                        <td>
+                        <td style="border: 1px solid black;">Inhalt</td>
+                        <td style="border: 1px solid black;">
                             <label>1</label>
-                            <input type="radio" name="ratingContent" value="1"/>
-                            <input type="radio" name="ratingContent" value="2"/>
-                            <input type="radio" name="ratingContent" value="3"/>
-                            <input type="radio" name="ratingContent" value="4"/>
-                            <input type="radio" name="ratingContent" value="5"/>
+                            <input type="radio" name="ratingContent" asp-for="ContentVal" value="1"/>
+                            <input type="radio" name="ratingContent" asp-for="ContentVal" value="2"/>
+                            <input type="radio" name="ratingContent" asp-for="ContentVal" value="3"/>
+                            <input type="radio" name="ratingContent" asp-for="ContentVal" value="4"/>
+                            <input type="radio" name="ratingContent" asp-for="ContentVal" value="5"/>
                             <label>5</label>
                         </td>
-                        <td></td>
-                    </tr>
-                    <tr>
-                        <td>Gestaltung</td>
-                        <td>
-                            <label>1</label>
-                            <input type="radio" name="ratingGestaltung" value="1" />
-                            <input type="radio" name="ratingGestaltung" value="2" />
-                            <input type="radio" name="ratingGestatlung" value="3" />
-                            <input type="radio" name="ratingGestaltung" value="4" />
-                            <input type="radio" name="ratingGestaltung" value="5" />
-                            <label>5</label>
+                        <td style="border: 1px solid black;">
+                            <input asp-for="ContentWt" name="weightingContent" class="form-control" style="text-align:right;" min="0" max="100"/>
                         </td>
-                        <td></td>
                     </tr>
                     <tr>
-                        <td>Aufbau</td>
-                        <td>
+                        <td style="border: 1px solid black;">Gestaltung</td>
+                        <td style="border: 1px solid black;">
+                            <label>1</label>
+                            <input type="radio" name="ratingLayout" asp-for="LayoutVal" value="1" />
+                            <input type="radio" name="ratingLayout" asp-for="LayoutVal" value="2" />
+                            <input type="radio" name="ratingLayout" asp-for="LayoutVal" value="3" />
+                            <input type="radio" name="ratingLayout" asp-for="LayoutVal" value="4" />
+                            <input type="radio" name="ratingLayout" asp-for="LayoutVal" value="5" />
+                            <label>5</label>
+                        </td style="border: 1px solid black;">
+                        <td style="border: 1px solid black;">
+                            <input asp-for="LayoutWt" name="weightingLayout" class="form-control" min="0" max="100" style="text-align:right;" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="border: 1px solid black;">Aufbau</td>
+                        <td style="border: 1px solid black;">
                             <label>1 </label>
-                            <input type="radio" name="ratingAufbau" value="1" />
-                            <input type="radio" name="ratingAufbau" value="2" />
-                            <input type="radio" name="ratingAufbau" value="3" />
-                            <input type="radio" name="ratingAufbau" value="4" />
-                            <input type="radio" name="ratingAufbau" value="5" />
+                            <input type="radio" name="ratingStructure" asp-for="StructureVal" value="1" />
+                            <input type="radio" name="ratingStructure" asp-for="StructureVal" value="2" />
+                            <input type="radio" name="ratingStructure" asp-for="StructureVal" value="3" />
+                            <input type="radio" name="ratingStructure" asp-for="StructureVal" value="4" />
+                            <input type="radio" name="ratingStructure" asp-for="StructureVal" value="5" />
                             <label> 5</label>
+                        </td style="border: 1px solid black;">
+                        <td style="border: 1px solid black;">
+                            <input asp-for="StructureWt" name="weightingStructure" class="form-control" min="0" max="100" style="text-align:right;"/>
                         </td>
-                        <td></td>
                     </tr>
                     <tr>
-                        <td>Sprache</td>
-                        <td>
+                        <td style="border: 1px solid black;">Sprache</td>
+                        <td style="border: 1px solid black;">
                             <label>1</label>
-                            <input type="radio" name="ratingSprache" value="1" />
-                            <input type="radio" name="ratingSprache" value="2" />
-                            <input type="radio" name="ratingSprache" value="3" />
-                            <input type="radio" name="ratingSprache" value="4" />
-                            <input type="radio" name="ratingSprache" value="5" />
+                            <input type="radio" name="ratingStyle" asp-for="StyleVal" value="1" />
+                            <input type="radio" name="ratingStyle" asp-for="StyleVal" value="2" />
+                            <input type="radio" name="ratingStyle" asp-for="StyleVal" value="3" />
+                            <input type="radio" name="ratingStyle" asp-for="StyleVal" value="4" />
+                            <input type="radio" name="ratingStyle" asp-for="StyleVal" value="5" />
                             <label>5</label>
                         </td>
-                        <td></td>
+                        <td style="border: 1px solid black;">
+                            <input asp-for="StyleWt" name="weightingStyle" class="form-control" min="0" max="100" style="text-align:right;"  />   
+                        </td>
                     </tr>
                     <tr>
-                        <td>Literatur</td>
-                        <td>
+                        <td style="border: 1px solid black;">Literatur</td>
+                        <td style="border: 1px solid black;">
                             <label>1</label>
-                            <input type="radio" name="ratingLiteratur" value="1" />
-                            <input type="radio" name="ratingLiteratur" value="2" />
-                            <input type="radio" name="ratingLiteratur" value="3" />
-                            <input type="radio" name="ratingLiteratur" value="4" />
-                            <input type="radio" name="ratingLiteratur" value="5" />
+                            <input type="radio" name="ratingLiteratur" asp-for="LiteratureVal" value="1" />
+                            <input type="radio" name="ratingLiteratur" asp-for="LiteratureVal" value="2" />
+                            <input type="radio" name="ratingLiteratur" asp-for="LiteratureVal" value="3" />
+                            <input type="radio" name="ratingLiteratur" asp-for="LiteratureVal" value="4" />
+                            <input type="radio" name="ratingLiteratur" asp-for="LiteratureVal" value="5" />
                             <label>5</label>
                         </td>
-                        <td></td>
+                        <td style="border: 1px solid black;">
+                            <input asp-for="LiteratureWt" name="weightingLiterature" class="form-control" min="0" max="100" style="text-align:right;" /> 
+                        </td>
                     </tr>
                     <tr>
-                        <td>Schwierigkeitsgrad</td>
-                        <td>
+                        <td style="border: 1px solid black;">Schwierigkeitsgrad</td>
+                        <td style="border: 1px solid black;">
                             <label>1</label>
-                            <input type="radio" name="ratingSchwierigkeitsgrad" value="1" />
-                            <input type="radio" name="ratingSchwierigkeitsgrad" value="2" />
-                            <input type="radio" name="ratingSchwierigkeitsgrad" value="3" />
-                            <input type="radio" name="ratingSchwierigkeitsgrad" value="4" />
-                            <input type="radio" name="ratingSchwierigkeitsgrad" value="5" />
+                            <input type="radio" name="ratingDifficulty" asp-for="DifficultyVal" value="1" />
+                            <input type="radio" name="ratingDifficulty" asp-for="DifficultyVal" value="2" />
+                            <input type="radio" name="ratingDifficulty" asp-for="DifficultyVal" value="3" />
+                            <input type="radio" name="ratingDifficulty" asp-for="DifficultyVal" value="4" />
+                            <input type="radio" name="ratingDifficulty" asp-for="DifficultyVal" value="5" />
                             <label>5</label>
                         </td>
-                        <td></td>
+                        <td style="border: 1px solid black;">
+                            <input asp-for="DifficultyWt" name="weightingDifficulty" class="form-control" min="0" max="100" style="text-align:right;"/>
+                        </td>
                     </tr>
                     <tr>
-                        <td>Neuigkeitsgrad</td>
-                        <td>
+                        <td style="border: 1px solid black;">Neuigkeitsgrad</td>
+                        <td style="border: 1px solid black;">
                             <label>1</label>
-                            <input type="radio" name="ratingNeuigkeitsgrad" value="1" />
-                            <input type="radio" name="ratingNeuigkeitsgrad" value="2" />
-                            <input type="radio" name="ratingNeuigkeitsgrad" value="3" />
-                            <input type="radio" name="ratingNeuigkeitsgrad" value="4" />
-                            <input type="radio" name="ratingNeuigkeitsgrad" value="5" />
+                            <input type="radio" name="ratingNovelty" asp-for="NoveltyVal" value="1" />
+                            <input type="radio" name="ratingNovelty" asp-for="NoveltyVal" value="2" />
+                            <input type="radio" name="ratingNovelty" asp-for="NoveltyVal" value="3" />
+                            <input type="radio" name="ratingNovelty" asp-for="NoveltyVal" value="4" />
+                            <input type="radio" name="ratingNovelty" asp-for="NoveltyVal" value="5" />
                             <label>5</label>
                         </td>
-                        <td></td>
+                        <td style="border: 1px solid black;">
+                             <input asp-for="NoveltyWt" name="weightingNovelty" class="form-control" min="0" max="100" style="text-align:right;" /> 
+                        </td>
                     </tr>
                     <tr>
-                        <td>Themenerfassung</td>
-                        <td>
+                        <td style="border: 1px solid black;">Themenerfassung</td>
+                        <td style="border: 1px solid black;">
                             <label>1</label>
-                            <input type="radio" name="ratingThemenerfassung" value="1" />
-                            <input type="radio" name="ratingThemenerfassung" value="2" />
-                            <input type="radio" name="ratingThemenerfassung" value="3" />
-                            <input type="radio" name="ratingThemenerfassung" value="4" />
-                            <input type="radio" name="ratingThemenerfassung" value="5" />
+                            <input type="radio" name="ratingRichness" asp-for="RichnessVal" value="1" />
+                            <input type="radio" name="ratingRichness" asp-for="RichnessVal" value="2" />
+                            <input type="radio" name="ratingRichness" asp-for="RichnessVal" value="3" />
+                            <input type="radio" name="ratingRichness" asp-for="RichnessVal" value="4" />
+                            <input type="radio" name="ratingRichness" asp-for="RichnessVal" value="5" />
                             <label>5</label>
                         </td>
-                        <td></td>
+                        <td style="border: 1px solid black;">
+                             <input asp-for="RichnessWt" name="weightingRichness" class="form-control" min="0" max="100" style="text-align:right;" />
+                            
+                        </td>
                     </tr>
 
                     <tr>
-                        <td></td>
-                        <td></td>
-                        <td></td>
+                        <td style="border: 1px solid black;"></td>
+                        <td style="border: 1px solid black;"></td>
+                        <td style="border: 1px solid black;">Gesammtgewichtung: <label class="totalWeight"></label></td>
                     </tr>
 
 
                 </tbody>
             </table>
-            
-           
+            <p id="checkTotalWeight"></p>
+
+            <div class="mb-3">
+                <input type="submit" value="Notenvorschlag berechnen" class="btn btn-primary" onclick="calculateGrade()"/>
+            </div>
             
             <div class="mb-3">
                 <input type="hidden" asp-for="LastModified" />
@@ -356,13 +395,282 @@
 </div>
 
 @section Scripts {
-    <script type="text/javascript">
-        function updateTable() {
-            var inputValue = document.querySelector('input[asp-for="ContentVal"]').value;
-            alert("Hallo")
-            document.querySelector('#value').innerHTML = inputValue;
-        }
+    <script>
+        //Änderungen von input-feldern werden synchronisiert
+        $(document).ready(function () {
+            //Inhalt
+            $("input[name='ContentVal']").change(function () {
+                $("input[name='ratingContent'][value='" + this.value + "']").prop("checked", true);
+            });
+
+            $("input[name='ratingContent']").change(function () {
+                $("input[name='ContentVal']").val(this.value);
+            });
+
+
+            $("input[name='ContentWt']").change(function () {
+                $("input[name='weightingContent']").val(this.value);
+            });
+
+            $("input[name='weightingContent']").change(function () {
+                $("input[name='ContentWt']").val(this.value);
+            });
+
+
+
+            //Layout
+             $("input[name='LayoutVal']").change(function () {
+                $("input[name='ratingLayout'][value='" + this.value + "']").prop("checked", true);
+            });
+
+            $("input[name='ratingLayout']").change(function () {
+                $("input[name='LayoutVal']").val(this.value);
+            });
+
+            
+              $("input[name='LayoutWt']").change(function () {
+                $("input[name='weightingLayout']").val(this.value);
+            });
+
+            $("input[name='weightingLayout']").change(function () {
+                $("input[name='LayoutWt']").val(this.value);
+            });
+
+
+            //Aufbau
+            $("input[name='StructureVal']").change(function () {
+                $("input[name='ratingStructure'][value='" + this.value + "']").prop("checked", true);
+            });
+
+            $("input[name='ratingStructure']").change(function () {
+                $("input[name='StructureVal']").val(this.value);
+            });
+
+            $("input[name='StructureWt']").change(function () {
+                $("input[name='weightingStructure']").val(this.value);
+            });
+
+            $("input[name='weightingStructure']").change(function () {
+                $("input[name='StructureWt']").val(this.value);
+            });
+
+            //Sprache
+           
+             $("input[name='StyleVal']").change(function () {
+                $("input[name='ratingStyle'][value='" + this.value + "']").prop("checked", true);
+            });
+
+            $("input[name='ratingStyle']").change(function () {
+                $("input[name='StyleVal']").val(this.value);
+            });
+
+            $("input[name='StyleWt']").change(function () {
+                $("input[name='weightingStyle']").val(this.value);
+            });
+
+            $("input[name='weightingStyle']").change(function () {
+                $("input[name='StyleWt']").val(this.value);
+            });
+            //Literatur
+
+              $("input[name='LiteratureVal']").change(function () {
+                $("input[name='ratingLiteratur'][value='" + this.value + "']").prop("checked", true);
+            });
+
+            $("input[name='ratingLiteratur']").change(function () {
+                $("input[name='LiteratureVal']").val(this.value);
+            });
+
+            $("input[name='LiteratureWt']").change(function () {
+                $("input[name='weightingLiterature']").val(this.value);
+            });
+
+            $("input[name='weightingLiterature']").change(function () {
+                $("input[name='LiteratureWt']").val(this.value);
+            });
+
+            //Schwierigkeitsgrad
+
+             $("input[name='DifficultyVal']").change(function () {
+                $("input[name='ratingDifficulty'][value='" + this.value + "']").prop("checked", true);
+            });
+
+            $("input[name='ratingDifficulty']").change(function () {
+                $("input[name='DifficultyVal']").val(this.value);
+            });
+
+            $("input[name='DifficultyWt']").change(function () {
+                $("input[name='weightingDifficulty']").val(this.value);
+            });
+
+            $("input[name='weightingDifficulty']").change(function () {
+                $("input[name='DifficultyWt']").val(this.value);
+            });
+
+            //Neuigkeitsgrad
+
+             $("input[name='NoveltyVal']").change(function () {
+                $("input[name='ratingNovelty'][value='" + this.value + "']").prop("checked", true);
+            });
+
+            $("input[name='ratingNovelty']").change(function () {
+                $("input[name='NoveltyVal']").val(this.value);
+            });
+
+             $("input[name='NoveltyWt']").change(function () {
+                $("input[name='weightingNovelty']").val(this.value);
+            });
+
+            $("input[name='weightingNovelty']").change(function () {
+                $("input[name='NoveltyWt']").val(this.value);
+            });
+               
+
+            //Themenerfassung
+             $("input[name='RichnessVal']").change(function () {
+                $("input[name='ratingRichness'][value='" + this.value + "']").prop("checked", true);
+            });
+
+            $("input[name='ratingRichness']").change(function () {
+                $("input[name='RichnessVal']").val(this.value);
+            });
+
+             $("input[name='RichnessWt']").change(function () {
+                $("input[name='weightingRichness']").val(this.value);
+            });
+
+            $("input[name='weightingRichness']").change(function () {
+                $("input[name='RichnessWt']").val(this.value);
+            });
+
+            
+            //Gesamtgewichtung berechnen
+            $("input[name='weightingContent'], input[name='ContentWt'], input[name='LayoutWt'], input[name='weightingLayout'], input[name='StructureWt'], input[name='weightingStructure'], input[name='StyleWt'], input[name='weightingStyle'], input[name='LiteratureWt'], input[name='weightingLiterature'], input[name='DifficultyWt'], input[name='weightingDifficulty'], input[name='NoveltyWt'], input[name='weightingNovelty'], input[name='weightingRichness'], input[name='RichnessWt']").change(function () {
+                  var totalWeight = 0;
+
+                // Wert der beiden input-Felder holen
+                var weightingContentValue = $('input[name="weightingContent"]').val() || 0;
+                var ContentWtValue = $('input[name="ContentWt"]').val() || 0;
+
+                var weightingLayoutValue = $('input[name="weightingLayout"]').val() || 0;
+                var LayoutWtValue = $('input[name="LayoutWt"]').val() || 0;
+
+                var weightingStructureValue = $('input[name="weightingStructure"]').val() || 0;
+                var StructureWtValue = $('input[name="StructureWt"]').val() || 0;
+
+                var weightingStyleValue = $('input[name="weightingStyle"]').val() || 0;
+                var StyleWtValue = $('input[name="StyleWt"]').val() || 0;
+
+                var weightingLiteratureValue = $('input[name="weightingLiterature"]').val() || 0;
+                var LiteratureWtValue = $('input[name="LiteratureWt"]').val() || 0;
+
+                var weightingDifficultyValue = $('input[name="weightingDifficulty"]').val() || 0;
+                var DifficultyWtValue = $('input[name="DifficultyWt"]').val() || 0;
+
+                var weightingNoveltyValue = $('input[name="weightingNovelty"]').val() || 0;
+                var NoveltyWtValue = $('input[name="NoveltyWt"]').val() || 0;
+
+                var weightingRichnessValue = $('input[name="weightingRichness"]').val() || 0;
+                var RichnessWtValue = $('input[name="RichnessWt"]').val() || 0;
+
+                // Beide input-felder gegenseitig updaten, so dass bei der Berechnung nur ein Wert genommen werden kann
+                $('input[name="weightingContent"]').val(weightingContentValue);
+                $('input[name="ContentWt"]').val(ContentWtValue);
+
+                $('input[name="weightingLayout"]').val(weightingLayoutValue);
+                $('input[name="LayoutWt"]').val(LayoutWtValue);
+
+                $('input[name="weightingStructure"]').val(weightingStructureValue);
+                $('input[name="StructureWt"]').val(StructureWtValue);
+
+                $('input[name="weightingStyle"]').val(weightingStyleValue);
+                $('input[name="StyleWt"]').val(StyleWtValue);
+
+                $('input[name="weightingLiterature"]').val(weightingLiteratureValue);
+                $('input[name="LiteratureWt"]').val(LiteratureWtValue);
+
+                $('input[name="weightingDifficulty"]').val(weightingDifficultyValue);
+                $('input[name="DifficultyWt"]').val(DifficultyWtValue);
+
+                $('input[name="weightingNovelty"]').val(weightingNoveltyValue);
+                $('input[name="NoveltyWt"]').val(NoveltyWtValue);
+
+                $('input[name="weightingRichness"]').val(weightingRichnessValue);
+                $('input[name="RichnessWt"]').val(RichnessWtValue);
+
+
+                  // alle input-Felder zusammenrechnen
+                  $('input[name="weightingContent"], input[name="weightingLayout"], input[name="weightingStructure"], input[name="weightingStyle"], input[name="weightingLiterature"], input[name="weightingDifficulty"], input[name="weightingNovelty"], input[name="weightingRichness"]').each(function() {
+                    totalWeight += parseInt($(this).val()) || 0;
+                    console.log(totalWeight)
+                  });
+
+                  $('.totalWeight').text(totalWeight);
+
+                  // Zellen aufgrund der Gesammtsumme färben
+                  if (totalWeight == 100) {
+                    $('.totalWeight').css("color", "green");
+                    $('#checkTotalWeight').text("");
+                  } else {
+                    $('.totalWeight').css("color", "red");
+                    $('#checkTotalWeight').text("*Die Gesamtgewichtung muss genau 100 sein!");
+                    $('#checkTotalWeight').css("color", "red");
+                  }
+                });
+        });
+
+       
+
+      
+           
+
+                function calculateGrade() {
+                    //Gewichtungen
+                    const contentWt = parseInt($('input[name="ContentWt"]').val());
+                    const layoutWt = parseInt($('input[name="LayoutWt"]').val());
+                    const structureWt = parseInt($('input[name="StructureWt"]').val());
+                    const styleWt = parseInt($('input[name="StyleWt"]').val());
+                    const literatureWt = parseInt($('input[name="LiteratureWt"]').val());
+                    const difficultyWt = parseInt($('input[name="DifficultyWt"]').val());
+                    const noveltyWt = parseInt($('input[name="NoveltyWt"]').val());
+                    const richnessWt = parseInt($('input[name="RichnessWt"]').val());
+
+                    //Bewertungen
+                    const contentVal = parseInt($('input[name="ContentVal"]').val());
+                    const layoutVal = parseInt($('input[name="LayoutVal"]').val());
+                    const structureVal = parseInt($('input[name="StructureVal"]').val());
+                    const styleVal = parseInt($('input[name="StyleVal"]').val());
+                    const literatureVal = parseInt($('input[name="LiteratureVal"]').val());
+                    const difficultyVal = parseInt($('input[name="DifficultyVal"]').val());
+                    const noveltyVal = parseInt($('input[name="NoveltyVal"]').val());
+                    const richnessVal = parseInt($('input[name="RichnessVal"]').val());
+
+                    
+                    var totalWeight = contentWt + layoutWt + structureWt + styleWt + literatureWt + difficultyWt + noveltyWt + richnessWt;
+
+                    if (isNaN(contentVal) || isNaN(layoutVal) || isNaN(structureVal) || isNaN(styleVal) || isNaN(literatureVal) || isNaN(difficultyVal) || isNaN(noveltyVal) || isNaN(richnessVal)) {
+                        alert("Einer der Eingabefelder wurde nicht korrekt befüllt!")
+                    }
+
+                    if(totalWeight != 100){
+                        alert("Die Gesamtgewichtung muss genau 100 sein!")
+                    } else{
+                         var average = ((layoutWt * layoutVal) + (structureWt * structureVal) + (styleWt * styleVal) + (difficultyWt * difficultyVal) + (literatureWt * literatureVal) + (noveltyWt * noveltyVal) + (richnessWt * richnessVal)) / 100;
+                         alert(average)
+                         $('#suggestedGrade').text(average);
+                    }
+
+                   
+                    
+                }
+        
+               
+
+
     </script>
+
+
+    
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }

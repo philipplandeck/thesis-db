@@ -16,7 +16,6 @@ using Microsoft.EntityFrameworkCore;
 using ThesisDatenbank.Areas.Identity.Data;
 using ThesisDatenbank.Data;
 using ThesisDatenbank.Models;
-using static ThesisDatenbank.Areas.Identity.Data.AppUser;
 
 namespace ThesisDatenbank.Areas.Identity.Pages.Account
 {
@@ -123,6 +122,7 @@ namespace ThesisDatenbank.Areas.Identity.Pages.Account
 
         public async Task<IActionResult> OnPostAsync(string returnUrl = null)
         {
+            Chairs = new SelectList(await _context.Chair.ToListAsync(), nameof(Chair.Id), nameof(Chair.Name));
             returnUrl ??= Url.Content("~/");
             if (ModelState.IsValid)
             {
